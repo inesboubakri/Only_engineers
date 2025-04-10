@@ -1,6 +1,6 @@
-# 💹 Financial Dashboard
+# 💹 OnlyEngineers  Dashboard
 
-This is a modern financial dashboard implemented with HTML, CSS, and JavaScript using an MVC architecture. The dashboard displays financial information including balance, expenses, investments, and transactions, with support for both light and dark themes.
+This is a modern  dashboard implemented with HTML, CSS, and JavaScript using an MVC architecture. The dashboard displays  with support for both light and dark themes.
 
 ## ✨ Features
 
@@ -52,7 +52,7 @@ The `dashboardController.js` connects the model and view:
 1. Clone the repository
 2. Open `view/dashboard.html` in a web browser to see the dashboard
 
-## 🖼️ Screenshots
+## 🖼️ Modes
 
 The dashboard includes both light and dark themes:
 
