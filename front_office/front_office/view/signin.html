@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - OnlyEngineers</title>
+    <link rel="stylesheet" href="../view/signin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Additional styles specific to signin page */
+        .signin-form-container {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            opacity: 0;
+            animation: slideInRight 0.5s ease-out forwards;
+        }
+
+        .form-group:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .form-group:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .form-group:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .signin-button {
+            opacity: 0;
+            animation: popIn 0.5s ease-out 0.8s forwards;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .social-btn {
+            opacity: 0;
+            animation: fadeInRotate 0.5s ease-out forwards;
+            transform-origin: center;
+        }
+
+        .social-btn:nth-child(1) {
+            animation-delay: 1.0s;
+        }
+
+        .social-btn:nth-child(2) {
+            animation-delay: 1.1s;
+        }
+
+        .social-btn:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+
+        .social-btn:nth-child(4) {
+            animation-delay: 1.3s;
+        }
+
+        .social-btn:nth-child(5) {
+            animation-delay: 1.4s;
+        }
+
+        @keyframes fadeInRotate {
+            from {
+                opacity: 0;
+                transform: rotate(-45deg) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+
+        .signup-link {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Interactive effects */
+        .form-group input {
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Background particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .particle:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            animation: particleFloat 15s infinite linear;
+        }
+
+        .particle:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            width: 8px;
+            height: 8px;
+            animation: particleFloat 20s infinite linear;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(3) {
+            top: 40%;
+            left: 40%;
+            width: 5px;
+            height: 5px;
+            animation: particleFloat 18s infinite linear;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(4) {
+            top: 10%;
+            left: 70%;
+            width: 7px;
+            height: 7px;
+            animation: particleFloat 25s infinite linear;
+            animation-delay: 3s;
+        }
+
+        .particle:nth-child(5) {
+            top: 70%;
+            left: 10%;
+            width: 9px;
+            height: 9px;
+            animation: particleFloat 22s infinite linear;
+            animation-delay: 4s;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, 50px) rotate(90deg);
+            }
+            50% {
+                transform: translate(50px, 100px) rotate(180deg);
+            }
+            75% {
+                transform: translate(-50px, 50px) rotate(270deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signin-container">
+        <div class="left-panel">
+            <div class="logo">
+                <h3>OnlyEngineers</h3>
+                <p>Connect, Learn, Engineer</p>
+            </div>
+            
+            <div class="hero-content">
+                <h1>Welcome Back To<br>The Engineering<br>Community.</h1>
+                
+                <div class="illustration">
+                    <!-- Animated elements will be added via CSS -->
+                    <div class="engineer-character"></div>
+                    <div class="floating-element rocket"></div>
+                    <div class="floating-element gear"></div>
+                    <div class="floating-element blueprint"></div>
+                    <div class="floating-element calculator"></div>
+                </div>
+            </div>
+
+            <!-- Background particles -->
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="language-selector">
+                <span>English(USA)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            
+            <div class="signin-form-container">
+                <h2>Sign In</h2>
+                
+                <!-- Adding error message display -->
+                <?php
+                    session_start();
+                    if (isset($_SESSION['signin_error'])) {
+                        echo '<div class="error-message">' . $_SESSION['signin_error'] . '</div>';
+                        unset($_SESSION['signin_error']);
+                    }
+                    if (isset($_SESSION['signin_errors']) && is_array($_SESSION['signin_errors'])) {
+                        echo '<div class="error-message"><ul>';
+                        foreach ($_SESSION['signin_errors'] as $error) {
+                            echo '<li>' . $error . '</li>';
+                        }
+                        echo '</ul></div>';
+                        unset($_SESSION['signin_errors']);
+                    }
+                ?>
+                
+                <form action="../model/authenticate.php" method="POST">
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email Address" required>
+                    </div>
+                    
+                    <div class="form-group password-group">
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                        <button type="button" class="toggle-password">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="signin-button">Sign In</button>
+                </form>
+                
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                
+                <div class="social-signup">
+                    <button class="social-btn google">
+                        <img src="../assets/google.svg" alt="Google">
+                    </button>
+                    <button class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="social-btn instagram">
+                        <i class="fab fa-instagram"></i>
+                    </button>
+                    <button class="social-btn twitter">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button class="social-btn linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </button>
+                </div>
+                
+                <div class="signup-link">
+                    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../controller/signin.js"></script>
+</body>
+</html>
