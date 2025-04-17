@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only Engineers - Courses</title>
+    <link rel="stylesheet" href="../view/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap');
+            .chatbot-popup {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 400px;
+                height: 600px;
+                background-color: #fff;
+                overflow: hidden;
+                border-radius: 15px;
+                box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+                            0 32px 64px -48px rgba(0, 0, 0, 0.5);
+                display: none; /* Masquer le chatbot initialement */
+                z-index: 1000; /* Assurez-vous que le chatbot est au-dessus des autres éléments */
+            }
+    
+            .chatbot-popup.visible {
+                display: block; /* Afficher le chatbot lorsque la classe 'visible' est ajoutée */
+            }
+    
+            
+            
+            .chat-header {
+                display: flex;
+                align-items: center;
+                background: var(--primary-purple);
+                padding: 15px 22px;
+                justify-content: space-between;
+                background-color: #6366f1;
+    
+            }
+            
+            .header-info {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .bot-avatar {
+                height: 35px;
+                width: 35px;
+                padding: 6px;
+                fill: var(--white);
+                flex-shrink: 0;
+                background: var(--primary-dark);
+                border-radius: 50%;
+                color: #fff;
+            }
+            
+            .logo-texte {
+                color:#fff;
+                font-size: 1.31rem;
+                font-weight: 600;
+            }
+            
+            
+            
+            .chat-body {
+                padding: 25px 22px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                height: 400px; /* Hauteur fixe pour permettre le défilement */
+                overflow-y: auto; /* Activer le défilement vertical */
+                margin-bottom: 82px;
+                background-color: #fff;
+                scrollbar-width: auto; /* "auto" ou "thin" */
+                scrollbar-color: #888 #f1f1f1; /* Couleur du thumb et de la track */
+            }
+            .chat-body::-webkit-scrollbar {
+                width: 12px; /* Largeur de la scrollbar */
+            }
+            
+            .chat-body::-webkit-scrollbar-track {
+                background: #f1f1f1; /* Couleur de la track (arrière-plan) */
+                border-radius: 10px;
+            }
+            
+            .chat-body::-webkit-scrollbar-thumb {
+                background-color: #888; /* Couleur du thumb (la partie déplaçable) */
+                border-radius: 10px;
+                border: 3px solid #f1f1f1; /* Bordure pour donner un effet "rembourré" */
+            }
+            
+            /* Styles pour les messages */
+            .chat-body .message {
+                display: flex;
+                gap: 11px;
+                align-items: center;
+                opacity: 0;
+                animation: fadeIn 0.5s forwards;
+            }
+            
+            .chat-body .user-message {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            
+            .chat-body .message-text {
+                padding: 12px 16px;
+                max-width: 75%;
+                font-size: 0.95rem;
+                border-radius: 10px;
+                
+            }
+            
+            .chat-body .bot-message .message-text {
+                background: #F2F2FF;
+                border-radius: 13px 13px 13px 3px;
+                
+            }
+            
+            .chat-body .user-message .message-text {
+                color: #fff;
+                background: #5350C4;
+                border-radius: 13px 3px 13px 13px;
+            }
+            
+            /* Styles pour la barre de défilement */
+            .chat-body::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            .chat-body::-webkit-scrollbar-thumb {
+                background: #5350C4;
+                border-radius: 10px;
+            }
+            
+            .chat-body::-webkit-scrollbar-track {
+                background: #F2F2FF;
+            }
+            
+            .thinking-indicator {
+                display: flex;
+                gap: 4px;
+                padding-block: 15px;
+                justify-content: flex-start;
+            }
+            
+            .thinking-indicator .dot {
+                height: 7px;
+                width: 7px;
+                border-radius: 50%;
+                background: var(--primary-purple);
+                animation: dotPulse 1.8s ease-in-out infinite;
+            }
+            
+            @keyframes dotPulse {
+                0%, 100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.5);
+                }
+            }
+            
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .chat-footer {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                background: var(--white);
+                padding: 10px;
+                box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+                
+            }
+            
+            .chat-footer .chat-form {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                background-color: #fff;
+            }
+            
+            .message-input {
+                flex-grow: 1;
+                padding: 10px;
+                border: 1px solid var(--text-gray);
+                border-radius: 8px;
+                font-size: 0.95rem;
+                background: var(--bg-light);
+                color: var(--text-dark);
+            }
+            
+            .chat-controls button {
+                border: none;
+                background: none;
+                color: var(--primary-purple);
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+            
+            .chat-controls button:hover {
+                color: var(--primary-dark);
+            }
+            
+            /* Scrollbar Styling */
+            .chat-body::-webkit-scrollbar {
+                width: 8px;
+            }
+            
+            .chat-body::-webkit-scrollbar-thumb {
+                background: var(--primary-purple);
+                border-radius: 10px;
+            }
+            
+            .chat-body::-webkit-scrollbar-track {
+                background: var(--bg-light);
+            }
+            
+            .message-input {
+                flex-grow: 1;
+                padding: 12px 16px; /* Augmenter le padding pour un meilleur confort */
+                border: 2px solid var(--primary-purple); /* Bordure plus épaisse et colorée */
+                border-radius: 12px; /* Bordures plus arrondies */
+                font-size: 0.95rem;
+                background: var(--white); /* Fond blanc */
+                color: var(--text-dark);
+                resize: none; /* Empêcher le redimensionnement */
+                outline: none; /* Supprimer la bordure de focus par défaut */
+                transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Animation fluide */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+                width: 50%; /* Largeur fixe */
+                height: 50px; /* Hauteur fixe */
+                
+            }
+            
+            .message-input:focus {
+                border-color: var(--primary-dark); /* Changement de couleur au focus */
+                box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2); /* Ombre plus prononcée au focus */
+            }
+            
+            .message-input::placeholder {
+                color: var(--text-gray); /* Couleur du placeholder */
+                opacity: 0.7; /* Légère transparence */
+            }
+            .chatbot-button{
+                background-color: white;
+    padding: 0.375rem 1.25rem;
+    border-radius: 100px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-color: transparent;
+        }
+
+            
+        
+    </style>
+    
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <img src="../assets/logo.png" alt="Only Engineers">
+                </a>
+            </div>
+            <div class="nav-center">
+                <nav class="nav-links">
+                    <a href="../view/home.html">Home</a>
+                    <a href="../view/Dashboard.html"> Dashboard </a>
+                    <a href="../view/index.html">Jobs</a>
+                    <a href="../view/projects.html">Projects</a>
+                    <a href="../view/courses.html" class="active">Courses</a>
+                    <a href="../view/hackathon.html">Hackathons</a>
+                    <a href="../view/articles.html">Articles</a>
+                    <a href="../view/networking.html">networking</a>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <div class="notification-wrapper">
+                    <button class="icon-button notification">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </button>
+                    <div class="notification-dot"></div>
+                </div>
+                <button class="icon-button theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="user-profile">
+                    <a href="../view/user-profile.html">
+                        <img src="../assets/profil.jpg" alt="User profile" class="avatar">
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                
+
+                <div class="filters">
+                    <div class="filters-header">
+                        <h3>Filters</h3>
+                        <button class="clear-all">Clear All</button>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <input type="text" value="...">
+                        </div>
+                        
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Course Level</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="courseLevel">
+                                <span class="label-text">All</span>
+                                <span class="count">(245)</span>
+                            </label>
+                            <label class="radio-option selected">
+                                <input type="radio" name="courseLevel" checked>
+                                <span class="label-text">Beginner</span>
+                                <span class="count">(120)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="courseLevel">
+                                <span class="label-text">Intermediate</span>
+                                <span class="count">(85)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="courseLevel">
+                                <span class="label-text">Advanced</span>
+                                <span class="count">(40)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Duration</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="duration">
+                                <span class="label-text">0-2 Hours</span>
+                                <span class="count">(45)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="duration">
+                                <span class="label-text">2-5 Hours</span>
+                                <span class="count">(78)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="duration">
+                                <span class="label-text">5+ Hours</span>
+                                <span class="count">(122)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Topics</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">Web Development</span>
+                                <span class="count">(85)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">Mobile Development</span>
+                                <span class="count">(65)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">AI/ML</span>
+                                <span class="count">(45)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">Cloud Computing</span>
+                                <span class="count">(50)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Courses Section -->
+            <section class="jobs">
+                <div class="jobs-header">
+                    <h2>Featured Courses <span class="count">245</span></h2>
+                    <button class="chatbot-button">
+                        🤖 chatbot
+                    </button>
+                    <div class="chatbot-popup" id="chatbot-popup">
+                        <div class="chat-header">
+                            <div class="header-info">
+                                <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 1024 1024">
+                                    <path d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"></path>
+                                </svg>
+                                <h2 class="logo-texte">OnlyEngineersBot</h2>
+                            </div>
+                        </div>
+                
+                        <div class="chat-body">
+                            <div class="message bot-message">
+                                <div class="message-text">Hey there 🔴 <br /> How can I help you today?</div>
+                            </div>
+                            <!-- Indicateur de chargement -->
+                            <div class="thinking-indicator" style="display: none;">
+                                <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 1024 1024">
+                                    <path d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"></path>
+                                </svg>
+                                <div class="dots">
+                                    <span>...</span>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <!-- Chatbot Footer -->
+                        <div class="chat-footer">
+                            <form action="#" class="chat-form">
+                                <textarea placeholder="Message..." class="message-input" required></textarea>
+                                <div class="chat-controls">
+                                    <button type="submit" id="send-message" class="material-symbols-rounded">⬆️</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                
+                
+                <script>
+                    document.querySelector('.chatbot-button').addEventListener('click', function() {
+                        const chatbotPopup = document.getElementById('chatbot-popup');
+                        chatbotPopup.classList.toggle('visible');
+                    });
+                </script>
+                
+                <script>
+                    const chatBody = document.querySelector(".chat-body");
+                    const messageInput = document.querySelector(".message-input");
+                    const thinkingIndicator = document.querySelector(".thinking-indicator");
+                
+                    const API_KEY = "AIzaSyB4Jhhap6wRdbZJupLVA23G5Nho_C6TWmM"; // Remplacez par votre clé API
+                    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+                
+                    const generateBotResponse = async (message) => {
+                        const requestOptions = {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                contents: [{
+                                    parts: [{ text: message }]
+                                }]
+                            })
+                        };
+                
+                        try {
+                            // Fetch bot response from API
+                            const response = await fetch(API_URL, requestOptions);
+                            const data = await response.json();
+                            if (!response.ok) throw new Error(data.error.message);
+                
+                            console.log("Réponse de l'API:", data); // Afficher la réponse dans la console
+                
+                            // Extraire la réponse du bot
+                            const botResponse = data.candidates[0].content.parts[0].text;
+                            return botResponse;
+                        } catch (error) {
+                            console.error("Erreur lors de la génération de la réponse du bot:", error);
+                            return "Désolé, une erreur s'est produite.";
+                        }
+                    };
+                
+                    // Create message element with dynamic classes and return it
+                    const createMessageElement = (content, classes) => {
+                        const div = document.createElement("div");
+                        div.classList.add("message", ...classes.split(" "));
+                        div.innerHTML = `<div class="message-text">${content}</div>`;
+                        return div;
+                    };
+                
+                    // Create thinking indicator element
+                    const createThinkingIndicator = () => {
+                        const thinkingDiv = document.createElement("div");
+                        thinkingDiv.classList.add("message", "bot-message");
+                        thinkingDiv.innerHTML = `
+                            <div class="message-text">
+                                <div class="thinking-indicator">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                        `;
+                        return thinkingDiv;
+                    };
+                
+                    const handleOutgoingMessage = async (message) => {
+                        if (!message.trim()) return; // Ignore empty messages
+                
+                        // Create and display user message
+                        const outgoingMessageDiv = createMessageElement(message, "user-message");
+                        chatBody.appendChild(outgoingMessageDiv);
+                        chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the bottom
+                
+                        // Show thinking indicator
+                        const thinkingDiv = createThinkingIndicator();
+                        chatBody.appendChild(thinkingDiv);
+                        chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the bottom
+                
+                        // Generate bot response
+                        const botResponse = await generateBotResponse(message);
+                        console.log("Réponse du bot:", botResponse); // Afficher la réponse du bot dans la console
+                
+                        // Simulate a bot response after 1 second
+                        setTimeout(() => {
+                            // Remove thinking indicator
+                            thinkingDiv.remove();
+                
+                            // Create and display bot message
+                            const messageContent = `
+                                <div>
+                                    <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 1024 1024">
+                                        <path d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"></path>
+                                    </svg>
+                                    <div class="message-text">${botResponse}</div>
+                                </div>
+                            `;
+                
+                            const incomingMessageDiv = createMessageElement(messageContent, "bot-message");
+                            chatBody.appendChild(incomingMessageDiv);
+                            chatBody.scrollTop = chatBody.scrollHeight; // Scroll to the bottom
+                        }, 600);
+                    };
+                
+                    // Handle Enter key press for sending messages
+                    messageInput.addEventListener("keydown", (e) => {
+                        if (e.key === "Enter" && e.target.value.trim()) {
+                            e.preventDefault();
+                            handleOutgoingMessage(e.target.value.trim());
+                            e.target.value = ""; // Clear the input field
+                        }
+                    });
+                
+                    // Handle form submission
+                    document.querySelector(".chat-form").addEventListener("submit", (e) => {
+                        e.preventDefault();
+                        const message = messageInput.value.trim();
+                        if (message) {
+                            handleOutgoingMessage(message);
+                            messageInput.value = ""; // Clear the input field
+                        }
+                    });
+                </script>
+                    <div class="sort">
+                        <span>Sort by:</span>
+                        <select>
+                            <option>Last updated</option>
+                        </select>
+                        <button class="view-toggle">
+                            <svg class="grid-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 4h4v4H4zM12 4h4v4h-4zM4 12h4v4H4zM12 12h4v4h-4z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <svg class="list-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="job-cards">
+                    <!-- Course Card - Web Development -->
+                    <div class="job-card">
+                        <div class="job-content google">
+                            <div class="card-header">
+                                <span class="date">Updated 2 days ago</span>
+                                <button class="bookmark">
+                                    <svg class="bookmark-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <svg class="bookmark-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h3>Google</h3>
+                            <div class="job-title">
+                                <h4>Advanced React Development</h4>
+                                <img src="..\ressources\google.png" alt="Google" class="company-logo">
+                            </div>
+                            <div class="tags">
+                                <span>Advanced</span>
+                                <span>5+ Hours</span>
+                                <span>Web Dev</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="job-details">
+                                <div class="salary">Free</div>
+                                <div class="location">Self-paced</div>
+                            </div>
+                            <button class="details">Details</button>
+                        </div>
+                    </div>
+                    <div class="promo-card">
+                        <div class="promo-content">
+
+                        <h2>Reach thousands of free courses</h2>
+                        <button class="learn-more">Add a new course</button>
+                    </div>
+                    </div>
+                    <!-- Course Card - Mobile Development -->
+                    <div class="job-card">
+                        <div class="job-content microsoft">
+                            <div class="card-header">
+                                <span class="date">Updated 1 week ago</span>
+                                <button class="bookmark">
+                                    <svg class="bookmark-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <svg class="bookmark-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h3>Microsoft</h3>
+                            <div class="job-title">
+                                <h4>Azure Cloud Fundamentals</h4>
+                                <img src="..\ressources\microsof.png" alt="Microsoft" class="company-logo">
+                            </div>
+                            <div class="tags">
+                                <span>Beginner</span>
+                                <span>2-5 Hours</span>
+                                <span>Cloud</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="job-details">
+                                <div class="salary">Free</div>
+                                <div class="location">Self-paced</div>
+                            </div>
+                            <button class="details">Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Course Card - AI/ML -->
+                    <div class="job-card">
+                        <div class="job-content amazon">
+                            <div class="card-header">
+                                <span class="date">Updated 3 days ago</span>
+                                <button class="bookmark">
+                                    <svg class="bookmark-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <svg class="bookmark-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h3>Amazon</h3>
+                            <div class="job-title">
+                                <h4>Machine Learning Basics</h4>
+                                <img src="..\ressources\amazon.png" alt="Amazon" class="company-logo">
+                            </div>
+                            <div class="tags">
+                                <span>Intermediate</span>
+                                <span>5+ Hours</span>
+                                <span>AI/ML</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="job-details">
+                                <div class="salary">Free</div>
+                                <div class="location">Self-paced</div>
+                            </div>
+                            <button class="details">Details</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Course Details Modal -->
+    <div class="job-details-modal" id="courseDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="header-left">
+                    <button class="close-modal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="header-right">
+                    <button class="bookmark-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </button>
+                    <button class="share-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                            <polyline points="16 6 12 2 8 6"/>
+                            <line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="job-header">
+                    <h1 class="job-title"></h1>
+                    <div class="company-info">
+                        <img class="company-logo" src="" alt="Company logo">
+                        <div class="company-details">
+                            <h2 class="company-name"></h2>
+                            <p class="company-location"></p>
+                        </div>
+                    </div>
+                    <div class="job-meta"></div>
+                </div>
+
+                <div class="job-content">
+                    <div class="section">
+                        <h3>About this course</h3>
+                        <p class="job-description"></p>
+                    </div>
+
+                    <div class="section">
+                        <h3>What you'll learn</h3>
+                        <ul class="qualifications-list"></ul>
+                    </div>
+
+                    <div class="section">
+                        <h3>Requirements</h3>
+                        <ul class="responsibilities-list"></ul>
+                    </div>
+
+                    <div class="section">
+                        <h3>Similar Courses</h3>
+                        <div class="similar-jobs"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="read-article-btn">Read Article</button>
+                <button class="apply-now-btn">Enroll Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article Reading Modal -->
+    <div class="article-reading-modal" id="articleReadingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="header-left">
+                    <button class="close-modal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="header-right">
+                    <button class="bookmark-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </button>
+                    <button class="share-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                            <polyline points="16 6 12 2 8 6"/>
+                            <line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="article-header">
+                    <h1 class="article-title"></h1>
+                    <div class="article-meta">
+                        <div class="author-info">
+                            <img class="author-avatar" src="" alt="Author avatar">
+                            <div class="author-details">
+                                <h3 class="author-name"></h3>
+                                <p class="publish-date"></p>
+                            </div>
+                        </div>
+                        <div class="article-tags"></div>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <!-- Article content will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../controller/courses.js"></script>
+</body>
+</html>

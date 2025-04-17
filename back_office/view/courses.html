@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques pour la table courses */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .users-table th, .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .users-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .users-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .course-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-size: 1.2em;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .free-course {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .paid-course {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <li><div class="nav-icon">👥</div><span>Users</span></li>
+                    <li><div class="nav-icon">👩🏻‍💻</div><span>jobs</span></li>
+                    <li><div class="nav-icon">🚀</div><span>Projects</span></li>
+                    <li><div class="nav-icon">📰</div><span>News</span></li>
+                    <li><div class="nav-icon">🏆</div><span>Hackathons</span></li>
+                    <li class="active"><div class="nav-icon">📚</div><span>Courses</span></li>
+                    <li><div class="nav-icon">💼</div><span>Opportunities</span></li>
+                    <li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li>
+                    <li><div class="nav-icon">🚪</div><span>Sign out</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Content (using users-view class) -->
+            <div class="users-view">
+                <!-- Top Cards Row (using users-top-cards class) -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>📋</span>
+                        </div>
+                        <div class="service-title">Courses Report</div>
+                        <div class="service-description">Generate comprehensive reports about courses</div>
+                        <button class="service-button">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card stats-card">
+                        <div class="service-icon purple">
+                            <span>🎓</span>
+                        </div>
+                        <div class="service-title">Total Courses</div>
+                        <div class="service-amount">127</div>
+                        <div class="service-change positive">+18.3%</div>
+                    </div>
+                    
+                    <div class="service-card enrollment-card">
+                        <div class="service-icon teal">
+                            <span>👥</span>
+                        </div>
+                        <div class="service-title">Active Enrollments</div>
+                        <div class="service-amount">2,458</div>
+                        <div class="service-change positive">+32.7%</div>
+                    </div>
+                </div>
+                
+                <!-- Courses Table Section (using users-table-card class) -->
+                <div class="card users-table-card">
+                    <!-- Table Filter Options -->
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Free</button>
+                            <button class="filter-btn">Paid</button>
+                            <button class="filter-btn">Certified</button>
+                            <button class="filter-btn">Popular</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="add-button">
+                                <span class="add-icon">+</span>
+                                <span>Add Course</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Courses Table (using users-table class) -->
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Course</th>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Fees</th>
+                                    <th>Course Link</th>
+                                    <th>Certification</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CRS-001</td>
+                                    <td><div class="course-icon">💻</div></td>
+                                    <td>Web Development Bootcamp</td>
+                                    <td>Mixed</td>
+                                    <td>$199.99</td>
+                                    <td><a href="https://example.com/web-dev" target="_blank">View Course</a></td>
+                                    <td><a href="https://example.com/cert/web-dev" target="_blank">Get Certified</a></td>
+                                    <td><span class="status-badge paid-course">Paid</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>CRS-002</td>
+                                    <td><div class="course-icon">📊</div></td>
+                                    <td>Data Science Fundamentals</td>
+                                    <td>Mixed</td>
+                                    <td>$249.99</td>
+                                    <td><a href="https://example.com/data-science" target="_blank">View Course</a></td>
+                                    <td><a href="https://example.com/cert/data-science" target="_blank">Get Certified</a></td>
+                                    <td><span class="status-badge paid-course">Paid</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>CRS-003</td>
+                                    <td><div class="course-icon">🎨</div></td>
+                                    <td>UX Design for Beginners</td>
+                                    <td>Female</td>
+                                    <td>Free</td>
+                                    <td><a href="https://example.com/ux-design" target="_blank">View Course</a></td>
+                                    <td><a href="https://example.com/cert/ux-design" target="_blank">Get Certified</a></td>
+                                    <td><span class="status-badge free-course">Free</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>CRS-004</td>
+                                    <td><div class="course-icon">🐍</div></td>
+                                    <td>Advanced Python Programming</td>
+                                    <td>Mixed</td>
+                                    <td>$179.99</td>
+                                    <td><a href="https://example.com/python-adv" target="_blank">View Course</a></td>
+                                    <td><a href="https://example.com/cert/python-adv" target="_blank">Get Certified</a></td>
+                                    <td><span class="status-badge paid-course">Paid</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>CRS-005</td>
+                                    <td><div class="course-icon">📢</div></td>
+                                    <td>Digital Marketing Masterclass</td>
+                                    <td>Mixed</td>
+                                    <td>$299.99</td>
+                                    <td><a href="https://example.com/digital-marketing" target="_blank">View Course</a></td>
+                                    <td><a href="https://example.com/cert/digital-marketing" target="_blank">Get Certified</a></td>
+                                    <td><span class="status-badge paid-course">Paid</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic functionality for theme toggle
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+        });
+
+        // Table filtering functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                this.classList.add('active');
+                // Actual filtering logic would go here
+                console.log(`Filtering by: ${this.textContent}`);
+            });
+        });
+
+        // Action button functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Show action menu logic would go here
+                console.log('Action button clicked for course:', 
+                    this.closest('tr').querySelector('td:nth-child(3)').textContent);
+            });
+        });
+    </script>
+</body>
+</html>
