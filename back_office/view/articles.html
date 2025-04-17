@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques pour la table articles */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .users-table th, .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .users-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .users-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .article-img {
+            width: 60px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .published {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .draft {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        /* Navigation link styles */
+        .sidebar-nav ul li a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+            width: 100%;
+            padding: 12px 16px;
+        }
+        
+        .sidebar-nav ul li a .nav-icon {
+            margin-right: 12px;
+        }
+        
+        .sidebar-nav ul li.active a {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid #6366f1;
+            color: #6366f1;
+            font-weight: 600;
+        }
+        
+        .dark-theme .sidebar-nav ul li.active a {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-nav ul li:hover a {
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        
+        .dark-theme .sidebar-nav ul li:hover a {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .sidebar-nav ul li {
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="dashboard.html"><div class="nav-icon">📊</div><span>Dashboard</span></a></li>
+                    <li><a href="users.html"><div class="nav-icon">👥</div><span>Users</span></a></li>
+                    <li><a href="jobs.html"><div class="nav-icon">👩🏻‍💻</div><span>Jobs</span></a></li>
+                    <li><a href="projects.html"><div class="nav-icon">🚀</div><span>Projects</span></a></li>
+                    <li><a href="news.html"><div class="nav-icon">📰</div><span>News</span></a></li>
+                    <li class="active"><a href="articles.html"><div class="nav-icon">📝</div><span>Articles</span></a></li>
+                    <li><a href="hackathons.html"><div class="nav-icon">🏆</div><span>Hackathons</span></a></li>
+                    <li><a href="courses.html"><div class="nav-icon">📚</div><span>Courses</span></a></li>
+                    <li><a href="opportunities.html"><div class="nav-icon">💼</div><span>Opportunities</span></a></li>
+                    <li><a href="notifications.html"><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></a></li>
+                    <li><a href="signout.html"><div class="nav-icon">🚪</div><span>Sign out</span></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles Content (using users-view class) -->
+            <div class="users-view">
+                <!-- Top Cards Row (using users-top-cards class) -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>📰</span>
+                        </div>
+                        <div class="service-title">Articles Analytics</div>
+                        <div class="service-description">Generate comprehensive reports about articles</div>
+                        <button class="service-button">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card stats-card">
+                        <div class="service-icon purple">
+                            <span>👁️</span>
+                        </div>
+                        <div class="service-title">Total Views</div>
+                        <div class="service-amount">24,892</div>
+                        <div class="service-change positive">+12.7%</div>
+                    </div>
+                    
+                    <div class="service-card authors-card">
+                        <div class="service-icon teal">
+                            <span>✍️</span>
+                        </div>
+                        <div class="service-title">Active Authors</div>
+                        <div class="service-amount">48</div>
+                        <div class="service-change positive">+5.3%</div>
+                    </div>
+                </div>
+                
+                <!-- Articles Table Section (using users-table-card class) -->
+                <div class="card users-table-card">
+                    <!-- Table Filter Options -->
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Tech</button>
+                            <button class="filter-btn">Business</button>
+                            <button class="filter-btn">Science</button>
+                            <button class="filter-btn">Published</button>
+                            <button class="filter-btn">Drafts</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="add-button">
+                                <span class="add-icon">+</span>
+                                <span>Add Article</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Articles Table (using users-table class) -->
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Content Preview</th>
+                                    <th>Category</th>
+                                    <th>Image</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ART-001</td>
+                                    <td>The Future of AI in Healthcare</td>
+                                    <td>John Smith</td>
+                                    <td>Exploring how AI is revolutionizing patient care...</td>
+                                    <td>Technology</td>
+                                    <td><img src="https://via.placeholder.com/60x40" alt="AI Healthcare" class="article-img"></td>
+                                    <td>15 May 2024</td>
+                                    <td><span class="status-badge published">Published</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>ART-002</td>
+                                    <td>Women in STEM: Breaking Barriers</td>
+                                    <td>Sarah Johnson</td>
+                                    <td>Highlighting the achievements of women in...</td>
+                                    <td>Science</td>
+                                    <td><img src="https://via.placeholder.com/60x40" alt="Women in STEM" class="article-img"></td>
+                                    <td>22 June 2024</td>
+                                    <td><span class="status-badge published">Published</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>ART-003</td>
+                                    <td>Blockchain Beyond Cryptocurrency</td>
+                                    <td>Michael Chen</td>
+                                    <td>How blockchain technology is being used in...</td>
+                                    <td>Technology</td>
+                                    <td><img src="https://via.placeholder.com/60x40" alt="Blockchain" class="article-img"></td>
+                                    <td>10 July 2024</td>
+                                    <td><span class="status-badge draft">Draft</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>ART-004</td>
+                                    <td>Sustainable Business Practices</td>
+                                    <td>Emma Wilson</td>
+                                    <td>Companies leading the way in environmental...</td>
+                                    <td>Business</td>
+                                    <td><img src="https://via.placeholder.com/60x40" alt="Sustainability" class="article-img"></td>
+                                    <td>5 Aug 2024</td>
+                                    <td><span class="status-badge published">Published</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>ART-005</td>
+                                    <td>The Rise of Quantum Computing</td>
+                                    <td>David Kim</td>
+                                    <td>Understanding quantum computing and its...</td>
+                                    <td>Technology</td>
+                                    <td><img src="https://via.placeholder.com/60x40" alt="Quantum Computing" class="article-img"></td>
+                                    <td>15 Sept 2024</td>
+                                    <td><span class="status-badge draft">Draft</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic functionality for theme toggle
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+        });
+
+        // Table filtering functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                this.classList.add('active');
+                // Actual filtering logic would go here
+                console.log(`Filtering by: ${this.textContent}`);
+            });
+        });
+
+        // Action button functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Show action menu logic would go here
+                console.log('Action button clicked for article:', 
+                    this.closest('tr').querySelector('td:nth-child(2)').textContent);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../css/courses.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/toast.css">
+    <style>
+        /* Styles spécifiques pour la table courses */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .users-table th, .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .users-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .users-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .course-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-size: 1.2em;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .free-course {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .paid-course {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+    </style>
+    <style>
+        /* Ensure modal has proper initial display style */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 9999; /* Increased z-index to be above all other elements */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6); /* Darker background for better visibility */
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .dark-theme .modal-content {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dark-theme .modal-header {
+            border-bottom: 1px solid #444;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .close-modal:hover {
+            color: #333;
+        }
+        
+        .dark-theme .close-modal:hover {
+            color: #fff;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background-color: #fff;
+            color: #333;
+        }
+        
+        .dark-theme .form-group input, .dark-theme .form-group select {
+            background-color: #3d3d3d;
+            border-color: #555;
+            color: #f0f0f0;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .cancel-btn, .submit-btn {
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        
+        .cancel-btn {
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .submit-btn {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+        }
+        
+        .submit-btn:disabled {
+            background-color: #a0a0a0;
+            cursor: not-allowed;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            background-color: #3c35b5;
+        }
+        
+        .dark-theme .cancel-btn {
+            background-color: #3d3d3d;
+            color: #f0f0f0;
+            border-color: #555;
+        }
+        
+        .dark-theme .cancel-btn:hover {
+            background-color: #4d4d4d;
+        }
+        
+        /* Form validation styles */
+        .form-hint {
+            display: block;
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .dark-theme .form-hint {
+            color: #aaa;
+        }
+        
+        .error-message {
+            color: #e53935;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+        
+        .error-field {
+            border-color: #e53935 !important;
+        }
+        
+        input:invalid {
+            border-color: #e53935;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Action Dropdown Styles */
+        .action-dropdown {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            min-width: 180px;
+            z-index: 1000;
+        }
+        
+        .dark-theme .action-dropdown {
+            background-color: #2d2d2d;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .action-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .action-menu li {
+            padding: 0;
+        }
+        
+        .action-menu .divider {
+            height: 1px;
+            margin: 4px 0;
+            background-color: #e0e0e0;
+        }
+        
+        .dark-theme .action-menu .divider {
+            background-color: #444;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+        
+        .menu-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .dark-theme .menu-item {
+            background-color: #3d3d3d;
+            color: #f0f0f0;
+        }
+        
+        .dark-theme .menu-item:hover {
+            background-color: #4d4d4d;
+        }
+        
+        .menu-icon {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+        
+        .delete-action {
+            color: #e53935;
+        }
+        
+        .dark-theme .delete-action {
+            color: #f44336;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <a href="users.html"><li><div class="nav-icon">👥</div><span>Users</span></li></a>
+                    <a href="jobs.html"><li><div class="nav-icon">👩🏻‍💻</div><span>jobs</span></li></a>
+                    <a href="Projects.html"></a><li><div class="nav-icon">🚀</div><span>Projects</span></li></a>
+                    <a href="news.html"></a><li><div class="nav-icon">📰</div><span>News</span></li></a>
+                    <a href="hackathons.html"></a><li><div class="nav-icon">🏆</div><span>Hackathons</span></li></a>
+                    <a href="courses.html"></a><li><div class="nav-icon">📚</div><span>Courses</span></li></a>
+                    <a href="Opportunities.html"></a><li><div class="nav-icon">💼</div><span>Opportunities</span></li></a>
+                    <a href="Notifications.html"></a><li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li></a>
+                    <a href="signout.html"></a><li><div class="nav-icon">🚪</div><span>Sign out</span></li></a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Courses Content (using users-view class) -->
+            <div class="users-view">
+                <!-- Top Cards Row (using users-top-cards class) -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>📋</span>
+                        </div>
+                        <div class="service-title">Courses Report</div>
+                        <div class="service-description">Generate comprehensive reports about courses</div>
+                        <button class="service-button">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card stats-card">
+                        <div class="service-icon purple">
+                            <span>🎓</span>
+                        </div>
+                        <div class="service-title">Total Courses</div>
+                        <div class="service-amount">127</div>
+                        <div class="service-change positive">+18.3%</div>
+                    </div>
+                    
+                    <div class="service-card enrollment-card">
+                        <div class="service-icon teal">
+                            <span>👥</span>
+                        </div>
+                        <div class="service-title">Active Enrollments</div>
+                        <div class="service-amount">2,458</div>
+                        <div class="service-change positive">+32.7%</div>
+                    </div>
+                </div>
+                
+                <!-- Courses Table Section (using users-table-card class) -->
+                <div class="card users-table-card">
+                    <!-- Table Filter Options -->
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Free</button>
+                            <button class="filter-btn">Paid</button>
+                            <button class="filter-btn">Certified</button>
+                            <button class="filter-btn">Popular</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="add-button" id="addCourseBtn">
+                                <span class="add-icon">+</span>
+                                <span>Add Course</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Courses Table (using users-table class) -->
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Course</th>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Fees</th>
+                                    <th>Course Link</th>
+                                    <th>Certification</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>  
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div class="modal" id="addCourseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Course</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addCourseForm">
+                    <div class="form-group">
+                        <label for="courseId">Course ID</label>
+                        <input type="text" id="courseId" name="courseId" placeholder="e.g. CRS-006" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseIcon">Course Icon (Emoji)</label>
+                        <input type="text" id="courseIcon" name="courseIcon" placeholder="e.g. 💻" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseTitle">Course Title</label>
+                        <input type="text" id="courseTitle" name="courseTitle" placeholder="e.g. React Development Bootcamp" 
+                               pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required>
+                        <small class="form-hint">Only letters and spaces are allowed</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseFees">Course Fees</label>
+                        <input type="text" id="courseFees" name="courseFees" placeholder="e.g. $199.99 or Free">
+                        <small class="form-hint fee-hint">For paid courses, value must be greater than 0</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseLink">Course Link</label>
+                        <input type="url" id="courseLink" name="courseLink" placeholder="https://example.com/course">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseCertification">Certification Link</label>
+                        <input type="url" id="courseCertification" name="courseCertification" placeholder="https://example.com/cert/course">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseStatus">Status</label>
+                        <select id="courseStatus" name="courseStatus" required>
+                            <option value="">Select status</option>
+                            <option value="free">Free</option>
+                            <option value="paid">Paid</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelAddCourse">Cancel</button>
+                        <button type="submit" class="submit-btn" id="addCourseSubmitBtn">Add Course</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Course Modal -->
+    <div class="modal" id="editCourseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Course</h2>
+                <span class="close-modal" id="closeEditModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editCourseForm">
+                    <input type="hidden" id="editRowIndex" name="editRowIndex">
+                    <div class="form-group">
+                        <label for="editCourseId">Course ID</label>
+                        <input type="text" id="editCourseId" name="editCourseId" placeholder="e.g. CRS-006" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseIcon">Course Icon (Emoji)</label>
+                        <input type="text" id="editCourseIcon" name="editCourseIcon" placeholder="e.g. 💻" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseTitle">Course Title</label>
+                        <input type="text" id="editCourseTitle" name="editCourseTitle" placeholder="e.g. React Development Bootcamp" 
+                               pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required>
+                        <small class="form-hint">Only letters and spaces are allowed</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseFees">Course Fees</label>
+                        <input type="text" id="editCourseFees" name="editCourseFees" placeholder="e.g. $199.99 or Free">
+                        <small class="form-hint fee-hint">For paid courses, value must be greater than 0</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseLink">Course Link</label>
+                        <input type="url" id="editCourseLink" name="editCourseLink" placeholder="https://example.com/course">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseCertification">Certification Link</label>
+                        <input type="url" id="editCourseCertification" name="editCourseCertification" placeholder="https://example.com/cert/course">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCourseStatus">Status</label>
+                        <select id="editCourseStatus" name="editCourseStatus" required>
+                            <option value="">Select status</option>
+                            <option value="free">Free</option>
+                            <option value="paid">Paid</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelEditCourse">Cancel</button>
+                        <button type="submit" class="submit-btn" id="editCourseSubmitBtn">Update Course</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Dropdown Menu Template -->
+    <div class="action-dropdown" id="actionDropdownTemplate" style="display: none;">
+        <ul class="action-menu">
+            <li><button class="menu-item edit-action"><span class="menu-icon">✏️</span> Edit</button></li>
+            <li><button class="menu-item view-action"><span class="menu-icon">👁️</span> View Details</button></li>
+            <li><button class="menu-item duplicate-action"><span class="menu-icon">🔄</span> Duplicate</button></li>
+            <li class="divider"></li>
+            <li><button class="menu-item delete-action"><span class="menu-icon">🗑️</span> Delete</button></li>
+        </ul>
+    </div>
+
+    <!-- Link to external JavaScript file -->
+    <script src="../controllers/coursesManagement.js"></script>
+
+    <style>
+        /* Toast notification container */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+    </style>
+    <!-- Toast notification container -->
+    <div id="toast-container" class="toast-container"></div>
+</body>
+</html>
