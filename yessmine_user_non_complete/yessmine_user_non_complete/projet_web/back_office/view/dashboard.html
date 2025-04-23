@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <li><div class="nav-icon">👥</div><span>Users</span></li>
+                    <li><div class="nav-icon">🚀</div><span>Projects</span></li>
+                    <li><div class="nav-icon">📰</div><span>News</span></li>
+                    <li><div class="nav-icon">🏆</div><span>Hackathons</span></li>
+                    <li><div class="nav-icon">📚</div><span>Courses</span></li>
+                    <li><div class="nav-icon">💼</div><span>Opportunities</span></li>
+                    <li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li>
+                    <li><div class="nav-icon">🚪</div><span>Sign out</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <!-- Use a profile image placeholder -->
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid" id="dashboard-view">
+                <!-- Total Balance Card -->
+                <div class="card balance-card">
+                    <div class="card-header">
+                        <h3>Total balance</h3>
+                        <div class="time-period">
+                            last month <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                                <div class="time-option">Last 6 months</div>
+                                <div class="time-option">This year</div>
+                                <div class="time-option">All time</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="balance-amount">$2,500.60</div>
+                    <div class="balance-change positive">35.3%</div>
+                    <div class="balance-chart">
+                        <svg width="100%" height="80" viewBox="0 0 300 80">
+                            <defs>
+                                <linearGradient id="balance-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#3dd68c" stop-opacity="0.4" />
+                                    <stop offset="100%" stop-color="#3dd68c" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <path class="balance-path" d="M0,60 C20,55 40,40 60,30 C80,20 100,15 120,20 C140,25 160,35 180,30 C200,25 220,10 240,5 C260,0 280,5 300,10" fill="none" stroke="#3dd68c" stroke-width="2" />
+                            <path d="M0,60 C20,55 40,40 60,30 C80,20 100,15 120,20 C140,25 160,35 180,30 C200,25 220,10 240,5 C260,0 280,5 300,10 L300,80 L0,80 Z" fill="url(#balance-gradient)" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Total Expenses Card -->
+                <div class="card expenses-card">
+                    <div class="card-header">
+                        <h3>Total expenses</h3>
+                        <div class="time-period">
+                            last month <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                                <div class="time-option">Last 6 months</div>
+                                <div class="time-option">This year</div>
+                                <div class="time-option">All time</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expenses-amount">$1,840.00</div>
+                    <div class="expenses-change negative">12.8%</div>
+                    <div class="expenses-chart">
+                        <svg width="100%" height="80" viewBox="0 0 300 80">
+                            <defs>
+                                <linearGradient id="expenses-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#f45db8" stop-opacity="0.4" />
+                                    <stop offset="100%" stop-color="#f45db8" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <path class="expenses-path" d="M0,10 C20,15 40,25 60,30 C80,35 100,40 120,30 C140,20 160,15 180,20 C200,25 220,35 240,45 C260,55 280,60 300,55" fill="none" stroke="#f45db8" stroke-width="2" />
+                            <path d="M0,10 C20,15 40,25 60,30 C80,35 100,40 120,30 C140,20 160,15 180,20 C200,25 220,35 240,45 C260,55 280,60 300,55 L300,80 L0,80 Z" fill="url(#expenses-gradient)" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Active Cards -->
+                <div class="card active-cards-card">
+                    <div class="card-header">
+                        <h3>Active cards</h3>
+                        <div class="time-period">view all</div>
+                    </div>
+                    <div class="cards-container">
+                        <div class="credit-card mastercard">
+                            <div class="card-type">Products</div>
+                            <div class="card-balance">$142.23</div>
+                            <div class="card-number">3745 **** **** 4478</div>
+                            <div class="card-brand-icon">🟠</div>
+                        </div>
+                        <div class="credit-card visa">
+                            <div class="card-type">VISA</div>
+                            <div class="card-balance">$142.23</div>
+                            <div class="card-number">3745 **** **** 4478</div>
+                            <div class="card-brand-icon">VISA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Donut Chart -->
+                <div class="card categories-card">
+                    <div class="card-header">
+                        <h3>Categories</h3>
+                        <div class="time-period">
+                            last month <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                                <div class="time-option">Last 6 months</div>
+                                <div class="time-option">This year</div>
+                                <div class="time-option">All time</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="donut-chart-container">
+                        <div class="donut-chart">
+                            <div class="donut-center">
+                                <div>100%</div>
+                                <div>Expenses</div>
+                            </div>
+                        </div>
+                        <div class="categories-legend">
+                            <div class="legend-item"><span class="color-dot food"></span> Food 57%</div>
+                            <div class="legend-item"><span class="color-dot house"></span> House 76%</div>
+                            <div class="legend-item"><span class="color-dot car"></span> Car 21%</div>
+                            <div class="legend-item"><span class="color-dot party"></span> Party 34%</div>
+                            <div class="legend-item"><span class="color-dot holiday"></span> Holiday 10%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dissection Chart -->
+                <div class="card dissection-card">
+                    <div class="card-header">
+                        <h3>Dissection</h3>
+                        <div class="time-period">
+                            last week <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last week</div>
+                                <div class="time-option">Last 2 weeks</div>
+                                <div class="time-option">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                                <div class="time-option">This year</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="color-dot income"></span> Income</div>
+                        <div class="legend-item"><span class="color-dot expenses"></span> Expenses</div>
+                    </div>
+                    <div class="chart dissection-chart">
+                        <!-- Bar chart visualization showing monthly data with value labels -->
+                        <div class="chart-values">
+                            <div class="chart-value">800k</div>
+                            <div class="chart-value">600k</div>
+                            <div class="chart-value">400k</div>
+                            <div class="chart-value">200k</div>
+                            <div class="chart-value">50k</div>
+                        </div>
+                        <svg class="svg-chart" viewBox="0 0 800 200" preserveAspectRatio="none">
+                            <!-- Grid lines -->
+                            <line x1="0" y1="40" x2="800" y2="40" stroke="#e5e7eb" stroke-width="1" />
+                            <line x1="0" y1="80" x2="800" y2="80" stroke="#e5e7eb" stroke-width="1" />
+                            <line x1="0" y1="120" x2="800" y2="120" stroke="#e5e7eb" stroke-width="1" />
+                            <line x1="0" y1="160" x2="800" y2="160" stroke="#e5e7eb" stroke-width="1" />
+                            
+                            <!-- January -->
+                            <rect x="30" y="60" width="20" height="80" fill="#6366f1" rx="3" />
+                            <rect x="55" y="100" width="20" height="40" fill="#b259ff" rx="3" />
+                            
+                            <!-- February -->
+                            <rect x="95" y="70" width="20" height="70" fill="#6366f1" rx="3" />
+                            <rect x="120" y="120" width="20" height="20" fill="#b259ff" rx="3" />
+                            
+                            <!-- March -->
+                            <rect x="160" y="40" width="20" height="100" fill="#6366f1" rx="3" />
+                            <rect x="185" y="80" width="20" height="60" fill="#b259ff" rx="3" />
+                            
+                            <!-- April -->
+                            <rect x="225" y="60" width="20" height="80" fill="#6366f1" rx="3" />
+                            <rect x="250" y="50" width="20" height="90" fill="#b259ff" rx="3" />
+                            
+                            <!-- May -->
+                            <rect x="290" y="80" width="20" height="60" fill="#6366f1" rx="3" />
+                            <rect x="315" y="120" width="20" height="20" fill="#b259ff" rx="3" />
+                            
+                            <!-- June -->
+                            <rect x="355" y="100" width="20" height="40" fill="#6366f1" rx="3" />
+                            <rect x="380" y="130" width="20" height="10" fill="#b259ff" rx="3" />
+                            
+                            <!-- July -->
+                            <rect x="420" y="50" width="20" height="90" fill="#6366f1" rx="3" />
+                            <rect x="445" y="100" width="20" height="40" fill="#b259ff" rx="3" />
+                            
+                            <!-- August -->
+                            <rect x="485" y="60" width="20" height="80" fill="#6366f1" rx="3" />
+                            <rect x="510" y="70" width="20" height="70" fill="#b259ff" rx="3" />
+                            
+                            <!-- September -->
+                            <rect x="550" y="50" width="20" height="90" fill="#6366f1" rx="3" />
+                            <rect x="575" y="70" width="20" height="70" fill="#b259ff" rx="3" />
+                            
+                            <!-- October -->
+                            <rect x="615" y="80" width="20" height="60" fill="#6366f1" rx="3" />
+                            <rect x="640" y="120" width="20" height="20" fill="#b259ff" rx="3" />
+                            
+                            <!-- November -->
+                            <rect x="680" y="50" width="20" height="90" fill="#6366f1" rx="3" />
+                            <rect x="705" y="60" width="20" height="80" fill="#b259ff" rx="3" />
+                            
+                            <!-- December -->
+                            <rect x="745" y="90" width="20" height="50" fill="#6366f1" rx="3" />
+                            <rect x="770" y="100" width="20" height="40" fill="#b259ff" rx="3" />
+                        </svg>
+                    </div>
+                    <div class="chart-months">
+                        <span>JAN</span>
+                        <span>FEB</span>
+                        <span>MAR</span>
+                        <span>APR</span>
+                        <span>MAY</span>
+                        <span>JUN</span>
+                        <span>JUL</span>
+                        <span>AUG</span>
+                        <span>SEP</span>
+                        <span>OCT</span>
+                        <span>NOV</span>
+                        <span>DEC</span>
+                    </div>
+                </div>
+
+                <!-- Spending Parameters -->
+                <div class="card spending-parameters-card">
+                    <div class="card-header">
+                        <h3>Spending parameters</h3>
+                        <div class="time-period">
+                            last month <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                                <div class="time-option">Last 6 months</div>
+                                <div class="time-option">This year</div>
+                                <div class="time-option">All time</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spending-parameters-grid">
+                        <div class="parameter-item">
+                            <div class="parameter-chart food">
+                                <div class="parameter-value">57%</div>
+                            </div>
+                            <div class="parameter-label">Food</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart house">
+                                <div class="parameter-value">76%</div>
+                            </div>
+                            <div class="parameter-label">House</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart car">
+                                <div class="parameter-value">21%</div>
+                            </div>
+                            <div class="parameter-label">Car</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart party">
+                                <div class="parameter-value">34%</div>
+                            </div>
+                            <div class="parameter-label">Party</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart holiday">
+                                <div class="parameter-value">10%</div>
+                            </div>
+                            <div class="parameter-label">Holiday</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart education">
+                                <div class="parameter-value">48%</div>
+                            </div>
+                            <div class="parameter-label">Education</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart health">
+                                <div class="parameter-value">63%</div>
+                            </div>
+                            <div class="parameter-label">Health</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart shopping">
+                                <div class="parameter-value">52%</div>
+                            </div>
+                            <div class="parameter-label">Shopping</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart utilities">
+                                <div class="parameter-value">81%</div>
+                            </div>
+                            <div class="parameter-label">Utilities</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart travel">
+                                <div class="parameter-value">42%</div>
+                            </div>
+                            <div class="parameter-label">Travel</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart entertainment">
+                                <div class="parameter-value">37%</div>
+                            </div>
+                            <div class="parameter-label">Entertainment</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart gifts">
+                                <div class="parameter-value">29%</div>
+                            </div>
+                            <div class="parameter-label">Gifts</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart technology">
+                                <div class="parameter-value">68%</div>
+                            </div>
+                            <div class="parameter-label">Technology</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart insurance">
+                                <div class="parameter-value">92%</div>
+                            </div>
+                            <div class="parameter-label">Insurance</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart investments">
+                                <div class="parameter-value">45%</div>
+                            </div>
+                            <div class="parameter-label">Investments</div>
+                        </div>
+                        <div class="parameter-item">
+                            <div class="parameter-chart fitness">
+                                <div class="parameter-value">33%</div>
+                            </div>
+                            <div class="parameter-label">Fitness</div>
+                        </div>
+                        <div class="parameter-item add-more">
+                            <div class="plus-icon">+</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Translations -->
+                <div class="card translations-card">
+                    <div class="card-header">
+                        <h3>Translations</h3>
+                        <div class="time-period">
+                            last day <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last day</div>
+                                <div class="time-option">Last week</div>
+                                <div class="time-option">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="translations-list">
+                        <div class="translation-item">
+                            <div class="translation-icon">🛒</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Shuttle</div>
+                                <div class="translation-date">May 01, 17:45</div>
+                            </div>
+                            <div class="translation-amount negative">- $23.25</div>
+                        </div>
+                        <div class="translation-item">
+                            <div class="translation-icon">🛍️</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Boutique</div>
+                                <div class="translation-date">May 01, 16:50</div>
+                            </div>
+                            <div class="translation-amount negative">- $10.78</div>
+                        </div>
+                        <div class="translation-item">
+                            <div class="translation-icon">🏪</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Gym</div>
+                                <div class="translation-date">May 01, 12:30</div>
+                            </div>
+                            <div class="translation-amount negative">- $30.12</div>
+                        </div>
+                        <div class="translation-item">
+                            <div class="translation-icon">🍽️</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Restaurant</div>
+                                <div class="translation-date">May 01, 9:50</div>
+                            </div>
+                            <div class="translation-amount negative">- $12.35</div>
+                        </div>
+                        <div class="translation-item">
+                            <div class="translation-icon">☕</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Coffee Shop</div>
+                                <div class="translation-date">May 01, 8:15</div>
+                            </div>
+                            <div class="translation-amount negative">- $4.50</div>
+                        </div>
+                        <div class="translation-item">
+                            <div class="translation-icon">🏦</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Salary Deposit</div>
+                                <div class="translation-date">Apr 30, 9:00</div>
+                            </div>
+                            <div class="translation-amount positive">+ $2,450.00</div>
+                        </div>
+                        <div class="translation-item">
+                            <div class="translation-icon">🔌</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Electricity Bill</div>
+                                <div class="translation-date">Apr 29, 14:20</div>
+                            </div>
+                            <div class="translation-amount negative">- $85.32</div>
+                        </div>
+                        <div class="translation-item">
+                            <div class="translation-icon">📱</div>
+                            <div class="translation-details">
+                                <div class="translation-name">Phone Bill</div>
+                                <div class="translation-date">Apr 29, 11:05</div>
+                            </div>
+                            <div class="translation-amount negative">- $45.99</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investments -->
+                <div class="card investments-card">
+                    <div class="card-header">
+                        <h3>Investments</h3>
+                        <div class="time-period">
+                            last day <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last day</div>
+                                <div class="time-option">Last week</div>
+                                <div class="time-option">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="investments-list">
+                        <div class="investment-item">
+                            <div class="investment-name">Shares</div>
+                            <div class="investment-amount">$200.00</div>
+                            <div class="investment-progress-bar">
+                                <div class="progress-fill shares"></div>
+                            </div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-name">Cryptocurrency</div>
+                            <div class="investment-amount">$220.00</div>
+                            <div class="investment-progress-bar">
+                                <div class="progress-fill crypto"></div>
+                            </div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-name">Contributions</div>
+                            <div class="investment-amount">$135.00</div>
+                            <div class="investment-progress-bar">
+                                <div class="progress-fill contributions"></div>
+                            </div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-name">Stocks and bonds</div>
+                            <div class="investment-amount">$450.00</div>
+                            <div class="investment-progress-bar">
+                                <div class="progress-fill stocks"></div>
+                            </div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-name">Assets</div>
+                            <div class="investment-amount">$577.00</div>
+                            <div class="investment-progress-bar">
+                                <div class="progress-fill assets"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Income and Expenses Chart -->
+                <div class="card income-expenses-card">
+                    <div class="card-header">
+                        <h3>Income and expenses</h3>
+                        <div class="time-period">
+                            last week <span class="arrow">▼</span>
+                            <div class="time-dropdown">
+                                <div class="time-option selected">Last week</div>
+                                <div class="time-option">Last 2 weeks</div>
+                                <div class="time-option">Last month</div>
+                                <div class="time-option">Last 3 months</div>
+                                <div class="time-option">This year</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="income-expenses-chart-container">
+                        <div class="chart-legend">
+                            <div class="legend-item"><span class="color-dot income"></span> Income</div>
+                            <div class="legend-item"><span class="color-dot expenses"></span> Expenses</div>
+                        </div>
+                        <div class="income-expenses-chart">
+                            <!-- Simple, clean chart visualization matching reference -->
+                            <svg class="svg-chart" viewBox="0 0 800 200" preserveAspectRatio="none">
+                                <!-- Y-axis labels -->
+                                <text x="10" y="50" class="chart-y-label">800K</text>
+                                <text x="10" y="90" class="chart-y-label">600K</text>
+                                <text x="10" y="130" class="chart-y-label">400K</text>
+                                <text x="10" y="170" class="chart-y-label">200K</text>
+                                <text x="10" y="195" class="chart-y-label">50K</text>
+                                
+                                <!-- Horizontal grid lines -->
+                                <line x1="40" y1="50" x2="800" y2="50" class="grid-line" />
+                                <line x1="40" y1="90" x2="800" y2="90" class="grid-line" />
+                                <line x1="40" y1="130" x2="800" y2="130" class="grid-line" />
+                                <line x1="40" y1="170" x2="800" y2="170" class="grid-line" />
+                                
+                                <!-- Charts area (margin-left for y-axis labels) -->
+                                <g transform="translate(40,0)">
+                                    <!-- Income area chart with smooth gradient -->
+                                    <defs>
+                                        <linearGradient id="incomeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="rgba(109, 120, 243, 0.5)" />
+                                            <stop offset="100%" stop-color="rgba(109, 120, 243, 0.05)" />
+                                        </linearGradient>
+                                    </defs>
+                                    
+                                    <!-- Income area -->
+                                    <path d="M0,170 C60,120 120,50 200,80 C280,110 360,65 440,90 C520,115 600,150 680,110 L760,130 L760,200 L0,200 Z" 
+                                        fill="url(#incomeGradient)" class="income-path" />
+                                    
+                                    <!-- Income line -->
+                                    <path d="M0,170 C60,120 120,50 200,80 C280,110 360,65 440,90 C520,115 600,150 680,110 L760,130" 
+                                        fill="none" stroke="#6366f1" stroke-width="2" class="income-line" />
+                                    
+                                    <!-- Expenses area chart with smooth gradient -->
+                                    <defs>
+                                        <linearGradient id="expensesGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" stop-color="rgba(244, 93, 184, 0.5)" />
+                                            <stop offset="100%" stop-color="rgba(244, 93, 184, 0.05)" />
+                                        </linearGradient>
+                                    </defs>
+                                    
+                                    <!-- Expenses area -->
+                                    <path d="M0,130 C60,150 120,140 200,120 C280,100 360,160 440,130 C520,100 600,60 680,100 L760,80 L760,200 L0,200 Z" 
+                                        fill="url(#expensesGradient)" class="expenses-path" />
+                                    
+                                    <!-- Expenses line -->
+                                    <path d="M0,130 C60,150 120,140 200,120 C280,100 360,160 440,130 C520,100 600,60 680,100 L760,80" 
+                                        fill="none" stroke="#f45db8" stroke-width="2" class="expenses-line" />
+                                    
+                                    <!-- Tooltip point with value (positioned at a peak/interesting point) -->
+                                    <g class="tooltip-point active">
+                                        <circle cx="440" cy="90" r="6" fill="white" stroke="#6366f1" stroke-width="2" />
+                                        <rect x="425" y="65" width="50" height="20" rx="4" fill="#6366f1" />
+                                        <text x="450" y="80" text-anchor="middle" fill="white" font-size="11">445.12</text>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="chart-days">
+                            <span>Monday</span>
+                            <span>Tuesday</span>
+                            <span>Wednesday</span>
+                            <span>Thursday</span>
+                            <span>Friday</span>
+                            <span>Saturday</span>
+                            <span>Sunday</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Model and Controller -->
+    <script src="../model/dashboardModel.js"></script>
+    <script src="../controllers/dashboardController.js"></script>
+</body>
+</html> 

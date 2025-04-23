@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+            display: block !important;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Styles spécifiques pour la table users */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .users-table th, .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .users-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .users-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .verified {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .not-verified {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .admin-badge {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .action-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .action-item {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        .action-item:hover {
+            background-color: #f5f5f5;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+
+        .modal h2 {
+            color: #111827;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .close:hover {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .profile-picture-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+
+        .error-text {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            displa y: none;
+        }
+
+        .error-text.show {
+            display: block;
+        }
+
+        .form-text {
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s ease;
+            background-color: white;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <li class="active"><div class="nav-icon">👥</div><span>Users</span></li>
+                    <li><div class="nav-icon">👩🏻‍💻</div><span>jobs</span></li>
+                    <li><div class="nav-icon">🚀</div><span>Projects</span></li>
+                    <li><div class="nav-icon">📰</div><span>News</span></li>
+                    <li>
+                        <a href="http://localhost/yessmine_user_non_complete/yessmine_user_non_complete/yessmine_user_non_complete/projet_web/back_office/view/hackathons.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                          <div class="nav-icon">🏆</div>
+                          <span>Hackathons</span>
+                        </a>
+                    </li>
+                      
+                    <li>
+                        <a href="http://localhost/yessmine_user_non_complete/yessmine_user_non_complete/yessmine_user_non_complete/projet_web/back_office/view/courses.html" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                            <div class="nav-icon">📚</div>
+                            <span>Courses</span>
+                        </a>
+                    </li>
+                    <li><div class="nav-icon">💼</div><span>Opportunities</span></li>
+                    <li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li>
+                    <li id="signOutButton"><div class="nav-icon">🚪</div><span>Sign out</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Admin welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img id="adminProfilePic" src="../../front_office/assets/default-profile.png" alt="Admin User">
+                        </div>
+                        <span id="adminName">Admin User</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Content -->
+            <div class="users-view">
+                <!-- Top Cards Row -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>📋</span>
+                        </div>
+                        <div class="service-title">Users Report</div>
+                        <div class="service-description">Generate comprehensive users analytics report</div>
+                        <button class="service-button">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card stats-card">
+                        <div class="service-icon purple">
+                            <span>👥</span>
+                        </div>
+                        <div class="service-title">Total Users</div>
+                        <div class="service-amount">1,248</div>
+                        <div class="service-change positive">+24.5%</div>
+                    </div>
+                    
+                    <div class="service-card verified-card">
+                        <div class="service-icon teal">
+                            <span>✅</span>
+                        </div>
+                        <div class="service-title">Verified Users</div>
+                        <div class="service-amount">1,024</div>
+                        <div class "service-change positive">+18.3%</div>
+                    </div>
+                </div>
+                
+                <!-- Users Table Section -->
+                <div class="card users-table-card">
+                    <!-- Table Filter Options -->
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Verified</button>
+                            <button class="filter-btn">Admins</button>
+                            <button class="filter-btn">New</button>
+                            <button class="filter-btn">Incomplete</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Users Table -->
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>Photo de profil</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Position</th>
+                                    <th>Profile Completed</th>
+                                    <th>Is Admin</th>
+                                    <th>Created At</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add modal for editing user -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit User</h2>
+            <form id="editUserForm" enctype="multipart/form-data">
+                <input type="hidden" id="editUserId">
+                <div class="form-group">
+                    <label for="editProfilePicture">Profile Picture</label>
+                    <div class="profile-picture-container">
+                        <img id="currentProfilePic" src="../../front_office/assets/default-profile.png" alt="Current profile picture" class="preview-image">
+                        <input type="file" id="editProfilePicture" name="profile_picture" accept="image/*" onchange="previewImage(this)">
+                    </div>
+                    <small class="form-text">Allowed formats: JPG, PNG. Max size: 2MB</small>
+                </div>
+                <div class="form-group">
+                    <label for="editFullName">Full Name</label>
+                    <input type="text" id="editFullName" required minlength="3" maxlength="50" pattern="^[a-zA-Z\s]+$">
+                    <small class="error-text" id="fullNameError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" required>
+                    <small class="error-text" id="emailError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="editPosition">Position</label>
+                    <input type="text" id="editPosition" minlength="2" maxlength="50">
+                    <small class="error-text" id="positionError"></small>
+                </div>
+                <div class="form-group">
+                    <label for="editIsAdmin">Is Admin</label>
+                    <select id="editIsAdmin">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Import Model and Controller -->
+    <script src="../controllers/usersController.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            loadAdminInfo();
+        });
+
+        function loadAdminInfo() {
+            fetch('../model/get_admin_info.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const adminProfilePic = document.getElementById('adminProfilePic');
+                        const adminName = document.getElementById('adminName');
+                        
+                        if (data.admin.profile_picture) {
+                            adminProfilePic.src = '../../front_office/assets/uploads/profile_pictures/' + data.admin.profile_picture;
+                        }
+                        
+                        if (data.admin.name) {
+                            adminName.textContent = data.admin.name;
+                        }
+                        
+                        // Gestion des erreurs de chargement d'image
+                        adminProfilePic.onerror = function() {
+                            this.src = '../../front_office/assets/default-profile.png';
+                        };
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading admin info:', error);
+                });
+        }
+
+        function loadUsers() {
+            fetch('../model/get_users.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tbody = document.getElementById('usersTableBody');
+                        tbody.innerHTML = '';
+
+                        data.users.forEach(user => {
+                            const row = document.createElement('tr');
+                            row.setAttribute('data-user-id', user.id);
+                            // Utiliser l'image de profil de l'utilisateur si elle existe, sinon utiliser l'image par défaut
+                            const profilePicture = user.profile_picture 
+                                ? '../../front_office/assets/uploads/profile_pictures/' + user.profile_picture
+                                : '../../front_office/assets/default-profile.png';
+                            
+                            row.innerHTML = `
+                                <td>
+                                    <div class="user-avatar">
+                                        <img src="${profilePicture}" alt="${user.name}" onerror="this.src='../../front_office/assets/default-profile.png'">
+                                    </div>
+                                </td>
+                                <td>${user.name}</td>
+                                <td>${user.email}</td>
+                                <td>${user.position || 'Not specified'}</td>
+                                <td><span class="status-badge ${user.status.toLowerCase()}">${user.status}</span></td>
+                                <td>${user.is_admin}</td>
+                                <td>${formatDate(user.created_at)}</td>
+                                <td><button class="more-btn" onclick="showUserActions(${user.id})">•••</button></td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    } else {
+                        console.error('Error loading users:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return dateString;
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function showUserActions(userId) {
+            // Remove any existing menus
+            const existingMenu = document.querySelector('.action-menu');
+            if (existingMenu) {
+                existingMenu.remove();
+            }
+
+            const button = event.currentTarget;
+            const rect = button.getBoundingClientRect();
+
+            const menu = document.createElement('div');
+            menu.className = 'action-menu';
+            menu.style.display = 'block'; // Make sure menu is visible
+            menu.style.top = `${rect.bottom + window.scrollY}px`;
+            menu.style.left = `${rect.left}px`;
+
+            menu.innerHTML = `
+                <div class="action-item" onclick="editUser(${userId})">
+                    <span>✏️</span> Edit
+                </div>
+                <div class="action-item" onclick="deleteUser(${userId})">
+                    <span>🗑️</span> Delete
+                </div>
+            `;
+
+            document.body.appendChild(menu);
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function closeMenu(e) {
+                if (!menu.contains(e.target) && e.target !== button) {
+                    menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                }
+            });
+        }
+
+        function editUser(userId) {
+            console.log('Edit user:', userId);
+            const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+            if (!row) {
+                console.error('User row not found');
+                return;
+            }
+
+            // Get user data from the row
+            const user = {
+                id: userId,
+                name: row.querySelector('td:nth-child(2)').textContent,
+                email: row.querySelector('td:nth-child(3)').textContent,
+                position: row.querySelector('td:nth-child(4)').textContent,
+                is_admin: row.querySelector('td:nth-child(6)').textContent
+            };
+
+            // Fill the form
+            document.getElementById('editUserId').value = user.id;
+            document.getElementById('editFullName').value = user.name;
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editPosition').value = user.position !== 'Not specified' ? user.position : '';
+            document.getElementById('editIsAdmin').value = user.is_admin;
+
+            // Show the modal
+            const modal = document.getElementById('editModal');
+            if (!modal) {
+                console.error('Modal not found');
+                return;
+            }
+
+            // Reset any previous display state
+            modal.style.display = 'block';
+            // Force a reflow
+            modal.offsetHeight;
+            // Add the show class for the animation
+            requestAnimationFrame(() => {
+                modal.classList.add('show');
+            });
+
+            // Close modal handlers
+            const closeBtn = modal.querySelector('.close');
+            closeBtn.onclick = closeEditModal;
+
+            // Close on click outside
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    closeEditModal();
+                }
+            }
+
+            // Form submission
+            const form = document.getElementById('editUserForm');
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                updateUser(userId);
+            }
+        }
+
+        function closeEditModal() {
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300); // Match the CSS transition duration
+        }
+
+        function updateUser(userId) {
+            if (!validateForm()) {
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('full_name', document.getElementById('editFullName').value);
+            formData.append('email', document.getElementById('editEmail').value);
+            formData.append('position', document.getElementById('editPosition').value);
+            formData.append('is_admin', document.getElementById('editIsAdmin').value);
+
+            // Add profile picture if selected
+            const profilePicture = document.getElementById('editProfilePicture');
+            if (profilePicture.files.length > 0) {
+                formData.append('profile_picture', profilePicture.files[0]);
+            }
+
+            fetch('../model/update_user.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text().then(text => {
+                    try {
+                        return text ? JSON.parse(text) : {};
+                    } catch (e) {
+                        throw new Error('Invalid JSON response: ' + text);
+                    }
+                });
+            })
+            .then(data => {
+                if (data.success) {
+                    closeEditModal();
+                    loadUsers();
+                    alert('User updated successfully');
+                } else {
+                    alert('Error updating user: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error updating user: ' + error.message);
+            });
+        }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Validate file type
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (JPG or PNG)');
+                    input.value = '';
+                    return;
+                }
+                
+                // Validate file size (2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('File size must be less than 2MB');
+                    input.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('currentProfilePic').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Validate Full Name
+            const fullName = document.getElementById('editFullName');
+            const fullNameError = document.getElementById('fullNameError');
+            if (!fullName.value.match(/^[a-zA-Z\s]+$/)) {
+                fullNameError.textContent = 'Full name must contain only letters and spaces';
+                fullNameError.classList.add('show');
+                isValid = false;
+            } else {
+                fullNameError.classList.remove('show');
+            }
+
+            // Validate Email
+            const email = document.getElementById('editEmail');
+            const emailError = document.getElementById('emailError');
+            if (!email.value.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)) {
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.classList.add('show');
+                isValid = false;
+            } else {
+                emailError.classList.remove('show');
+            }
+
+            // Validate Position
+            const position = document.getElementById('editPosition');
+            const positionError = document.getElementById('positionError');
+            if (position.value && position.value.length < 2) {
+                positionError.textContent = 'Position must be at least 2 characters long';
+                positionError.classList.add('show');
+                isValid = false;
+            } else {
+                positionError.classList.remove('show');
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Setup - OnlyEngineers</title>
+    <link rel="stylesheet" href="../view/profile-setup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="setup-container">
+        <div class="setup-header">
+            <div class="logo">
+                <h1>OnlyEngineers</h1>
+                <p>Complete your professional profile</p>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="setup-progress"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Basic Info</div>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">About</div>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Experience</div>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Education</div>
+                    </div>
+                    <div class="step" data-step="5">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Skills & More</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-content">
+            <form id="profile-setup-form" action="../model/save_profile.php" method="post" enctype="multipart/form-data">
+                <!-- Step 1: Basic Information -->
+                <div class="setup-step active" id="step-1">
+                    <h2>Basic Information</h2>
+                    <p class="step-description">Let's start with some basic information about you.</p>
+
+                    <div class="profile-picture-upload">
+                        <div class="profile-picture-preview">
+                            <img id="profile-preview" src="../assets/default-profile.png" alt="Profile Picture">
+                            <div class="upload-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <input type="file" id="profile-picture" name="profile_picture" accept="image/*" hidden>
+                        <button type="button" id="upload-picture-btn">Upload Profile Picture</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="position">Position/Title <span class="required">*</span></label>
+                        <input type="text" id="position" name="position" placeholder="e.g. Software Engineer, Civil Engineer" required>
+                        <div class="help-text">Your professional title or current position</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City <span class="required">*</span></label>
+                            <input type="text" id="city" name="city" placeholder="e.g. New York" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State/Province <span class="required">*</span></label>
+                            <input type="text" id="state" name="state" placeholder="e.g. NY" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address <span class="required">*</span></label>
+                        <input type="text" id="address" name="address" placeholder="e.g. 123 Main St" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country <span class="required">*</span></label>
+                        <input type="text" id="country" name="country" placeholder="e.g. United States" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthday">Birthday <span class="required">*</span></label>
+                        <input type="date" id="birthday" name="birthday" required>
+                        <div class="help-text">You must be at least 18 years old</div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-next" id="step-1-next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: About Section -->
+                <div class="setup-step" id="step-2">
+                    <h2>About You</h2>
+                    <p class="step-description">Tell us about yourself and your professional background.</p>
+
+                    <div class="form-group">
+                        <label for="about">About <span class="required">*</span></label>
+                        <textarea id="about" name="about" rows="8" placeholder="Describe your professional background, interests, and goals..." required></textarea>
+                        <div class="word-count">
+                            <span id="word-count">0</span> words (10-255 words required)
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-prev" id="step-2-prev">Previous</button>
+                        <button type="button" class="btn btn-next" id="step-2-next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Experience -->
+                <div class="setup-step" id="step-3">
+                    <h2>Work Experience</h2>
+                    <p class="step-description">Add your work experience, starting with the most recent.</p>
+
+                    <div id="experience-container">
+                        <div class="experience-item" data-index="0">
+                            <div class="item-header">
+                                <h3>Experience #1</h3>
+                                <button type="button" class="btn-remove" title="Remove this experience" disabled>
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="job-title-0">Job Title <span class="required">*</span></label>
+                                <input type="text" id="job-title-0" name="experience[0][title]" placeholder="e.g. Software Engineer" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="company-0">Company <span class="required">*</span></label>
+                                <input type="text" id="company-0" name="experience[0][company]" placeholder="e.g. Google" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="exp-start-date-0">Start Date <span class="required">*</span></label>
+                                    <input type="date" id="exp-start-date-0" name="experience[0][start_date]" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exp-end-date-0">End Date</label>
+                                    <input type="date" id="exp-end-date-0" name="experience[0][end_date]">
+                                </div>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="current-job-0" name="experience[0][current]" class="current-job-checkbox">
+                                <label for="current-job-0">I currently work here</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="job-description-0">Description <span class="required">*</span></label>
+                                <textarea id="job-description-0" name="experience[0][description]" rows="4" placeholder="Describe your responsibilities and achievements..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="add-experience-btn" class="btn btn-add">
+                        <i class="fas fa-plus"></i> Add Another Experience
+                    </button>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-prev" id="step-3-prev">Previous</button>
+                        <button type="button" class="btn btn-next" id="step-3-next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Education -->
+                <div class="setup-step" id="step-4">
+                    <h2>Education</h2>
+                    <p class="step-description">Add your educational background, starting with the most recent.</p>
+
+                    <div id="education-container">
+                        <div class="education-item" data-index="0">
+                            <div class="item-header">
+                                <h3>Education #1</h3>
+                                <button type="button" class="btn-remove" title="Remove this education" disabled>
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="school-0">School <span class="required">*</span></label>
+                                <input type="text" id="school-0" name="education[0][school]" placeholder="e.g. Stanford University" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="degree-0">Degree <span class="required">*</span></label>
+                                <select id="degree-0" name="education[0][degree]" required>
+                                    <option value="">Select a degree</option>
+                                    <option value="High School">High School</option>
+                                    <option value="Associate's Degree">Associate's Degree</option>
+                                    <option value="Bachelor of Engineering">Bachelor of Engineering</option>
+                                    <option value="Bachelor of Science">Bachelor of Science</option>
+                                    <option value="Master of Science">Master of Science</option>
+                                    <option value="Master of Engineering">Master of Engineering</option>
+                                    <option value="Master of Research">Master of Research</option>
+                                    <option value="PhD">PhD</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="field-0">Field of Study <span class="required">*</span></label>
+                                <input type="text" id="field-0" name="education[0][field]" placeholder="e.g. Computer Science, Civil Engineering" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edu-start-date-0">Start Date <span class="required">*</span></label>
+                                    <input type="date" id="edu-start-date-0" name="education[0][start_date]" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edu-end-date-0">End Date</label>
+                                    <input type="date" id="edu-end-date-0" name="education[0][end_date]">
+                                </div>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="current-education-0" name="education[0][current]" class="current-education-checkbox">
+                                <label for="current-education-0">I'm currently studying here</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="education-description-0">Description</label>
+                                <textarea id="education-description-0" name="education[0][description]" rows="4" placeholder="Describe your studies, achievements, or activities..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="add-education-btn" class="btn btn-add">
+                        <i class="fas fa-plus"></i> Add Another Education
+                    </button>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-prev" id="step-4-prev">Previous</button>
+                        <button type="button" class="btn btn-next" id="step-4-next">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Skills, Languages, Projects, and Honors -->
+                <div class="setup-step" id="step-5">
+                    <h2>Skills & More</h2>
+                    <p class="step-description">Add your skills, languages, projects, and honors.</p>
+
+                    <!-- Skills Section -->
+                    <div class="subsection">
+                        <h3>Skills</h3>
+                        <div id="skills-container">
+                            <div class="skill-item" data-index="0">
+                                <div class="form-row">
+                                    <div class="form-group grow">
+                                        <input type="text" id="skill-0" name="skills[0][name]" placeholder="e.g. JavaScript, AutoCAD, Project Management" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="skill-level-0" name="skills[0][level]" required>
+                                            <option value="">Level</option>
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn-remove" title="Remove this skill" disabled>
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-skill-btn" class="btn btn-add-small">
+                            <i class="fas fa-plus"></i> Add Skill
+                        </button>
+                    </div>
+
+                    <!-- Languages Section -->
+                    <div class="subsection">
+                        <h3>Languages</h3>
+                        <div id="languages-container">
+                            <div class="language-item" data-index="0">
+                                <div class="form-row">
+                                    <div class="form-group grow">
+                                        <input type="text" id="language-0" name="languages[0][name]" placeholder="e.g. English, French, Spanish" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <select id="language-level-0" name="languages[0][level]" required>
+                                            <option value="">Level</option>
+                                            <option value="Basic">Basic</option>
+                                            <option value="Conversational">Conversational</option>
+                                            <option value="Proficient">Proficient</option>
+                                            <option value="Fluent">Fluent</option>
+                                            <option value="Native">Native</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn-remove" title="Remove this language" disabled>
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-language-btn" class="btn btn-add-small">
+                            <i class="fas fa-plus"></i> Add Language
+                        </button>
+                    </div>
+
+                    <!-- Projects Section -->
+                    <div class="subsection">
+                        <h3>Projects</h3>
+                        <div id="projects-container">
+                            <div class="project-item" data-index="0">
+                                <div class="item-header">
+                                    <h4>Project #1</h4>
+                                    <button type="button" class="btn-remove" title="Remove this project" disabled>
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <label for="project-name-0">Project Name <span class="required">*</span></label>
+                                    <input type="text" id="project-name-0" name="projects[0][name]" placeholder="e.g. E-commerce Website, Bridge Design" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="project-url-0">Project URL</label>
+                                    <input type="url" id="project-url-0" name="projects[0][url]" placeholder="e.g. https://github.com/yourusername/project">
+                                </div>
+                                <div class="form-group">
+                                    <label for="project-description-0">Description <span class="required">*</span></label>
+                                    <textarea id="project-description-0" name="projects[0][description]" rows="3" placeholder="Describe your project..." required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-project-btn" class="btn btn-add-small">
+                            <i class="fas fa-plus"></i> Add Project
+                        </button>
+                    </div>
+
+                    <!-- Honors Section -->
+                    <div class="subsection">
+                        <h3>Honors & Awards</h3>
+                        <div id="honors-container">
+                            <div class="honor-item" data-index="0">
+                                <div class="item-header">
+                                    <h4>Honor #1</h4>
+                                    <button type="button" class="btn-remove" title="Remove this honor" disabled>
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <label for="honor-title-0">Title <span class="required">*</span></label>
+                                    <input type="text" id="honor-title-0" name="honors[0][title]" placeholder="e.g. Best Graduate Thesis, Innovation Award" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="honor-issuer-0">Issuer <span class="required">*</span></label>
+                                    <input type="text" id="honor-issuer-0" name="honors[0][issuer]" placeholder="e.g. IEEE, University of California" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="honor-date-0">Date Received <span class="required">*</span></label>
+                                    <input type="date" id="honor-date-0" name="honors[0][date]" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="honor-description-0">Description</label>
+                                    <textarea id="honor-description-0" name="honors[0][description]" rows="2" placeholder="Describe this honor or award..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-honor-btn" class="btn btn-add-small">
+                            <i class="fas fa-plus"></i> Add Honor/Award
+                        </button>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-prev" id="step-5-prev">Previous</button>
+                        <button type="submit" class="btn btn-submit">Complete Setup</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal" id="error-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Error</h3>
+                <button type="button" class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="error-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary close-modal">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../controller/profile-setup.js"></script>
+    <script src="../controller/image-upload.js"></script>
+</body>
+</html>

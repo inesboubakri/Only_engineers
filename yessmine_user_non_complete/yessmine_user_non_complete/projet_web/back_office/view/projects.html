@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects Management | Engineering Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Add jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    <!-- Add SheetJS library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <li><div class="nav-icon">👥</div><span>Users</span></li>
+                    <li class="active"><div class="nav-icon">🚀</div><span>Projects</span></li>
+                    <li><div class="nav-icon">📰</div><span>News</span></li>
+                    <li><div class="nav-icon">🏆</div><span>Hackathons</span></li>
+                    <li><div class="nav-icon">📚</div><span>Courses</span></li>
+                    <li><div class="nav-icon">💼</div><span>Opportunities</span></li>
+                    <li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li>
+                    <li><div class="nav-icon">🚪</div><span>Sign out</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <!-- Use a profile image placeholder -->
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Content -->
+            <div class="projects-view">
+                <!-- Individual Metric Cards -->
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <span>📋</span>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Generate Projects Report</h3>
+                        <p>Analyze your projects data more easily with our virtual assistant</p>
+                        <button class="primary-button">Generate Report</button>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <span>⏱️</span>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Active Projects</h3>
+                        <div class="metric-value">37</div>
+                        <div class="metric-trend positive">+12.45%</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <span>💼</span>
+                    </div>
+                    <div class="metric-content">
+                        <h3>Completed Projects</h3>
+                        <div class="metric-value">142</div>
+                        <div class="metric-trend positive">+24.92%</div>
+                    </div>
+                </div>
+                
+                <!-- Projects Table Section -->
+                <div class="projects-table-container">
+                    <div class="filter-bar">
+                        <div class="filter-pills">
+                            <button class="filter-pill active">All Projects</button>
+                            <button class="filter-pill">Software</button>
+                            <button class="filter-pill">Hardware</button>
+                            <button class="filter-pill">Mechanical</button>
+                            <button class="filter-pill">Electrical</button>
+                        </div>
+                        <div class="action-controls">
+                            <div class="view-controls">
+                                <button class="view-control active" data-view="list">
+                                    <span>≡</span>
+                                </button>
+                                <button class="view-control" data-view="grid">
+                                    <span>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="deadline-selector">Select Deadline</button>
+                            <button class="add-project-button">
+                                <span class="plus-icon">+</span>
+                                <span>Add New Project</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Projects Table -->
+                    <table class="projects-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Deadline</th>
+                                <th>Budget</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <div class="project-avatar">
+                                            <img src="https://via.placeholder.com/50/4287f5/ffffff?text=SW" alt="Smart Water Monitoring">
+                                        </div>
+                                        <div class="project-details">
+                                            <div class="project-name">Smart Water Monitoring</div>
+                                            <div class="project-id">PRJ-531091238</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>15 May 2024</td>
+                                <td>$125,000.00</td>
+                                <td>Software Project</td>
+                                <td><span class="status in-progress">In Progress</span></td>
+                                <td><button class="action-menu-button">•••</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <div class="project-avatar">
+                                            <img src="https://via.placeholder.com/50/f54242/ffffff?text=AR" alt="Autonomous Robot">
+                                        </div>
+                                        <div class="project-details">
+                                            <div class="project-name">Autonomous Robot</div>
+                                            <div class="project-id">PRJ-531293731</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>21 June 2024</td>
+                                <td>$279,500.00</td>
+                                <td>Hardware Project</td>
+                                <td><span class="status in-progress">In Progress</span></td>
+                                <td><button class="action-menu-button">•••</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <div class="project-avatar">
+                                            <img src="https://via.placeholder.com/50/42f56f/ffffff?text=SC" alt="Solar Charging Station">
+                                        </div>
+                                        <div class="project-details">
+                                            <div class="project-name">Solar Charging Station</div>
+                                            <div class="project-id">PRJ-331264712</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>30 July 2024</td>
+                                <td>$182,750.00</td>
+                                <td>Electrical Project</td>
+                                <td><span class="status planning">Planning</span></td>
+                                <td><button class="action-menu-button">•••</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <div class="project-avatar">
+                                            <img src="https://via.placeholder.com/50/f5a742/ffffff?text=DB" alt="Drone Bridge Inspector">
+                                        </div>
+                                        <div class="project-details">
+                                            <div class="project-name">Drone Bridge Inspector</div>
+                                            <div class="project-id">PRJ-312472943</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>10 August 2024</td>
+                                <td>$145,800.00</td>
+                                <td>Mechanical Project</td>
+                                <td><span class="status on-hold">On Hold</span></td>
+                                <td><button class="action-menu-button">•••</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <div class="project-avatar">
+                                            <img src="https://via.placeholder.com/50/9c42f5/ffffff?text=ML" alt="Machine Learning Platform">
+                                        </div>
+                                        <div class="project-details">
+                                            <div class="project-name">Machine Learning Platform</div>
+                                            <div class="project-id">PRJ-442176924</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>15 June 2024</td>
+                                <td>$320,000.00</td>
+                                <td>Software Project</td>
+                                <td><span class="status in-progress">In Progress</span></td>
+                                <td><button class="action-menu-button">•••</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <div class="project-avatar">
+                                            <img src="https://via.placeholder.com/50/42b0f5/ffffff?text=WP" alt="Water Purification System">
+                                        </div>
+                                        <div class="project-details">
+                                            <div class="project-name">Water Purification System</div>
+                                            <div class="project-id">PRJ-712479182</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>28 September 2024</td>
+                                <td>$450,000.00</td>
+                                <td>Mechanical Project</td>
+                                <td><span class="status on-hold">On Hold</span></td>
+                                <td><button class="action-menu-button">•••</button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="project-info">
+                                        <div class="project-avatar">
+                                            <img src="https://via.placeholder.com/50/f542d4/ffffff?text=SG" alt="Smart Grid System">
+                                        </div>
+                                        <div class="project-details">
+                                            <div class="project-name">Smart Grid System</div>
+                                            <div class="project-id">PRJ-981240912</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>30 November 2024</td>
+                                <td>$375,500.00</td>
+                                <td>Electrical Project</td>
+                                <td><span class="status planning">Planning</span></td>
+                                <td><button class="action-menu-button">•••</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Model and Controller -->
+    <script src="../model/dashboardModel.js"></script>
+    <script src="../controllers/projectsController.js"></script>
+</body>
+</html> 
