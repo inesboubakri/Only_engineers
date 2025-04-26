@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <img src="../assets/logo.png" alt="Only Engineers">
+                </a>
+            </div>
+            <div class="nav-center">
+                <nav class="nav-links">
+                    <a href="../view/home.html">Home</a>
+                    <a href="../view/Dashboard.html"> Dashboard </a>
+                    <a href="../view/index.html">Jobs</a>
+                    <a href="../view/projects.html">Projects</a>
+                    <a href="../view/courses.html">Courses</a>
+                    <a href="../view/hackathon.html">Hackathons</a>
+                    <a href="../view/articles.html" class="active">Articles</a>
+                    <a href="../view/networking.html">Networking</a>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <div class="notification-wrapper">
+                    <button class="icon-button notification">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </button>
+                    <span class="notification-dot"></span>
+                </div>
+                <button class="icon-button theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="user-profile">
+                    <a href="../view/user-profile.html">
+                        <img src="../assets/profil.jpg" alt="User profile" class="avatar">
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <aside class="sidebar">
+                
+
+                <div class="filters">
+                    <div class="filters-header">
+                        <h3>Filters</h3>
+                        <button class="clear-all">Clear All</button>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <input type="text" value="...">
+                        </div>
+                        
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Article Type</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="articleType">
+                                <span class="label-text">All</span>
+                                <span class="count">(1143)</span>
+                            </label>
+                            <label class="radio-option selected">
+                                <input type="radio" name="articleType" checked>
+                                <span class="label-text">Technology</span>
+                                <span class="count">(510)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="articleType">
+                                <span class="label-text">Programming</span>
+                                <span class="count">(324)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="articleType">
+                                <span class="label-text">Career</span>
+                                <span class="count">(234)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="articleType">
+                                <span class="label-text">Design</span>
+                                <span class="count">(65)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="articleType">
+                                <span class="label-text">AI & ML</span>
+                                <span class="count">(10)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Reading Time</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="readingTime">
+                                <span class="label-text">Under 5 min</span>
+                            </label>
+                            <label class="radio-option selected">
+                                <input type="radio" name="readingTime" checked>
+                                <span class="label-text">5-10 min</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="readingTime">
+                                <span class="label-text">10-15 min</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="readingTime">
+                                <span class="label-text">Over 15 min</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Publication Date</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Author Level</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="jobs">
+                <div class="jobs-header">
+                    <h2>Recommended articles <span class="count">386</span></h2>
+                    <button class="chatbot-button">
+                        🤖 chatbot
+                    </button>
+                    <div class="chatbot-popup" id="chatbot-popup">
+                        <div class="chat-header">
+                            <div class="header-info">
+                                <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 1024 1024">
+                                    <path d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"></path>
+                                </svg>
+                                <h2 class="logo-texte">OnlyEngineersBot</h2>
+                            </div>
+                        </div>
+                
+                        <div class="chat-body">
+                            <div class="message bot-message">
+                                <div class="message-text">Hey there 🔴 <br /> How can I help you today?</div>
+                            </div>
+                            <!-- Indicateur de chargement -->
+                            <div class="thinking-indicator" style="display: none;">
+                                <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 1024 1024">
+                                    <path d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4.7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"></path>
+                                </svg>
+                                <div class="dots">
+                                    <span>...</span>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <!-- Chatbot Footer -->
+                        <div class="chat-footer">
+                            <form action="#" class="chat-form">
+                                <textarea placeholder="Message..." class="message-input" required></textarea>
+                                <div class="chat-controls">
+                                    <button type="submit" id="send-message" class="material-symbols-rounded">⬆️</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="sort">
+                        <span>Sort by:</span>
+                        <select>
+                            <option>Most recent</option>
+                        </select>
+                        <button class="view-toggle" id="articleViewToggle">
+                            <svg class="grid-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 4h4v4H4zM12 4h4v4h-4zM4 12h4v4H4zM12 12h4v4h-4z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <svg class="list-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+<!-- Container unique pour afficher les articles -->
+<div class="job-cards" id="jobCardsContainer"></div>
+
+<!-- Promo + bouton pour ajouter une news -->
+<div class="promo-card">
+    <div class="promo-content">
+      <h2>Reach thousands of new articles</h2>
+  
+      <!-- Bouton Add News -->
+      <button class="add-button" id="openAddModalBtn">
+        <span class="add-icon">+</span>
+        <span>Add News</span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Modal du formulaire d'ajout d'article -->
+  <div id="addnewsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <button class="close" id="closeAddModalBtn" aria-label="Fermer le formulaire">&times;</button>
+      <h2>Add New News</h2>
+  
+      <form id="addnewsForm" enctype="multipart/form-data">
+        <input type="hidden" name="action" value="add_article">
+  
+        <!-- Champs de formulaire -->
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required minlength="3" maxlength="250">
+          <span class="error-message" id="title-error"></span>
+        </div>
+  
+        <div class="form-group">
+          <label for="author">Author:</label>
+          <input type="text" id="author" name="author" required minlength="3" maxlength="150">
+          <span class="error-message" id="author-error"></span>
+        </div>
+  
+        <div class="form-group">
+          <label for="content">Content:</label>
+          <textarea id="content" name="content" required></textarea>
+          <span class="error-message" id="content-error"></span>
+        </div>
+  
+        <div class="form-group">
+          <label for="category">Category:</label>
+          <select id="category" name="category" required>
+            <option value="" disabled selected>Choose a category</option>
+            <option value="Tech">Tech</option>
+            <option value="Business">Business</option>
+            <option value="Science">Science</option>
+          </select>
+          <span class="error-message" id="category-error"></span>
+        </div>
+  
+        <div class="form-group">
+          <label for="image">Image:</label>
+          <input type="file" id="image" name="image" accept="image/png, image/jpeg" required>
+          <span class="error-message" id="image-error"></span>
+        </div>
+  
+        <div class="form-group">
+          <label for="created_at">Date:</label>
+          <input type="date" id="created_at" name="created_at" required>
+          <span class="error-message" id="date-error"></span>
+        </div>
+  
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" name="status" required>
+            <option value="" disabled selected>Select Status</option>
+            <option value="Draft">Draft</option>
+            <option value="Published">Published</option>
+          </select>
+          <span class="error-message" id="status-error"></span>
+        </div>
+  
+        <!-- Actions -->
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">Add News</button>
+          <button type="button" class="cancel-btn" id="cancelAddModalBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+ <!-- Article Modal -->
+<div id="articleModal" class="modal" role="dialog" aria-labelledby="articleTitle" aria-hidden="true" style="display: none;">
+    <div class="modal-content">
+        <!-- Modal Header -->
+        <header class="modal-header">
+            <button id="closeArticleModalBtn" class="close-btn" aria-label="Fermer la modale">×</button>
+            <div class="article-meta">
+                <div class="author-details">
+                    <p id="articleAuthor" class="author-name" aria-label="Nom de l'auteur"></p>
+                    <p id="articleDate" class="publish-date" aria-label="Date de publication"></p>
+                </div>
+            </div>
+            <h1 id="articleTitle" class="article-title"></h1>
+        </header>
+
+        <!-- Modal Body -->
+        <main class="modal-body">
+            <!-- Article Image Section -->
+            <section class="article-image-container">
+                <img id="articleImage" src="" alt="Image de l'article" class="featured-image" loading="lazy">
+            </section>
+
+            <!-- Contenu de l'article -->
+            <section class="article-text-content" aria-label="Contenu complet de l'article">
+                <p id="articleCategory" class="article-category"></p>
+                <div id="articleContent"></div>
+            </section>
+        </main>
+
+        <!-- Article Footer -->
+        <footer class="article-footer">
+            <!-- Reading Time -->
+            <div class="reading-time" aria-label="Temps de lecture">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span id="readingTime">5 min read</span>
+            </div>
+
+            <!-- Social Actions -->
+            <div class="social-actions" role="region" aria-label="Actions sociales">
+                <div class="like-container">
+                    <button class="action-btn like-btn" id="likeButton" aria-label="J'aime">
+                        <span class="like-icon" aria-hidden="true">👍</span> J'aime
+                    </button>
+                    <div class="emoji-selector" id="emojiSelector" aria-label="Sélecteur d'emojis">
+                        <button class="emoji" data-emoji="👍" aria-label="Emoji pouce en l'air">👍</button>
+                        <button class="emoji" data-emoji="❤️" aria-label="Emoji cœur">❤️</button>
+                        <button class="emoji" data-emoji="😍" aria-label="Emoji yeux en cœur">😍</button>
+                        <button class="emoji" data-emoji="😂" aria-label="Emoji rire">😂</button>
+                        <button class="emoji" data-emoji="😮" aria-label="Emoji surpris">😮</button>
+                    </div>
+                </div>
+                <button class="action-btn share-btn" id="shareButton" aria-label="Partager">
+                    <span class="share-icon" aria-hidden="true">↗️</span> Partager
+                </button>
+            </div>
+
+            <!-- Share Buttons -->
+            <div class="share-buttons" aria-label="Boutons de partage"></div>
+        </footer>
+
+        <!-- Comments Section -->
+        <section class="comments-section" aria-label="Section des commentaires">
+            <h2>Commentaires</h2>
+            <div id="commentsContainer" aria-live="polite"></div>
+
+            <!-- Comment Form -->
+            <!-- Comment Form -->
+<form class="comment-form" id="commentForm" aria-label="Formulaire de commentaire">
+    <textarea
+      id="commentContent"
+      placeholder="Ajoutez un commentaire..."
+      rows="4"
+      aria-label="Champ pour écrire un commentaire"
+      required
+    ></textarea>
+    <input type="hidden" id="articleId" value="">
+    <button id="submitComment" class="action-btn" type="submit" aria-label="Publier le commentaire">
+      Publier
+    </button>
+  </form>
+  
+
+<!-- Share Modal -->
+<div id="shareModal" class="share-modal" role="dialog" aria-labelledby="shareModalTitle" aria-hidden="true">
+    <div class="share-modal-content">
+        <button class="close-btn" onclick="closeShareModal()" aria-label="Fermer la modale de partage">×</button>
+        <h2 id="shareModalTitle">Partager sur</h2>
+        <div class="social-icons" aria-label="Options de partage">
+            <a href="#" class="social-icon facebook" onclick="shareOnSocial('facebook')" aria-label="Partager sur Facebook">
+                <img src="ressources/facbook.png" alt="Icône Facebook">
+            </a>
+            <a href="#" class="social-icon github" onclick="shareOnSocial('github')" aria-label="Partager sur GitHub">
+                <img src="ressources/git-icon.png" alt="Icône GitHub">
+            </a>
+            <a href="#" class="social-icon instagram" onclick="shareOnSocial('instagram')" aria-label="Partager sur Instagram">
+                <img src="ressources/instagram.jpg" alt="Icône Instagram">
+            </a>
+            <a href="#" class="social-icon tiktok" onclick="shareOnSocial('tiktok')" aria-label="Partager sur TikTok">
+                <img src="ressources/tiktok.png" alt="Icône TikTok">
+            </a>
+            <a href="#" class="social-icon whatsapp" onclick="shareOnSocial('whatsapp')" aria-label="Partager sur WhatsApp">
+                <img src="ressources/whatsapp.jpg" alt="Icône WhatsApp">
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+  
+
+<script>
+    // =================== Ajouter un Commentaire ===================
+    document.getElementById('commentForm')?.addEventListener('submit', function (e) {
+        e.preventDefault();
+    
+        const content = document.getElementById('content').value.trim();
+        const newsId = document.getElementById('articleModal').dataset.articleId; // Correct : dataset.articleId car on l'associe à articleModal
+    
+        if (!content || !newsId) {
+            alert("Veuillez remplir le commentaire et vérifier l'article.");
+            return;
+        }
+    
+        const formData = new FormData();
+        formData.append('content', content);
+        formData.append('idnews', newsId);
+    
+        fetch('http://localhost/projet_web/back_office/controllers/commentController.php?action=addComment', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("✅ Commentaire ajouté !");
+                document.getElementById('commentForm').reset();
+            } else {
+                alert("❌ Erreur : " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Erreur réseau :", error);
+            alert("❌ Une erreur réseau s'est produite.");
+        });
+    });
+    function addCommentaire(content, idnews, user_id) {
+    fetch('http://localhost/projet_web/back_office/api/comments.php?action=addCommentaire', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content, idnews, user_id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Commentaire ajouté !');
+            loadCommentaires(idnews); // Recharge les commentaires
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error('Erreur:', error));
+}
+
+    // =================== Ouvrir un Article ===================
+    function openArticleModal(articleId) {
+        const modal = document.getElementById('articleModal');
+        modal.style.display = 'block';
+        modal.dataset.articleId = articleId;
+    
+        const cachedArticle = localStorage.getItem(`article_${articleId}`);
+        if (cachedArticle) {
+            displayArticleData(JSON.parse(cachedArticle));
+            return;
+        }
+    
+        fetch(`http://localhost/projet_web/back_office/controllers/newsController.php?action=getArticle&articleId=${articleId}`)
+            .then(res => {
+                if (!res.ok) throw new Error('Erreur lors de la récupération de l\'article');
+                return res.json();
+            })
+            .then(data => {
+                if (data.success && data.data) {
+                    localStorage.setItem(`article_${articleId}`, JSON.stringify(data.data));
+                    displayArticleData(data.data);
+                } else {
+                    document.getElementById('articleContent').textContent = 'Article non trouvé.';
+                }
+            })
+            .catch(err => {
+                console.error('Erreur:', err);
+                document.getElementById('articleContent').textContent = 'Erreur lors du chargement de l\'article.';
+            });
+    }
+    
+    // =================== Fermer Modale ===================
+    document.getElementById('closeArticleModalBtn')?.addEventListener('click', () => {
+        document.getElementById('articleModal').style.display = 'none';
+    });
+    
+    // =================== Like & Emoji ===================
+    document.addEventListener('DOMContentLoaded', function () {
+        const likeButton = document.getElementById('likeButton');
+        const emojiSelector = document.getElementById('emojiSelector');
+    
+        if (likeButton && emojiSelector) {
+            likeButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                emojiSelector.style.display = (emojiSelector.style.display === 'flex') ? 'none' : 'flex';
+            });
+    
+            document.querySelectorAll('.emoji').forEach(emoji => {
+                emoji.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const currentEmoji = this.getAttribute('data-emoji');
+                    likeButton.innerHTML = `<span class="like-icon">${currentEmoji}</span> J'aime`;
+                    emojiSelector.style.display = 'none';
+                });
+            });
+    
+            document.addEventListener('click', () => emojiSelector.style.display = 'none');
+            emojiSelector.addEventListener('click', (e) => e.stopPropagation());
+    
+            document.getElementById('shareButton')?.addEventListener('click', openShareModal);
+        }
+    });
+    
+    // =================== Partage ===================
+    function openShareModal() {
+        document.getElementById('shareModal').style.display = 'block';
+    }
+    
+    function closeShareModal() {
+        document.getElementById('shareModal').style.display = 'none';
+    }
+    
+    function shareOnSocial(platform) {
+        const currentUrl = encodeURIComponent(window.location.href);
+        let shareUrl = '';
+    
+        switch (platform) {
+            case 'facebook':
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+                break;
+            case 'github':
+                shareUrl = 'https://github.com'; // À personnaliser
+                break;
+            case 'instagram':
+                shareUrl = 'https://www.instagram.com'; // Instagram n'autorise pas de partage direct web
+                break;
+        }
+    
+        if (shareUrl) {
+            window.open(shareUrl, '_blank');
+        }
+    }
+    
+    // =================== Clics en dehors des Modales ===================
+    window.onclick = function (event) {
+        if (event.target === document.getElementById('shareModal')) closeShareModal();
+        if (event.target === document.getElementById('articleModal')) document.getElementById('articleModal').style.display = 'none';
+    };
+    
+    // =================== Chargement Articles ===================
+    function loadArticles() {
+        const container = document.getElementById('articles-container');
+        if (!container) {
+            console.error("L'élément #articles-container est manquant.");
+            return;
+        }
+    
+        fetch('http://localhost/projet_web/back_office/controllers/newsController.php')
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.data.length) {
+                    generateArticleCards(data.data);
+                } else {
+                    container.innerHTML = `<p class="no-articles">Aucun article disponible</p>`;
+                }
+            })
+            .catch(err => {
+                console.error('Erreur lors du chargement des articles:', err);
+                container.innerHTML = `<p class="error">Erreur lors du chargement des articles</p>`;
+            });
+    }
+    
+    function generateArticleCards(news) {
+        const container = document.getElementById('articles-container');
+        container.innerHTML = news.map(article => `
+            <div class="article-card">
+                <h3>${article.title || 'Sans titre'}</h3>
+                <p>Par ${article.full_name || article.author || 'Auteur inconnu'}</p>
+                <p>${article.category || 'Non catégorisé'}</p>
+                <p>${article.content || 'Pas de contenu.'}</p>
+                ${article.image ? `<img src="http://localhost/projet_web/uploads/news_images/${encodeURIComponent(article.image)}" alt="${article.title}" onerror="this.src='http://localhost/projet_web/default_image.png';">` : ''}
+                <p>${new Date(article.created_at).toLocaleDateString()}</p>
+                <button class="details" data-id="${article.idnews}">Lire l'article</button>
+            </div>
+        `).join('');
+    
+        document.querySelectorAll('.details').forEach(button => {
+            button.addEventListener('click', () => openArticleModal(button.dataset.id));
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadArticles);
+    
+    // =================== Afficher Détail d'un Article ===================
+    function displayArticleData(article) {
+        document.getElementById('articleTitle').textContent = article.title;
+        document.getElementById('articleAuthor').textContent = `Par ${article.full_name || article.author || 'Auteur inconnu'}`;
+        document.getElementById('articleDate').textContent = new Date(article.created_at).toLocaleDateString();
+        document.getElementById('articleContent').innerHTML = DOMPurify.sanitize(article.content);
+        document.getElementById('articleCategory').textContent = article.category;
+    
+        const articleImage = document.getElementById('articleImage');
+        articleImage.src = article.image
+            ? `http://localhost/projet_web/uploads/news_images/${encodeURIComponent(article.image)}`
+            : 'http://localhost/projet_web/default_image.png';
+        articleImage.alt = article.title || 'Image article';
+    }
+    
+    // =================== Ajout d'Articles ===================
+    const jobCardsContainer = document.getElementById('jobCardsContainer');
+    const openModalBtn = document.getElementById('openAddModalBtn');
+    const closeAddModalBtn = document.getElementById('closeAddModalBtn');
+    const cancelAddModalBtn = document.getElementById('cancelAddModalBtn');
+    const addnewsModal = document.getElementById('addnewsModal');
+    const addnewsForm = document.getElementById('addnewsForm');
+    
+    const generateJobCards = (articles) => {
+        jobCardsContainer.innerHTML = articles.map(article => `
+            <div class="job-card">
+                <h4>${article.title}</h4>
+                <img src="http://localhost/projet_web/uploads/news_images/${article.image}" 
+                     alt="${article.title}" 
+                     onerror="this.src='http://localhost/projet_web/default_image.png';">
+                <div>${article.category.split(',').map(cat => `<span>${cat.trim()}</span>`).join('')}</div>
+                <button class="details" data-id="${article.idnews}">Lire l'article</button>
+            </div>
+        `).join('');
+    
+        document.querySelectorAll('.details').forEach(btn => {
+            btn.addEventListener('click', () => openArticleModal(btn.dataset.id));
+        });
+    };
+    
+    function loadJobArticles() {
+        fetch('http://localhost/projet_web/back_office/controllers/newsController.php')
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && data.data.length) {
+                    generateJobCards(data.data);
+                } else {
+                    jobCardsContainer.innerHTML = `<p class="no-articles">Aucun article disponible</p>`;
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                jobCardsContainer.innerHTML = `<p class="error">Erreur lors du chargement des articles</p>`;
+            });
+    }
+    
+    openModalBtn?.addEventListener('click', () => addnewsModal.style.display = 'block');
+    closeAddModalBtn?.addEventListener('click', () => addnewsModal.style.display = 'none');
+    cancelAddModalBtn?.addEventListener('click', () => addnewsModal.style.display = 'none');
+    window.addEventListener('click', (e) => {
+        if (e.target === addnewsModal) addnewsModal.style.display = 'none';
+    });
+    
+    addnewsForm?.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(addnewsForm);
+    
+        fetch('http://localhost/projet_web/back_office/controllers/newsController.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                addnewsModal.style.display = 'none';
+                addnewsForm.reset();
+                loadJobArticles();
+            } else {
+                alert(data.message || "Erreur lors de l'ajout.");
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Erreur réseau lors de l'ajout de l'article.");
+        });
+    });
+    
+    loadJobArticles();
+    </script>
+    
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    
+    
+
+<style>/* General Reset and Base Styles */
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+        margin: 0;
+        padding: 24px;
+        color: #1e293b;
+        line-height: 1.6;
+    }
+    
+    h2 {
+        color: #1e293b;
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Vertical Card List */
+    .vertical-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    /* Article Card Category Colors */
+    .job-content.tech {
+        background-color: #d6e4ff; /* Soft blue */
+        color: #1e293b;
+    }
+    
+    .job-content.design {
+        background-color: #e9d8fd; /* Soft purple */
+        color: #1e293b;
+    }
+    
+    .job-content.career {
+        background-color: #d4f4e2; /* Soft green */
+        color: #1e293b;
+    }
+    
+    .job-content.productivity {
+        background-color: #ffedd5; /* Soft orange */
+        color: #1e293b;
+    }
+    
+    /* Reset text color for readability */
+    .job-content.tech *, .job-content.design *, 
+    .job-content.career *, .job-content.productivity * {
+        color: #1e293b !important;
+    }
+    
+    .job-content.tech svg, .job-content.design svg, 
+    .job-content.career svg, .job-content.productivity svg {
+        stroke: #1e293b !important;
+    }
+    
+    /* Enhanced Card Styling */
+    .job-card {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        background: #ffffff;
+    }
+    
+    .job-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Tags Styling */
+    .tags span {
+        background-color: rgba(0, 0, 0, 0.08);
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin-right: 8px;
+        transition: background-color 0.2s ease;
+    }
+    
+    .tags span:hover {
+        background-color: rgba(0, 0, 0, 0.12);
+    }
+    
+    /* Read Article Button */
+    .card-footer .details {
+        background-color: #1e293b;
+        color: #ffffff;
+        font-weight: 600;
+        border-radius: 24px;
+        padding: 10px 20px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        text-decoration: none;
+    }
+    
+    .card-footer .details:hover {
+        transform: scale(1.05);
+    }
+    
+    .job-content.tech + .card-footer .details:hover {
+        background-color: #2563eb;
+    }
+    
+    .job-content.design + .card-footer .details:hover {
+        background-color: #7c3aed;
+    }
+    
+    .job-content.career + .card-footer .details:hover {
+        background-color: #16a34a;
+    }
+    
+    .job-content.productivity + .card-footer .details:hover {
+        background-color: #f97316;
+    }
+    
+    /* Dark Mode Adjustments */
+    [data-theme="dark"] body {
+        background-color: #1e293b;
+        color: #f1f5f9;
+    }
+    
+    [data-theme="dark"] .job-content.tech {
+        background-color: #1e3a8a;
+    }
+    
+    [data-theme="dark"] .job-content.design {
+        background-color: #4c1d95;
+    }
+    
+    [data-theme="dark"] .job-content.career {
+        background-color: #14532d;
+    }
+    
+    [data-theme="dark"] .job-content.productivity {
+        background-color: #7c2d12;
+    }
+    
+    [data-theme="dark"] .job-content.tech *, 
+    [data-theme="dark"] .job-content.design *, 
+    [data-theme="dark"] .job-content.career *, 
+    [data-theme="dark"] .job-content.productivity * {
+        color: #f1f5f9 !important;
+    }
+    
+    [data-theme="dark"] .job-content.tech svg, 
+    [data-theme="dark"] .job-content.design svg, 
+    [data-theme="dark"] .job-content.career svg, 
+    [data-theme="dark"] .job-content.productivity svg {
+        stroke: #f1f5f9 !important;
+    }
+    
+    [data-theme="dark"] .tags span {
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    [data-theme="dark"] .job-card {
+        background: #2d3748;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Chatbot Popup */
+    .chatbot-popup {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        width: 420px;
+        height: 640px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+        display: none;
+        z-index: 1000;
+        overflow: hidden;
+    }
+    
+    .chatbot-popup.visible {
+        display: block;
+    }
+    
+    .chat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        padding: 16px 24px;
+        color: #ffffff;
+    }
+    
+    .header-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .bot-avatar {
+        height: 40px;
+        width: 40px;
+        padding: 8px;
+        background: #4c1d95;
+        border-radius: 50%;
+        color: #ffffff;
+    }
+    
+    .logo-texte {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    
+    .chat-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        height: 460px;
+        overflow-y: auto;
+        background: #f8fafc;
+        scrollbar-width: thin;
+        scrollbar-color: #6366f1 #f1f5f9;
+    }
+    
+    .chat-body::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .chat-body::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+    }
+    
+    .chat-body::-webkit-scrollbar-thumb {
+        background: #6366f1;
+        border-radius: 10px;
+    }
+    
+    /* Message Styles */
+    .chat-body .message {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        opacity: 0;
+        animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .chat-body .user-message {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    
+    .chat-body .message-text {
+        padding: 12px 16px;
+        max-width: 80%;
+        font-size: 0.95rem;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .chat-body .bot-message .message-text {
+        background: #e9d8fd;
+        border-radius: 16px 16px 16px 4px;
+    }
+    
+    .chat-body .user-message .message-text {
+        background: #6366f1;
+        color: #ffffff;
+        border-radius: 16px 4px 16px 16px;
+    }
+    
+    .thinking-indicator .dot {
+        height: 8px;
+        width: 8px;
+        background: #6366f1;
+        animation: dotPulse 1.8s ease-in-out infinite;
+    }
+    
+    @keyframes dotPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.6); }
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .chat-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background: #ffffff;
+        padding: 12px 24px;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+    }
+    
+    .chat-footer .chat-form {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+    
+    .message-input {
+        flex-grow: 1;
+        padding: 12px 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        background: #ffffff;
+        color: #1e293b;
+        resize: none;
+        outline: none;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .message-input:focus {
+        border-color: #6366f1;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+    
+    .message-input::placeholder {
+        color: #94a3b8;
+    }
+    
+    .chat-controls button {
+        border: none;
+        background: none;
+        color: #6366f1;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+    
+    .chat-controls button:hover {
+        color: #4c1d95;
+    }
+    
+    .chatbot-button {
+        background: #6366f1;
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: 24px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    .chatbot-button:hover {
+        background: #4c1d95;
+        transform: scale(1.05);
+    }
+    
+    /* News List */
+    #newsList {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .job-card {
+        width: 100%;
+    }
+    
+    .job-content {
+        padding: 24px;
+    }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+    
+    .bookmark {
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    
+    .bookmark:hover {
+        transform: scale(1.2);
+    }
+    
+    .job-title h4 {
+        font-size: 1.4rem;
+        margin: 12px 0;
+        color: #1e293b;
+        font-weight: 600;
+    }
+    
+    .company-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .card-footer {
+        padding: 12px 24px;
+        background: #f1f5f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .job-details {
+        display: flex;
+        gap: 16px;
+    }
+    
+    /* Form Styles */
+    #addnewsForm {
+        background: #ffffff;
+        padding: 24px;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        max-width: 640px;
+        margin: 2rem auto;
+    }
+    
+    .form-group {
+        margin-bottom: 24px;
+    }
+    
+    label {
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #1e293b;
+    }
+    
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+        padding: 12px;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        font-size: 1rem;
+        color: #1e293b;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus,
+    input[type="date"]:focus {
+        border-color: #6366f1;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        outline: none;
+    }
+    
+    .submit-btn {
+        background: #6366f1;
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    
+    .submit-btn:hover {
+        background: #4c1d95;
+        transform: scale(1.05);
+    }
+    
+    .cancel-btn {
+        background: #ef4444;
+        color: #ffffff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+    
+    .cancel-btn:hover {
+        background: #dc2626;
+        transform: scale(1.05);
+    }
+    
+    .error-message {
+        color: #ef4444;
+        font-size: 0.9rem;
+        margin-top: 8px;
+    }
+    
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .modal-content {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 32px;
+        width: 90%;
+        max-width: 800px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    
+    .close {
+        font-size: 1.5rem;
+        color: #64748b;
+        cursor: pointer;
+        position: absolute;
+        top: 16px;
+        right: 24px;
+        transition: color 0.2s ease;
+    }
+    
+    .close:hover {
+        color: #1e293b;
+    }
+    
+    .modal-image {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+    
+    /* Social Actions */
+    .social-actions {
+        display: flex;
+        gap: 16px;
+        padding: 16px 0;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+        margin: 24px 0;
+    }
+    
+    .action-btn {
+        background: #f1f5f9;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 24px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    
+    .action-btn:hover {
+        background: #e2e8f0;
+        transform: scale(1.05);
+    }
+    
+    .like-container {
+        position: relative;
+    }
+    
+    .emoji-selector {
+        position: absolute;
+        bottom: 120%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #ffffff;
+        padding: 10px;
+        border-radius: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        display: none;
+        gap: 8px;
+        z-index: 10;
+    }
+    
+    .emoji {
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: transform 0.2s ease;
+    }
+    
+    .emoji:hover {
+        transform: scale(1.3);
+    }
+    
+    /* Share Modal */
+    .share-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        padding-top: 80px;
+    }
+    
+    .share-modal-content {
+        background: #ffffff;
+        margin: 5% auto;
+        padding: 24px;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+    
+    .social-icon img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        transition: transform 0.2s ease;
+    }
+    
+    .social-icon img:hover {
+        transform: scale(1.1);
+    }
+    
+    /* Comments Section */
+    .comments-section {
+        margin-top: 24px;
+        padding: 24px;
+        background: #f1f5f9;
+        border-radius: 16px;
+    }
+    
+    .comments-section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 16px;
+    }
+    
+    .comment-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .comment-form textarea {
+        padding: 12px;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        resize: vertical;
+        min-height: 100px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .comment-form textarea:focus {
+        border-color: #6366f1;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+    
+    .comment-form .action-btn {
+        align-self: flex-end;
+        background: #6366f1;
+        color: #ffffff;
+        padding: 12px 24px;
+    }
+    
+    .comment-form .action-btn:hover {
+        background: #4c1d95;
+    }
+    
+    /* Dark Mode for Comments */
+    [data-theme="dark"] .comments-section {
+        background: #2d3748;
+    }
+    
+    [data-theme="dark"] .comment-form textarea {
+        background: #1e293b;
+        color: #f1f5f9;
+        border-color: #4b5563;
+    }
+    
+    [data-theme="dark"] .modal-content {
+        background: #2d3748;
+        color: #f1f5f9;
+    }
+    
+    [data-theme="dark"] .chat-body {
+        background: #1e293b;
+    }
+    
+    [data-theme="dark"] .chat-footer {
+        background: #2d3748;
+    }
+    
+    [data-theme="dark"] .message-input {
+        background: #1e293b;
+        color: #f1f5f9;
+        border-color: #4b5563;
+    }
+    
+    [data-theme="dark"] .chatbot-popup {
+        background: #2d3748;
+    }</style>
+
+
+
+
+
+
+
+
+    
+</body>
+</html>
