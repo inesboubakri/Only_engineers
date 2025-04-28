@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyEngineers - Dashboard</title>
+    <link rel="stylesheet" href="dash.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FullCalendar CSS -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+
+<!-- FullCalendar JS -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="../ressources/logo.png" alt="Logo" class="logo-img">
+        </div>
+        
+       
+        
+        <div class="nav-right">
+            <button class="icon-btn notification-btn">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+            <button class="icon-btn message-btn">
+                <i class="fas fa-envelope"></i>
+                <span class="message-badge">5</span>
+            </button>
+            <div class="profile-dropdown">
+                <button class="profile-btn">
+                    <img src="../ressources/profil.jpg" alt="Profile">
+                </button>
+                <div class="dropdown-content">
+                    <a href="user.php"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+                    <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../ressources/logo.png" alt="Logo" class="sidebar-logo">
+                <h2>OnlyEngineers</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-links">
+                    <!-- Dashboard link -->
+                    <li>
+                        <a href="home.html" class="nav-link active">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Jobs link -->
+                    <li>
+                        <a href="index.html" class="nav-link">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Jobs</span>
+                        </a>
+                    </li>
+                    <!-- Courses link -->
+                    <li>
+                        <a href="courses.html" class="nav-link">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Courses</span>
+                        </a>
+                    </li>
+                    <!-- Hackathons link -->
+                    <li>
+                        <a href="hackathon.html" class="nav-link">
+                            <i class="fas fa-laptop-code"></i>
+                            <span>Hackathons</span>
+                        </a>
+                    </li>
+                    <!-- Articles link -->
+                    <li>
+                        <a href="articles.html" class="nav-link">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Articles</span>
+                        </a>
+                    </li>
+                    <!-- Profile link -->
+                    <li>
+                        <a href="Projects.html" class="nav-link">
+                            <i class="fas fa-folder"></i>
+                            <span>Projects</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="networking.html" class="nav-link">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Networking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="user.php" class="nav-link">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Dashboard Content -->
+        <div class="dashboard-container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-text">
+                    <h1>Welcome back, <span class="user-name" id="username-display">...</span>!</h1>
+                    <p class="user-title" id="job-title-display"></p>
+                    <p class="date-display">
+                        <i class="far fa-calendar-alt"></i>
+                        <span id="current-date"></span>
+                    </p>
+                </div>
+                
+                
+                
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Charge les données utilisateur
+                    fetch('get_user_data.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const user = data.user;
+                                const fullName = [user.Firstname_user, user.Lastname_User].filter(Boolean).join(' ');
+                                document.getElementById('username-display').textContent = fullName || 'Guest';
+                                
+                               
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error loading user data:", error);
+                            document.getElementById('username-display').textContent = 'Guest';
+                        });
+                });
+                </script>
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-eye"></i></div>
+                        <div class="stat-info">
+                            <h3>Profile Views</h3>
+                            <p>128 <span class="trend up"><i class="fas fa-arrow-up"></i> 12%</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-network-wired"></i></div>
+                        <div class="stat-info">
+                            <h3>Networking</h3>
+                            <p>24 <span class="trend up"><i class="fas fa-share-nodes"></i> 8%</span></p>
+                        </div>
+                    </div>
+                    <div class="quick-stats">
+    <!-- Vos autres cartes stat... -->
+    
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+        <div class="stat-info">
+            <h3>Time spent</h3>
+            <p id="time-spent-display"><!-- Le temps s'affichera ici --></p>
+        </div>
+    </div>
+
+    <script>
+        // Fonction de formatage du temps
+        function formatTime(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return hours > 0 ? `${hours}h ${mins}min` : `${mins}min`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Correction : Ciblage spécifique via l'ID
+            const timeDisplay = document.getElementById('time-spent-display');
+            const storageKey = 'dailySiteTime';
+            const today = new Date().toDateString();
+
+            let timeData = JSON.parse(localStorage.getItem(storageKey)) || { 
+                date: today, 
+                minutes: 0,
+                lastUpdate: new Date().getTime() 
+            };
+
+            if (timeData.date !== today) {
+                timeData = { date: today, minutes: 0, lastUpdate: new Date().getTime() };
+            } else {
+                const elapsedMinutes = Math.floor((new Date().getTime() - timeData.lastUpdate) / 60000);
+                if (elapsedMinutes > 0) {
+                    timeData.minutes += elapsedMinutes;
+                    timeData.lastUpdate = new Date().getTime();
+                    localStorage.setItem(storageKey, JSON.stringify(timeData));
+                }
+            }
+
+            // Affichage initial
+            timeDisplay.innerHTML = `${formatTime(timeData.minutes)} <span class="trend neutral"><i class="fas fa-clock"></i></span>`;
+
+            // Mise à jour périodique
+            setInterval(() => {
+                timeData.minutes++;
+                timeData.lastUpdate = new Date().getTime();
+                localStorage.setItem(storageKey, JSON.stringify(timeData));
+                timeDisplay.innerHTML = `${formatTime(timeData.minutes)} <span class="trend neutral"><i class="fas fa-clock"></i></span>`;
+            }, 60000);
+        });
+    </script>
+</div>
+     </div>
+  </section>
+
+           
+
+            <!-- Tab Content -->
+            
+                <!-- Overview Tab (Default Active) -->
+                <div class="tab-pane active" id="overview">
+                    <div class="cards-grid">
+                        <!-- Job Applications Card with Progress Visualization -->
+                        <div class="card purple">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-briefcase"></i> Job Applications
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="application-stats">
+                                    
+                                    <div class="application-summary">
+                                        <div class="summary-item">
+                                            <div class="summary-value">24</div>
+                                            <div class="summary-label">Applied jobs</div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-value">8</div>
+                                            <div class="summary-label">Shared jobs</div>
+                                        </div>
+                                        <div class="summary-item">
+                                            <div class="summary-value">3</div>
+                                            <div class="summary-label">Interviews attended</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="recent-applications">
+                                    <h4 class="section-title">Recent Applications</h4>
+                                    <div class="application-item">
+                                        <div class="company-logo">
+                                            <i class="fas fa-building"></i>
+                                        </div>
+                                        <div class="application-details">
+                                            <div class="job-title">Senior Frontend Developer</div>
+                                            <div class="company-name">TechCorp</div>
+                                        </div>
+                                        <div class="application-status pending">Pending</div>
+                                    </div>
+                                    <div class="application-item">
+                                        <div class="company-logo">
+                                            <i class="fas fa-paint-brush"></i>
+                                        </div>
+                                        <div class="application-details">
+                                            <div class="job-title">UX Designer</div>
+                                            <div class="company-name">DesignHub</div>
+                                        </div>
+                                        <div class="application-status interview">Interview</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="jobs-applied.html" class="view-all-link">View all applications <i class="fas fa-arrow-right"></i></a>
+                                
+                            </div>
+                            <div class="card-footer1">
+                                <a href="saved-jobs.html" class="view-all-link">View all saved jobs <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Premium Card with Animated Elements -->
+                        <div class="card red">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-graduation-cap"></i> Learning Progress
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="learning-overview">
+                                    <div class="course-completion">
+                                        <div class="completion-chart">
+                                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                <path class="circle" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                                <text x="18" y="20.35" class="percentage">75%</text>
+                                            </svg>
+                                        </div>
+                                        <div class="completion-text">
+                                            <h4>Course Completion</h4>
+                                            <p>3 of 4 courses completed</p>
+                                        </div>
+                                    </div>
+                                    <div class="learning-stats">
+                                        <div class="stat-box">
+                                            <div class="stat-value">42</div>
+                                            <div class="stat-label">Hours Spent</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value">7</div>
+                                            <div class="stat-label">Certificates</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value">12</div>
+                                            <div class="stat-label">Quizzes Passed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="current-course">
+                                    <h4>Currently Learning</h4>
+                                    <div class="course-item">
+                                        <div class="course-icon"><i class="fab fa-react"></i></div>
+                                        <div class="course-info">
+                                            <div class="course-name">Advanced React Patterns</div>
+                                            <div class="course-progress">
+                                                <div class="progress-bar" style="width: 65%;"></div>
+                                            </div>
+                                            <div class="progress-text">
+                                                <span>65% Complete</span>
+                                                <span>4h remaining</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="courses.html" class="view-all-link">View all courses <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            <div class="card-footer1">
+                                <a href="saved-courses.html" class="view-all-link">View saved courses <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Skills Card with Interactive Progress Bars -->
+                        <div class="card green">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-users"></i> My Team
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="team-members">
+                                    <!-- Membre 1 -->
+                                    <div class="member-box">
+                                        <div class="member-photo">
+                                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah">
+                                        </div>
+                                        <div class="member-info">
+                                            <h4 class="member-name">Sarah</h4>
+                                            <p class="member-job">Frontend Developer</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Membre 2 -->
+                                    <div class="member-box">
+                                        <div class="member-photo">
+                                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Mina">
+                                        </div>
+                                        <div class="member-info">
+                                            <h4 class="member-name">Mina</h4>
+                                            <p class="member-job">UX Designer</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Membre 3 -->
+                                    <div class="member-box">
+                                        <div class="member-photo">
+                                            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Laura">
+                                        </div>
+                                        <div class="member-info">
+                                            <h4 class="member-name">Laura</h4>
+                                            <p class="member-job">Project Manager</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="team.html" class="view-all-link">Quit team <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        
+                                
+
+                        <!-- Upcoming Events Card with Timeline -->
+                        <div class="card blue">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-calendar-alt"></i> Upcoming Events and Hackathons
+                                </div>
+                                <div class="card-actions">
+                                    <button class="action-btn">:</button>
+                                    <div class="action-menu">
+                                        <button class="action-menu-item add-event">
+                                            <i class="fas fa-plus"></i> Add Event
+                                        </button>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card-body">
+                                <div id="mini-calendar"></div>
+                                <div id="calendar-events" class="mt-3">
+                                    <!-- Événements apparaîtront ici -->
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer-container">
+                                <div class="card-footer">
+                                    <a href="calendar.html" class="view-all-link">
+                                        View your calendar <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="hackthons.html" class="view-all-link">
+                                        View all events <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="hackthons.html" class="view-all-link">
+                                        View saved events <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Modal pour ajouter un événement -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Event</h3>
+        <span class="close-modal">&times;</span>
+      </div>
+      <form id="eventForm">
+        <div class="form-group">
+          <label for="eventDate">Date</label>
+          <input type="date" id="eventDate" required>
+        </div>
+        <div class="form-group">
+          <label for="eventTime">Time</label>
+          <input type="time" id="eventTime" required>
+        </div>
+        <div class="form-group">
+          <label for="eventLocation">Location</label>
+          <input type="text" id="eventLocation" placeholder="Enter location" required>
+        </div>
+        <div class="form-group">
+          <label for="eventTitle">Title</label>
+          <input type="text" id="eventTitle" placeholder="Event title" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelEvent" class="btn cancel-btn">Cancel</button>
+          <button type="submit" class="btn save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+                        
+                        <!-- Notifications Card with Interactive Elements -->
+                        <div class="card orange">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-bell"></i> Notifications
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="notification-filters">
+                                    <button class="filter-btn active" data-filter="all">All</button>
+                                    <button class="filter-btn" data-filter="unread">Unread</button>
+                                    <button class="filter-btn" data-filter="important">Important</button>
+                                </div>
+                                <div class="notifications-list">
+                                    <div class="notification-item unread">
+                                        <div class="notification-icon important">
+                                            <i class="fas fa-briefcase"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <div class="notification-text">Your application for <strong>Senior Frontend Developer</strong> has been viewed by the recruiter.</div>
+                                            <div class="notification-time">2 hours ago</div>
+                                        </div>
+                                        <div class="notification-actions">
+                                            <button class="notification-action-btn"><i class="fas fa-eye"></i></button>
+                                            <button class="notification-action-btn"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="notification-item unread">
+                                        <div class="notification-icon">
+                                            <i class="fas fa-user-plus"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <div class="notification-text"><strong>John Smith</strong> from TechCorp wants to connect with you.</div>
+                                            <div class="notification-time">5 hours ago</div>
+                                        </div>
+                                        <div class="notification-actions">
+                                            <button class="notification-action-btn accept"><i class="fas fa-check"></i></button>
+                                            <button class="notification-action-btn decline"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="notification-item">
+                                        <div class="notification-icon">
+                                            <i class="fas fa-graduation-cap"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <div class="notification-text">New course recommendation: <strong>Advanced React Patterns</strong> based on your interests.</div>
+                                            <div class="notification-time">Yesterday</div>
+                                        </div>
+                                        <div class="notification-actions">
+                                            <button class="notification-action-btn"><i class="fas fa-external-link-alt"></i></button>
+                                            <button class="notification-action-btn"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="notifications.html" class="view-all-link">View all notifications <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+
+                        <!-- Learning Progress Card with Interactive Charts -->
+                        <div class="card red">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-graduation-cap"></i> Atricles
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="courses-overview">
+                                    
+                                    <div class="courses-stats">
+                                        <div class="stat-box">
+                                            <div class="stat-value">1</div>
+                                            <div class="stat-label">Hours Spent</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value">7</div>
+                                            <div class="stat-label">Articles read</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value">3</div>
+                                            <div class="stat-label">Saved articles</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <a href="articles.html" class="view-all-link">View all articles <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            <div class="card-footer1">
+                                <a href="saved-articles.html" class="view-all-link">View saved articles <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card x">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-graduation-cap"></i> Projects
+                                </div>
+                                
+                            </div>
+                            <div class="card-body">
+                                <div class="courses-overview">
+                                    
+                                    <div class="courses-stats">
+                                        <div class="stat-box">
+                                            <div class="stat-value">3</div>
+                                            <div class="stat-label">Completed projects</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value">7</div>
+                                            <div class="stat-label">Ongoing projects</div>
+                                        </div>
+                                        <div class="stat-box">
+                                            <div class="stat-value">7</div>
+                                            <div class="stat-label">Saved Projects</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <a href="projects.html" class="view-all-link">View all projects <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                            <div class="card-footer1">
+                                <a href="saved-projects.html" class="view-all-link">View saved projects <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+
+
+                        <div class="card todo-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-tasks"></i> To-Do List du Jour
+                                    <span class="todo-date" id="current-date-todo"></span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="todo-stats">
+                                    <span class="stat-item"><span id="total-tasks">0</span> tâches</span>
+                                    <span class="stat-item"><span id="completed-tasks">0</span> complétées</span>
+                                </div>
+                                <div id="todo-error" class="todo-error" style="display: none;"></div>
+                                <ul id="todo-list" class="todo-list">
+                                    <!-- Les tâches seront ajoutées ici dynamiquement -->
+                                </ul>
+                            </div>
+                            <div class="card-footer">
+                                <div class="todo-input-container">
+                                    <input type="text" id="todo-input" placeholder="Ajouter une nouvelle tâche..." class="todo-input">
+                                    <button id="add-todo-btn" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Ajouter
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card quiz-card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <i class="fas fa-brain"></i> Quiz Challenge
+                                    <span class="quiz-tag">New!</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="quiz-description">
+                                    <p>🧠 Test your coding knowledge and give your brain a workout!</p>
+                                    <p>💻 A mix of technical challenges and logic puzzles for ambitious developers.</p>
+                                    <p>🚀 Ready to take on the challenge and climb the leaderboard?</p>
+                                </div>
+                                <div class="quiz-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%;"></div>
+                                    </div>
+                                    <span>65% of users have completed this quiz</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="quiz.html" class="btn quiz-btn">
+                                    <i class="fas fa-arrow-right"></i> Go to Quiz
+                                </a>
+                            </div>
+                        </div>
+                        
+
+
+                        
+                    </div>
+                </div>
+            
+                
+            
+                
+    </main>
+    <script src="js/update_profile_photo.js"></script>
+    <!-- JavaScript for interactive features -->
+    <script>
+        // ================ CONSTANTES GLOBALES ================
+        const BASE_URL = 'http://localhost/CascadeProjects/job-board-exact/';
+        let calendar;
+        
+        console.log('Initialisation du script dashboard...');
+        console.log('URL de base:', BASE_URL);
+        console.log('FullCalendar version:', FullCalendar.version);
+        
+        // ================ INITIALISATION ================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initialisation du dashboard...');
+            initThemeToggle();
+            initTabs();
+            initProfileDropdown();
+            initDateDisplay();
+            initCalendar();
+            initEventModal();
+            initActionMenu();
+            loadUserData();
+        });
+        
+        // ================ GESTION DU THÈME ================
+        function initThemeToggle() {
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (!themeToggle) return;
+        
+            themeToggle.addEventListener('click', toggleTheme);
+            applySavedTheme();
+        }
+        
+        function toggleTheme() {
+            const icon = this.querySelector('i');
+            const text = this.querySelector('span');
+            const isDark = document.body.classList.toggle('dark-mode');
+        
+            if (isDark) {
+                icon.classList.replace('fa-moon', 'fa-sun');
+                text.textContent = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.classList.replace('fa-sun', 'fa-moon');
+                text.textContent = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+        
+        function applySavedTheme() {
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                const themeToggle = document.querySelector('.theme-toggle');
+                if (themeToggle) {
+                    themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+                    themeToggle.querySelector('span').textContent = 'Light Mode';
+                }
+            }
+        }
+        
+        // ================ GESTION DES ONGLETS ================
+        function initTabs() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+        
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    
+                    button.classList.add('active');
+                    document.getElementById(button.dataset.tab).classList.add('active');
+                });
+            });
+        }
+        
+        // ================ PROFIL UTILISATEUR ================
+        function initProfileDropdown() {
+            const profileBtn = document.querySelector('.profile-btn');
+            if (!profileBtn) return;
+        
+            profileBtn.addEventListener('click', () => {
+                window.location.href = 'user.php';
+            });
+        
+            window.addEventListener('click', (event) => {
+                if (!event.target.matches('.profile-btn') && !event.target.closest('.profile-btn')) {
+                    document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                        dropdown.classList.remove('show');
+                    });
+                }
+            });
+        }
+        
+        // ================ AFFICHAGE DE LA DATE ================
+        function initDateDisplay() {
+            const dateElement = document.getElementById('current-date');
+            if (!dateElement) return;
+        
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+        }
+        
+        // ================ CHARGEMENT DES DONNEES UTILISATEUR ================
+        async function loadUserData() {
+            console.log('Chargement des données utilisateur...');
+            try {
+                const response = await fetch(`${BASE_URL}get_user_data.php`, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+        
+                if (!response.ok) {
+                    throw new Error(`Erreur HTTP ${response.status}`);
+                }
+        
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    throw new Error(`Réponse non-JSON: ${text.substring(0, 100)}`);
+                }
+        
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateUserDisplay(data.user);
+                    if (data.calendar_events) {
+                        updateCalendarEvents(data.calendar_events);
+                    }
+                } else {
+                    throw new Error(data.message || "Erreur inconnue du serveur");
+                }
+            } catch (error) {
+                console.error("Erreur de chargement:", error);
+                showToast('Impossible de charger les données. Veuillez réessayer.', 'error');
+            }
+        }
+        
+        function updateUserDisplay(user) {
+            console.log('Mise à jour de l\'affichage utilisateur');
+            const fullName = [user.Firstname_user, user.Lastname_User].filter(Boolean).join(' ');
+            if (fullName) {
+                document.getElementById('username-display').textContent = fullName;
+            }
+            if (user.job_title) {
+                document.getElementById('job-title-display').textContent = user.job_title;
+            }
+        }
+        
+        // ================ GESTION DU CALENDRIER ================
+        function initCalendar() {
+            console.log('Initialisation du calendrier...');
+            const calendarEl = document.getElementById('mini-calendar');
+            if (!calendarEl) {
+                console.warn('Élément calendrier non trouvé');
+                return;
+            }
+        
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: { left: 'prev', center: 'title', right: 'next' },
+                height: 'auto',
+                events: [],
+                dateClick: function(info) {
+                    console.log('Clic sur date:', info.dateStr);
+                    const clickedDate = new Date(info.dateStr);
+                    
+                    const events = calendar.getEvents().filter(event => {
+                        if (!event.start) return false;
+                        const eventDate = new Date(event.start);
+                        return eventDate.getFullYear() === clickedDate.getFullYear() &&
+                               eventDate.getMonth() === clickedDate.getMonth() &&
+                               eventDate.getDate() === clickedDate.getDate();
+                    });
+                    
+                    renderEvents(events);
+                },
+                eventClick: function(info) {
+                    console.log('Clic sur événement:', info.event.title);
+                    renderEvents([info.event]);
+                    info.jsEvent.preventDefault();
+                }
+            });
+        
+            calendar.render();
+            console.log('Calendrier initialisé');
+        }
+        
+        function updateCalendarEvents(events) {
+            if (!calendar) {
+                console.warn('Calendrier non initialisé');
+                return;
+            }
+            
+            console.log('Mise à jour des événements du calendrier');
+            calendar.removeAllEvents();
+            
+            if (events && events.length > 0) {
+                events.forEach(event => {
+                    const eventDateTime = `${event.date}T${event.time || '00:00:00'}`;
+                    calendar.addEvent({
+                        id: event.id,
+                        title: event.title,
+                        start: eventDateTime,
+                        allDay: event.time === '00:00',
+                        extendedProps: {
+                            location: event.location,
+                            description: event.description || ''
+                        }
+                    });
+                });
+        
+                showTodaysEvents();
+            } else {
+                renderEvents([]);
+            }
+        }
+        
+        function showTodaysEvents() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const events = calendar.getEvents();
+            const todaysEvents = events.filter(event => {
+                if (!event.start) return false;
+                const eventDate = new Date(event.start);
+                return eventDate.getFullYear() === today.getFullYear() &&
+                       eventDate.getMonth() === today.getMonth() &&
+                       eventDate.getDate() === today.getDate();
+            });
+            
+            renderEvents(todaysEvents);
+        }
+        
+        function renderEvents(events) {
+            console.log('Rendu des événements');
+            const eventsContainer = document.getElementById('calendar-events');
+            if (!eventsContainer) {
+                console.warn('Conteneur d\'événements non trouvé');
+                return;
+            }
+        
+            eventsContainer.innerHTML = '';
+        
+            if (events && events.length > 0) {
+                events.forEach(event => {
+                    try {
+                        const startDate = event.start ? new Date(event.start) : new Date();
+                        const endDate = event.end ? new Date(event.end) : null;
+                        
+                        const eventEl = document.createElement('div');
+                        eventEl.className = 'timeline-item';
+                        eventEl.innerHTML = `
+                            <div class="event-date">
+                                <div class="date-day">${startDate.getDate()}</div>
+                                <div class="date-month">${startDate.toLocaleString('default', { month: 'short' })}</div>
+                            </div>
+                            <div class="event-content">
+                                <div class="event-title">${event.title}</div>
+                                <div class="event-details">
+                                    <span><i class="fas fa-clock"></i> ${formatTime(startDate)}${endDate ? ' - ' + formatTime(endDate) : ''}</span>
+                                    ${event.extendedProps.location ? `<span><i class="fas fa-map-marker-alt"></i> ${event.extendedProps.location}</span>` : ''}
+                                </div>
+                                ${event.extendedProps.description ? `<div class="event-description">${event.extendedProps.description}</div>` : ''}
+                            </div>
+                        `;
+                        eventsContainer.appendChild(eventEl);
+                    } catch (error) {
+                        console.error('Erreur lors du rendu d\'un événement:', error);
+                    }
+                });
+            } else {
+                const noEventsEl = document.createElement('div');
+                noEventsEl.className = 'no-events';
+                noEventsEl.innerHTML = '<p>Aucun événement prévu</p>';
+                eventsContainer.appendChild(noEventsEl);
+            }
+        }
+        
+        function formatTime(date) {
+            if (typeof date === 'string') {
+                date = new Date(date);
+            }
+            
+            if (!(date instanceof Date) || isNaN(date.getTime())) {
+                console.warn('FormatTime: date invalide', date);
+                return '--:--';
+            }
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // ================ MODAL D'ÉVÉNEMENT ================
+        function initEventModal() {
+            const modal = document.getElementById("eventModal");
+            if (!modal) return;
+        
+            const form = document.getElementById("eventForm");
+            const addBtn = document.querySelector(".add-event");
+            const closeBtn = document.querySelector(".close-modal");
+            const cancelBtn = document.getElementById("cancelEvent");
+        
+            addBtn?.addEventListener('click', openModal);
+            closeBtn?.addEventListener('click', closeModal);
+            cancelBtn?.addEventListener('click', closeModal);
+            form?.addEventListener('submit', handleFormSubmit);
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) closeModal();
+            });
+        }
+        
+        function openModal() {
+            const modal = document.getElementById("eventModal");
+            const today = new Date().toISOString().split('T')[0];
+            
+            document.getElementById("eventDate").value = today;
+            modal.style.display = "block";
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById("eventModal");
+            const form = document.getElementById("eventForm");
+            
+            modal.style.display = "none";
+            form.reset();
+        }
+        
+        // ================ GESTION DES EVENEMENTS ================
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            console.log('Soumission du formulaire d\'événement');
+            
+            const eventData = {
+                date: document.getElementById("eventDate").value,
+                time: document.getElementById("eventTime").value || '00:00',
+                lieu: document.getElementById("eventLocation").value,
+                title: document.getElementById("eventTitle").value
+            };
+        
+            if (!eventData.date || !eventData.title) {
+                showToast('Date et titre sont obligatoires', 'error');
+                return;
+            }
+        
+            try {
+                console.log('Envoi des données:', eventData);
+                const response = await fetch(`${BASE_URL}save-event.php`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(eventData)
+                });
+        
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    throw new Error(`Réponse non-JSON: ${text.substring(0, 100)}...`);
+                }
+        
+                const data = await response.json();
+                
+                if (!response.ok || !data.success) {
+                    throw new Error(data.error || "Erreur lors de l'enregistrement");
+                }
+        
+                console.log('Réponse du serveur:', data);
+                
+                const newEvent = {
+                    id: Date.now().toString(),
+                    title: eventData.title,
+                    start: `${eventData.date}T${eventData.time}`,
+                    allDay: eventData.time === '00:00',
+                    extendedProps: {
+                        location: eventData.lieu,
+                        description: ''
+                    }
+                };
+                
+                calendar.addEvent(newEvent);
+                
+                // Si l'événement est pour aujourd'hui, mettre à jour l'affichage
+                const eventDate = new Date(eventData.date);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                eventDate.setHours(0, 0, 0, 0);
+                
+                if (eventDate.getTime() === today.getTime()) {
+                    showTodaysEvents();
+                }
+                
+                closeModal();
+                showToast('Événement ajouté avec succès', 'success');
+            } catch (error) {
+                console.error('Erreur lors de l\'enregistrement:', error);
+                showToast(`Erreur: ${error.message}`, 'error');
+            }
+        }
+        
+        // ================ MENU D'ACTIONS ================
+        function initActionMenu() {
+            document.addEventListener('click', function(e) {
+                const actionBtn = e.target.closest('.action-btn');
+                const actionMenu = document.querySelector('.action-menu');
+                
+                if (actionBtn) {
+                    e.stopPropagation();
+                    actionMenu.classList.toggle('show');
+                    return;
+                }
+                
+                if (actionMenu && actionMenu.classList.contains('show')) {
+                    actionMenu.classList.remove('show');
+                }
+            });
+        
+            document.querySelector('.card-actions')?.addEventListener('click', function(e) {
+                if (e.target.closest('.add-event')) {
+                    document.querySelector('.action-menu').classList.remove('show');
+                }
+                
+                if (e.target.closest('.delete-event')) {
+                    console.log('Delete event clicked');
+                    document.querySelector('.action-menu').classList.remove('show');
+                }
+            });
+        }
+        
+        // ================ FONCTIONS UTILITAIRES ================
+        function showToast(message, type = 'info') {
+            console.log(`Toast [${type}]: ${message}`);
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
+        // ================ GESTION DU TEMPS PASSÉ ================
+        document.addEventListener('DOMContentLoaded', function() {
+            const timeDisplay = document.getElementById('time-spent-display');
+            if (!timeDisplay) return;
+        
+            const storageKey = 'dailySiteTime';
+            const today = new Date().toDateString();
+        
+            let timeData = JSON.parse(localStorage.getItem(storageKey)) || { 
+                date: today, 
+                minutes: 0,
+                lastUpdate: new Date().getTime() 
+            };
+        
+            if (timeData.date !== today) {
+                timeData = { date: today, minutes: 0, lastUpdate: new Date().getTime() };
+            } else {
+                const elapsedMinutes = Math.floor((new Date().getTime() - timeData.lastUpdate) / 60000);
+                if (elapsedMinutes > 0) {
+                    timeData.minutes += elapsedMinutes;
+                    timeData.lastUpdate = new Date().getTime();
+                    localStorage.setItem(storageKey, JSON.stringify(timeData));
+                }
+            }
+        
+            function formatTime(minutes) {
+                const hours = Math.floor(minutes / 60);
+                const mins = minutes % 60;
+                return hours > 0 ? `${hours}h ${mins}min` : `${mins}min`;
+            }
+        
+            timeDisplay.innerHTML = `${formatTime(timeData.minutes)} <span class="trend neutral"><i class="fas fa-clock"></i></span>`;
+        
+            setInterval(() => {
+                timeData.minutes++;
+                timeData.lastUpdate = new Date().getTime();
+                localStorage.setItem(storageKey, JSON.stringify(timeData));
+                timeDisplay.innerHTML = `${formatTime(timeData.minutes)} <span class="trend neutral"><i class="fas fa-clock"></i></span>`;
+            }, 60000);
+        });
+
+        // ================ GESTION DES TODOS ================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initialisation des todos...');
+            initTodoList();
+            // Update current date in todo header
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date-todo').textContent = new Date().toLocaleDateString('fr-FR', dateOptions);
+        });
+
+        function initTodoList() {
+            const addButton = document.getElementById('add-todo-btn');
+            const todoInput = document.getElementById('todo-input');
+            const todoList = document.getElementById('todo-list');
+
+            loadTodos();
+
+            addButton.addEventListener('click', () => addTodo());
+            todoInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTodo();
+                }
+            });
+        }
+
+        async function loadTodos() {
+            const todoError = document.getElementById('todo-error');
+            todoError.style.display = 'none';
+            
+            try {
+                const response = await fetch('get_todos.php');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    const todoList = document.getElementById('todo-list');
+                    todoList.innerHTML = '';
+                    if (Array.isArray(data.todos)) {
+                        data.todos.forEach(todo => addTodoToList(todo));
+                    }
+                    updateTodoStats();
+                } else {
+                    throw new Error(data.message || 'Failed to load todos');
+                }
+            } catch (error) {
+                console.error('Error loading todos:', error);
+                todoError.textContent = 'Unable to load todos. Please try refreshing the page.';
+                todoError.style.display = 'block';
+            }
+        }
+
+        async function addTodo() {
+            const todoInput = document.getElementById('todo-input');
+            const todoError = document.getElementById('todo-error');
+            const todoText = todoInput.value.trim();
+            
+            if (!todoText) return;
+
+            todoError.style.display = 'none';
+            const addButton = document.getElementById('add-todo-btn');
+            addButton.disabled = true;
+            
+            try {
+                const response = await fetch('add_todo.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: todoText
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    addTodoToList(data.todo);
+                    todoInput.value = '';
+                    updateTodoStats();
+                } else {
+                    throw new Error(data.message || 'Failed to add todo');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                todoError.textContent = 'Failed to add todo. Please try again.';
+                todoError.style.display = 'block';
+            } finally {
+                addButton.disabled = false;
+            }
+        }
+
+        function addTodoToList(todo) {
+            const todoList = document.getElementById('todo-list');
+            const li = document.createElement('li');
+            li.className = 'todo-item' + (todo.completed ? ' completed' : '');
+            li.dataset.id = todo.id;
+            
+            li.innerHTML = `
+                <div class="todo-content">
+                    <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''}>
+                    <span class="todo-text">${todo.text}</span>
+                </div>
+                <div class="todo-actions">
+                    <button class="delete-todo" title="Delete task"><i class="fas fa-trash"></i></button>
+                </div>
+            `;
+
+            const checkbox = li.querySelector('.todo-checkbox');
+            checkbox.addEventListener('change', () => toggleTodo(todo.id));
+
+            const deleteBtn = li.querySelector('.delete-todo');
+            deleteBtn.addEventListener('click', () => deleteTodo(todo.id));
+
+            todoList.appendChild(li);
+            updateTodoStats();
+        }
+
+        async function toggleTodo(todoId) {
+            const todoItem = document.querySelector(`[data-id="${todoId}"]`);
+            const checkbox = todoItem.querySelector('.todo-checkbox');
+            const originalChecked = checkbox.checked;
+            
+            try {
+                const response = await fetch('update_todo.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: todoId,
+                        completed: checkbox.checked
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (data.success) {
+                    todoItem.classList.toggle('completed', checkbox.checked);
+                    updateTodoStats();
+                } else {
+                    throw new Error(data.message || 'Failed to update todo');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                checkbox.checked = originalChecked;
+                todoItem.classList.toggle('completed', originalChecked);
+                const todoError = document.getElementById('todo-error');
+                todoError.textContent = 'Failed to update todo. Please try again.';
+                todoError.style.display = 'block';
+            }
+        }
+
+        async function deleteTodo(todoId) {
+            const todoItem = document.querySelector(`[data-id="${todoId}"]`);
+            
+            try {
+                const response = await fetch('delete_todo.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: todoId })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (data.success) {
+                    todoItem.remove();
+                    updateTodoStats();
+                } else {
+                    throw new Error(data.message || 'Failed to delete todo');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const todoError = document.getElementById('todo-error');
+                todoError.textContent = 'Failed to delete todo. Please try again.';
+                todoError.style.display = 'block';
+            }
+        }
+
+        function updateTodoStats() {
+            const todos = document.querySelectorAll('.todo-item');
+            const completedTodos = document.querySelectorAll('.todo-item.completed');
+            document.getElementById('total-tasks').textContent = todos.length;
+            document.getElementById('completed-tasks').textContent = completedTodos.length;
+        }
+    </script>
+</body>
+</html>
