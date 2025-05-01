@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyEngineers - Find Your Dream Engineering Job</title>
+    <link rel="stylesheet" href="../view/styles.css">
+    <link rel="stylesheet" href="../view/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* Quick fixes and overrides */
+        body {
+            background-color: #f5f7ff;
+        }
+        
+            :root {
+                --primary-purple: #6366f1;
+                --primary-dark: #4f46e5;
+                --bg-light: #f3f4f6;
+                --text-gray: #6b7280;
+                --green-light: #e6f7e6;
+                --orange-light: #fff3e6;
+                --pink-light: #ffe6f0;
+                --yellow-light: #fff8e6;
+                --teal-light: #e6f7f7;
+                --white: #ffffff;
+                --text-dark: #1f2937;
+                --backy: #f3eefc;
+            }
+    
+            /* Style du bouton GIF */
+            .chat-now-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 60px; /* Taille réduite */
+                height: 60px; /* Taille réduite */
+                cursor: pointer;
+                border: none;
+                background: none;
+                padding: 0;
+            }
+    
+            .chat-now-btn img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%; /* Pour un effet arrondi */
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                transition: transform 0.2s ease;
+            }
+    
+            /* Style du bouton GIF */
+    .chat-now-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px; /* Taille réduite */
+        height: 60px; /* Taille réduite */
+        cursor: pointer;
+        border: none;
+        background: none;
+        padding: 0;
+        z-index: 1000; /* Assure que le bouton est au-dessus des autres éléments */
+    }
+    
+    /* Style du chatbot */
+    .chatbot-popup {
+        position: fixed;
+        bottom: 100px; /* Ajustez la position pour ne pas chevaucher le GIF */
+        right: 20px;
+        width: 397px;
+        height: 550px;
+        background: var(--white);
+        border-radius: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        font-family: 'Inter', sans-serif;
+        display: none; /* Masqué par défaut */
+        z-index: 1001; /* Assure que le chatbot est au-dessus du bouton et des autres éléments */
+    }
+    
+    .chatbot-popup.visible {
+        display: flex; /* Affiché lorsque la classe "visible" est ajoutée */
+    }
+    
+            .chat-header {
+                padding: 12px;
+                background: var(--primary-purple);
+                color: var(--white);
+                font-size: 1.1rem;
+                font-weight: 600;
+                text-align: center;
+                border-radius: 15px 15px 0 0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+    
+            .chat-header h2 {
+                margin: 0;
+                font-size: 1.1rem;
+            }
+    
+            .close-btn {
+                background: none;
+                border: none;
+                color: var(--white);
+                font-size: 1.2rem;
+                cursor: pointer;
+            }
+    
+            .chat-body {
+                flex: 1;
+                overflow-y: auto;
+                padding: 16px;
+                background: var(--backy);
+                border-bottom: 1px solid var(--bg-light);
+            }
+    
+            .chat-footer {
+                padding: 12px;
+                background: var(--white);
+                border-top: 1px solid var(--bg-light);
+            }
+    
+            .message {
+                margin-bottom: 12px;
+                display: flex;
+                align-items: flex-start;
+                gap: 8px;
+            }
+    
+            /* Message du bot (à gauche) */
+            .message.bot-message {
+                justify-content: flex-start;
+            }
+    
+            .message.bot-message .message-text {
+                background: var(--white);
+                color: var(--text-dark);
+                border: 1px solid var(--bg-light);
+                border-radius: 12px 12px 12px 4px;
+            }
+    
+            /* Message de l'utilisateur (à droite) */
+            .message.user-message {
+                justify-content: flex-end;
+            }
+    
+            .message.user-message .message-text {
+                background: var(--primary-purple);
+                color: var(--white);
+                border-radius: 12px 12px 4px 12px;
+            }
+    
+            .message-text {
+                max-width: 80%;
+                padding: 10px 14px;
+                border-radius: 12px;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+    
+            .question-button {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                margin: 6px 0;
+                background: var(--white);
+                border: 1px solid var(--bg-light);
+                border-radius: 8px;
+                cursor: pointer;
+                text-align: left;
+                font-size: 0.9rem;
+                color: var(--text-dark);
+                transition: background 0.3s ease, transform 0.2s ease;
+            }
+    
+            .question-button:hover {
+                background: var(--bg-light);
+                transform: translateY(-2px);
+            }
+    
+            .question-button:active {
+                transform: translateY(0);
+            }
+        </style>
+    
+</head>
+<body>
+    <div class="app-container">
+        <!-- Floating Animation Elements -->
+        <div class="floating-elements">
+            <div class="floating-circle circle-1"></div>
+            <div class="floating-circle circle-2"></div>
+            <div class="floating-square square-1"></div>
+            <div class="floating-triangle triangle-1"></div>
+            <div class="floating-dot dot-1"></div>
+            <div class="floating-dot dot-2"></div>
+            <div class="floating-dot dot-3"></div>
+            <div class="floating-dot dot-4"></div>
+            <div class="floating-dot dot-5"></div>
+        </div>
+        
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="home.html" class="logo">
+                    <img src="../assets/logo.png" alt="Only Engineers">
+                </a>
+            </div>
+            <div class="nav-center">
+                <nav class="nav-links">
+                    <a href="#" class="nav-link">Find Jobs</a>
+                    <a href="#why-us-section" class="nav-link">Why Us?</a>
+                    <a href="#jobs-section" class="nav-link">Jobs</a>
+                    <a href="#feedback-section" class="nav-link">Feedback</a>
+                    <a href="#contact-section" class="nav-link">Contact Us</a>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <a href="signup.php" class="sign-up-btn">Sign Up</a>
+                <a href="signin.php" class="sign-in-btn">Sign In</a>
+                <div class="language-selector">
+                    <button class="language-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        <span>EN</span>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title" data-aos="fade-down" data-aos-delay="100">Find your <span class="highlight">dream jobs</span> in <br>Engineering</h1>
+                <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">The #1 platform exclusively for engineers to connect, learn, and advance their careers</p>
+                
+                <!-- Search Bar -->
+                <div class="search-container" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="search-box">
+                        <div class="search-input-wrapper">
+                            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" placeholder="Job title or keyword" class="search-input">
+                        </div>
+                        <div class="search-divider"></div>
+                        <div class="search-input-wrapper">
+                            <svg class="location-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <input type="text" placeholder="Any location" class="search-input">
+                        </div>
+                    </div>
+                    <button class="search-button">Find Jobs</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div id="why-us-section" class="section-container features-section">
+            <div class="section-header">
+                <h2 class="section-title" data-aos="fade-right">Why OnlyEngineers?</h2>
+            </div>
+            <p class="section-subtitle" data-aos="fade-left" data-aos-delay="100">Your all-in-one platform for engineering success - everything you need in one place</p>
+
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="150">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F6EF7" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">All-in-One Platform</h3>
+                    <p class="feature-description">OnlyEngineers combines job searching, courses, tech news, networking, events, projects, and AI assistance all in one place - everything an engineer needs.</p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="250">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F6EF7" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 000 8h1"></path>
+                            <circle cx="8.5" cy="7" r="4"></circle>
+                            <polyline points="17 11 19 13 23 9"></polyline>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Smart Profile Matching</h3>
+                    <p class="feature-description">Our advanced profile matching system connects you with the perfect jobs, projects, and networking opportunities tailored to your specific engineering skills.</p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="350">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F6EF7" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5"></path>
+                            <path d="M2 12l10 5 10-5"></path>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Skill Development</h3>
+                    <p class="feature-description">Access specialized courses, hackathons, and collaborative projects designed to enhance your engineering skills and advance your career.</p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="450">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4F6EF7" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Personal Dashboard</h3>
+                    <p class="feature-description">Stay organized with your personalized dashboard featuring a calendar, to-do list, project tracker, and AI assistant to help manage your engineering career.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommended Jobs Section -->
+        <div id="jobs-section" class="section-container">
+            <div class="section-header">
+                <h2 class="section-title" data-aos="fade-right">Recommended Jobs</h2>
+                <div class="recommended-section-tabs" data-aos="fade-left">
+                    <button class="recommended-tab-button active">Latest Job</button>
+                    <button class="recommended-tab-button">Premium Jobs</button>
+                </div>
+            </div>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Explore Suggested job searches</p>
+
+            <div class="recommended-jobs-container">
+                <!-- Job Categories -->
+                <div class="recommended-job-categories" data-aos="fade-right" data-aos-delay="200">
+                    <h3 class="recommended-category-title">Jobs Categories</h3>
+                    
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon automotive">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 6l3 4h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a3 3 0 0 1-3 3 3 3 0 0 1-3-3H10a3 3 0 0 1-3 3 3 3 0 0 1-3-3H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h2l3-4h8z"></path>
+                                <circle cx="7" cy="16" r="1"></circle>
+                                <circle cx="17" cy="16" r="1"></circle>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Automotive</span>
+                            <span class="recommended-category-count">3 Opening</span>
+                        </div>
+                    </div>
+
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon health">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Health and care</span>
+                            <span class="recommended-category-count">1 Opening</span>
+                        </div>
+                    </div>
+
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon construction">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                                <path d="M12 12h.01"></path>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Construction</span>
+                            <span class="recommended-category-count">2 Opening</span>
+                        </div>
+                    </div>
+
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon fitness">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8h1a4 4 0 010 8h-1"></path>
+                                <path d="M6 8H5a4 4 0 000 8h1"></path>
+                                <path d="M8 8v8"></path>
+                                <path d="M16 8v8"></path>
+                                <path d="M12 8v8"></path>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Fitness Trainer</span>
+                            <span class="recommended-category-count">1 Opening</span>
+                        </div>
+                    </div>
+
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon industry">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 20h20"></path>
+                                <path d="M5 20V8h3v12"></path>
+                                <path d="M10 20V4h3v16"></path>
+                                <path d="M16 20v-4h3v4"></path>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Industry</span>
+                            <span class="recommended-category-count">0 Opening</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon automotive">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 6l3 4h2a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1a3 3 0 0 1-3 3 3 3 0 0 1-3-3H10a3 3 0 0 1-3 3 3 3 0 0 1-3-3H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h2l3-4h8z"></path>
+                                <circle cx="7" cy="16" r="1"></circle>
+                                <circle cx="17" cy="16" r="1"></circle>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Automotive</span>
+                            <span class="recommended-category-count">3 Opening</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon health">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Health and care</span>
+                            <span class="recommended-category-count">1 Opening</span>
+                        </div>
+                    </div>
+                    
+                    <div class="recommended-category-item">
+                        <div class="recommended-category-icon construction">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                                <path d="M12 12h.01"></path>
+                            </svg>
+                        </div>
+                        <div class="recommended-category-details">
+                            <span class="recommended-category-name">Construction</span>
+                            <span class="recommended-category-count">2 Opening</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Listings -->
+                <div class="recommended-job-listings" data-aos="fade-left" data-aos-delay="200">
+                    <!-- Job Card 1 -->
+                    <div class="recommended-job-card" data-aos="flip-up" data-aos-delay="300">
+                        <div class="recommended-job-card-left">
+                            <div class="recommended-job-icon purple">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="recommended-job-card-content">
+                            <div class="recommended-job-card-header">
+                                <div class="recommended-job-info">
+                                    <div class="recommended-job-meta">
+                                        <span class="recommended-job-type">Type: Temporary</span>
+                                        <span class="recommended-job-time">Time: 4 years ago</span>
+                                    </div>
+                                    <h3 class="recommended-job-title">Project manager</h3>
+                                    <div class="recommended-job-salary">Euro 3000-4000 / Yearly</div>
+                                </div>
+                                <button class="recommended-job-bookmark">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="recommended-job-tags">
+                                <span class="recommended-job-tag">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z"></path>
+                                    </svg>
+                                    Germany
+                                </span>
+                                <span class="recommended-job-tag">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                                        <path d="M12 12h.01"></path>
+                                    </svg>
+                                    Construction
+                                </span>
+                            </div>
+                            <div class="recommended-job-apply">
+                                <button class="recommended-apply-button">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Card 2 -->
+                    <div class="recommended-job-card pink-border" data-aos="flip-up" data-aos-delay="400">
+                        <div class="recommended-job-card-left">
+                            <div class="recommended-job-icon pink">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="recommended-job-card-content">
+                            <div class="recommended-job-card-header">
+                                <div class="recommended-job-info">
+                                    <div class="recommended-job-meta">
+                                        <span class="recommended-job-type">Type: Internship</span>
+                                        <span class="recommended-job-time">Time: 2 years ago</span>
+                                    </div>
+                                    <h3 class="recommended-job-title">Assistant manager</h3>
+                                    <div class="recommended-job-salary">Euro 1000-2000 / Yearly</div>
+                                </div>
+                                <button class="recommended-job-bookmark">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="recommended-job-tags">
+                                <span class="recommended-job-tag">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z"></path>
+                                    </svg>
+                                    Australia
+                                </span>
+                                <span class="recommended-job-tag">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                    </svg>
+                                    Development, Apps
+                                </span>
+                            </div>
+                            <div class="recommended-job-apply">
+                                <button class="recommended-apply-button">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Card 3 -->
+                    <div class="recommended-job-card yellow-border" data-aos="flip-up" data-aos-delay="500">
+                        <div class="recommended-job-card-left">
+                            <div class="recommended-job-icon yellow">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                    <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="recommended-job-card-content">
+                            <div class="recommended-job-card-header">
+                                <div class="recommended-job-info">
+                                    <div class="recommended-job-meta">
+                                        <span class="recommended-job-type">Type: Contract</span>
+                                        <span class="recommended-job-time">Time: 1 years ago</span>
+                                    </div>
+                                    <h3 class="recommended-job-title">iOS Engineer Backup</h3>
+                                    <div class="recommended-job-salary">Euro 2000-3000 / Yearly</div>
+                                </div>
+                                <button class="recommended-job-bookmark">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="recommended-job-tags">
+                                <span class="recommended-job-tag">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                        <path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 6.9 8 11.7z"></path>
+                                    </svg>
+                                    USA
+                                </span>
+                                <span class="recommended-job-tag">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                    </svg>
+                                    Engineering
+                                </span>
+                            </div>
+                            <div class="recommended-job-apply">
+                                <button class="recommended-apply-button">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Testimonials Section -->
+        <div id="feedback-section" class="section-container testimonials-section">
+            <div class="section-header">
+                <h2 class="section-title" data-aos="fade-down">What Engineers Say About Us</h2>
+            </div>
+            <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">Hear from engineers who have found success through our platform</p>
+
+            <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="200">
+                <div class="testimonial-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="testimonial-content">
+                        <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="#4F6EF7" opacity="0.2">
+                            <path d="M10 11h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4a1 1 0 00-1-1H6a3 3 0 00-3 3v6a3 3 0 003 3h4a1 1 0 001-1v-3a1 1 0 00-1-1zm11 0h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3a3 3 0 00-3 3v6a3 3 0 003 3h4a1 1 0 001-1v-3a1 1 0 00-1-1z"></path>
+                        </svg>
+                        <p class="testimonial-text">OnlyEngineers helped me find a job that perfectly matches my skills and career goals. The specialized platform for engineers makes all the difference!</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="../assets/user1.jpg" alt="Sarah Johnson" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Sarah Johnson</h4>
+                            <p class="testimonial-role">Software Engineer at Google</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="testimonial-content">
+                        <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="#4F6EF7" opacity="0.2">
+                            <path d="M10 11h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4a1 1 0 00-1-1H6a3 3 0 00-3 3v6a3 3 0 003 3h4a1 1 0 001-1v-3a1 1 0 00-1-1zm11 0h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3a3 3 0 00-3 3v6a3 3 0 003 3h4a1 1 0 001-1v-3a1 1 0 00-1-1z"></path>
+                        </svg>
+                        <p class="testimonial-text">The courses and hackathons on OnlyEngineers have significantly improved my technical skills. I've been able to network with other professionals and advance my career.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="../assets/user2.jpg" alt="Michael Chen" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Michael Chen</h4>
+                            <p class="testimonial-role">Mechanical Engineer at Tesla</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="testimonial-content">
+                        <svg class="quote-icon" width="32" height="32" viewBox="0 0 24 24" fill="#4F6EF7" opacity="0.2">
+                            <path d="M10 11h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4a1 1 0 00-1-1H6a3 3 0 00-3 3v6a3 3 0 003 3h4a1 1 0 001-1v-3a1 1 0 00-1-1zm11 0h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3a3 3 0 00-3 3v6a3 3 0 003 3h4a1 1 0 001-1v-3a1 1 0 00-1-1z"></path>
+                        </svg>
+                        <p class="testimonial-text">As a hiring manager, OnlyEngineers has been invaluable for finding qualified engineering talent. The platform's focus on engineering makes the recruitment process much more efficient.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="../assets/user3.jpg" alt="Emily Rodriguez" class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4 class="testimonial-name">Emily Rodriguez</h4>
+                            <p class="testimonial-role">Technical Recruiter at Amazon</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form Section -->
+        <div id="contact-section" class="section-container contact-section">
+            <div class="contact-container">
+                <div class="contact-info" data-aos="fade-right" data-aos-delay="100">
+                    <h2 class="contact-title" data-aos="fade-up" data-aos-delay="150">Get in Touch</h2>
+                    <p class="contact-description" data-aos="fade-up" data-aos-delay="200">Have questions or feedback? We'd love to hear from you. Our team is always ready to help you make the most of OnlyEngineers.</p>
+                    
+                    <div class="contact-method" data-aos="zoom-in" data-aos-delay="250">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F6EF7" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Call Us</h4>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method" data-aos="zoom-in" data-aos-delay="350">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F6EF7" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Email Us</h4>
+                            <p>support@onlyengineers.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method" data-aos="zoom-in" data-aos-delay="450">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4F6EF7" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div class="contact-text">
+                            <h4>Visit Us</h4>
+                            <p>123 Tech Plaza, San Francisco, CA 94105</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form" data-aos="fade-left" data-aos-delay="100">
+                    <h3 class="form-title">Send us a message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Your message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-button" id="submit-form">Send Message</button>
+                        <div id="form-status" class="form-status"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-logo" data-aos="fade-right" data-aos-delay="100">
+                    <img src="../assets/logo.png" alt="Only Engineers" class="footer-logo-img">
+                    <p>The #1 job board for engineers to find their dream job and for companies to find the best engineering talent.</p>
+                </div>
+                <div class="footer-links" data-aos="fade-up" data-aos-delay="200">
+                    <div class="footer-column">
+                        <h4>For Job Seekers</h4>
+                        <ul>
+                            <li><a href="#">Browse Jobs</a></li>
+                            <li><a href="#">Browse Companies</a></li>
+                            <li><a href="#">Salary Calculator</a></li>
+                            <li><a href="#">Career Advice</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" data-aos="fade-up" data-aos-delay="300">
+                        <h4>For Employers</h4>
+                        <ul>
+                            <li><a href="#">Post a Job</a></li>
+                            <li><a href="#">Pricing</a></li>
+                            <li><a href="#">Employer Resources</a></li>
+                            <li><a href="#">Success Stories</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column" data-aos="fade-left" data-aos-delay="400">
+                        <h4>Company</h4>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom" data-aos="fade-up" data-aos-delay="500">
+                <p>&copy; 2025 OnlyEngineers. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../controller/home.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: false,
+            mirror: true
+        });
+        
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        const body = document.body;
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            
+            // Toggle icons
+            sunIcon.style.display = isDarkMode ? 'none' : 'block';
+            moonIcon.style.display = isDarkMode ? 'block' : 'none';
+            
+            // Save preference
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        });
+    </script>
+
+<!-- Bouton "Chat maintenant" sous forme de GIF -->
+<button class="chat-now-btn" id="chat-now-btn">
+   <img src="..\ressources\homey.gif" alt="Chat maintenant">
+</button>
+
+<!-- Chatbot -->
+<div class="chatbot-popup" id="chatbot-popup">
+   <div class="chat-header">
+       <h2>OnlyEngineersBot</h2>
+       <button class="close-btn" id="close-btn">×</button>
+   </div>
+   <div class="chat-body" id="chat-body">
+       <div class="message bot-message">
+           <div class="message-text">Hello ! How can I help you ?</div>
+       </div>
+   </div>
+   <div class="chat-footer" id="chat-footer">
+       <!-- Les questions seront ajoutées ici dynamiquement -->
+   </div>
+</div>
+
+<script>
+   // Récupérer les éléments du DOM
+   const chatNowBtn = document.getElementById("chat-now-btn");
+   const chatbotPopup = document.getElementById("chatbot-popup");
+   const closeBtn = document.getElementById("close-btn");
+
+   // Afficher le chatbot lors du clic sur le GIF
+   chatNowBtn.addEventListener("click", () => {
+       chatbotPopup.classList.add("visible");
+   });
+
+   // Masquer le chatbot lors du clic sur le bouton de fermeture
+   closeBtn.addEventListener("click", () => {
+       chatbotPopup.classList.remove("visible");
+   });
+
+   // Questions et réponses prédéfinies
+   const questionsReponses = {
+       "What types of courses does OnlyEngineers offer?": "OnlyEngineers offers both free and paid courses for engineers, ranging from foundational skills to advanced topics. We also provide personalized roadmaps to guide your learning and certifications upon passing the associated tests.",
+       "How do I create a profile on OnlyEngineers?": "Go to the Sign Up section and fill in the required information. Your profile will be automatically generated, and you can download a professional CV in PDF format. pouvez nous contacter par email à support@example.com ou par téléphone au 01 23 45 67 89.",
+       " How can I stay updated on the latest tech trends ?": "OnlyEngineers provides articles and tech news to keep you informed about the latest trends and innovations in the engineering field. siège social est situé au 123 Rue de l'Exemple, 75000 Paris.",
+       "Quels How do I find projects to collaborate on? proposez-vous ?": "Nous proposons des services de Visit the Projects section to browse available projects. You can filter by topic, skill level, or type (open-source, private, etc.). web, de design graphique et de marketing digital.",
+   };
+
+   const chatBody = document.getElementById("chat-body");
+   const chatFooter = document.getElementById("chat-footer");
+
+   // Afficher les questions dans le chat
+   function afficherQuestions() {
+       chatFooter.innerHTML = ""; // Effacer les questions précédentes
+       for (const question in questionsReponses) {
+           const button = document.createElement("button");
+           button.className = "question-button";
+           button.textContent = question;
+           button.addEventListener("click", () => {
+               afficherReponse(question);
+           });
+           chatFooter.appendChild(button);
+       }
+   }
+
+   // Afficher la réponse correspondante à la question sélectionnée
+   function afficherReponse(question) {
+       const reponse = questionsReponses[question];
+       const messageBot = document.createElement("div");
+       messageBot.className = "message bot-message";
+       messageBot.innerHTML = `
+           <div class="message-text">${reponse}</div>
+       `;
+       chatBody.appendChild(messageBot);
+
+       // Faire défiler vers le bas pour voir la nouvelle réponse
+       chatBody.scrollTop = chatBody.scrollHeight;
+
+       // Réafficher les questions après la réponse
+       afficherQuestions();
+   }
+
+   // Fonction pour ajouter un message utilisateur
+   function ajouterMessageUtilisateur(message) {
+       const messageUser = document.createElement("div");
+       messageUser.className = "message user-message";
+       messageUser.innerHTML = `
+           <div class="message-text">${message}</div>
+       `;
+       chatBody.appendChild(messageUser);
+
+       // Faire défiler vers le bas pour voir le nouveau message
+       chatBody.scrollTop = chatBody.scrollHeight;
+   }
+
+   // Exemple d'utilisation
+   ajouterMessageUtilisateur("Hello, I have a question !");
+
+   // Initialisation : afficher les questions au démarrage
+   afficherQuestions();
+
+
+
+</script>
+</body>
+</html>

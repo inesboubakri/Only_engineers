@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only Engineers - Projects</title>
+    <link rel="stylesheet" href="../view/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <img src="../assets/logo.png" alt="Only Engineers">
+                </a>
+            </div>
+            <div class="nav-center">
+                <nav class="nav-links">
+                    <a href="../view/home.html">Home</a>
+                    <a href="#">Dashboard</a>
+                    <a href="../view/index.html">Jobs</a>
+                    <a href="../view/projects.html" class="active">Projects</a>
+                    <a href="../view/courses.html">Courses</a>
+                    <a href="../view/hackathons.php">Hackathons</a>
+                    <a href="../view/articles.html">Articles</a>
+                    <a href="../view/networking.php">networking</a>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <div class="notification-wrapper">
+                    <button class="icon-button notification">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </button>
+                    <div class="notification-dot"></div>
+                </div>
+                <button class="icon-button theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="user-profile">
+                    <a href="../view/user-profile.php">
+                        <img src="../assets/profil.jpg" alt="User profile" class="avatar">
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <aside class="sidebar">
+                
+
+                <div class="filters">
+                    <div class="filters-header">
+                        <h3>Filters</h3>
+                        <button class="clear-all">Clear All</button>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <input type="text" value="...">
+                        </div>
+                        
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Project Type</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="projectType">
+                                <span class="label-text">All</span>
+                                <span class="count">(245)</span>
+                            </label>
+                            <label class="radio-option selected">
+                                <input type="radio" name="projectType" checked>
+                                <span class="label-text">Web Development</span>
+                                <span class="count">(120)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="projectType">
+                                <span class="label-text">Mobile Apps</span>
+                                <span class="count">(85)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="projectType">
+                                <span class="label-text">AI/ML</span>
+                                <span class="count">(40)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Difficulty</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="difficulty">
+                                <span class="label-text">Beginner</span>
+                                <span class="count">(85)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="difficulty">
+                                <span class="label-text">Intermediate</span>
+                                <span class="count">(95)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="difficulty">
+                                <span class="label-text">Advanced</span>
+                                <span class="count">(65)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Tech Stack</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="stack">
+                                <span class="label-text">React</span>
+                                <span class="count">(75)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="stack">
+                                <span class="label-text">Python</span>
+                                <span class="count">(65)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="stack">
+                                <span class="label-text">Node.js</span>
+                                <span class="count">(55)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="jobs">
+                <div class="jobs-header">
+                    <h2>Featured Projects <span class="count">245</span></h2>
+                    <div class="sort">
+                        <span>Sort by:</span>
+                        <select>
+                            <option>Last updated</option>
+                        </select>
+                        <button class="view-toggle">
+                            <svg class="grid-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 4h4v4H4zM12 4h4v4h-4zM4 12h4v4H4zM12 12h4v4h-4z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <svg class="list-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="job-cards">
+                    <!-- Project Card - React Social Media -->
+                    <div class="job-card">
+                        <div class="job-content google">
+                            <div class="card-header">
+                                <span class="date">Updated 2 days ago</span>
+                                <button class="bookmark">
+                                    <svg class="bookmark-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <svg class="bookmark-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h3>React Social Media</h3>
+                            <div class="job-title">
+                                <h4>Full-Stack Social Platform</h4>
+                                <img src="..\ressources\google.png" alt="Project Logo" class="company-logo">
+                            </div>
+                            <div class="tags">
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>Advanced</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="job-details">
+                                <div class="salary">4 weeks</div>
+                                <div class="location">Web Development</div>
+                            </div>
+                            <button class="details">Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Project Card - AI Image Generator -->
+                    <div class="job-card">
+                        <div class="job-content microsoft">
+                            <div class="card-header">
+                                <span class="date">Updated 1 week ago</span>
+                                <button class="bookmark">
+                                    <svg class="bookmark-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <svg class="bookmark-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h3>AI Image Generator</h3>
+                            <div class="job-title">
+                                <h4>ML-Powered Image Creation</h4>
+                                <img src="..\ressources\ai.png" alt="Project Logo" class="company-logo">
+                            </div>
+                            <div class="tags">
+                                <span>Python</span>
+                                <span>TensorFlow</span>
+                                <span>Advanced</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="job-details">
+                                <div class="salary">6 weeks</div>
+                                <div class="location">AI/ML</div>
+                            </div>
+                            <button class="details">Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Project Card - Mobile Fitness App -->
+                    <div class="job-card">
+                        <div class="job-content amazon">
+                            <div class="card-header">
+                                <span class="date">Updated 3 days ago</span>
+                                <button class="bookmark">
+                                    <svg class="bookmark-outline" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    <svg class="bookmark-filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <h3>Fitness Tracker</h3>
+                            <div class="job-title">
+                                <h4>Mobile Workout App</h4>
+                                <img src="..\ressources\amazon.png" alt="Project Logo" class="company-logo">
+                            </div>
+                            <div class="tags">
+                                <span>React Native</span>
+                                <span>Firebase</span>
+                                <span>Intermediate</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="job-details">
+                                <div class="salary">3 weeks</div>
+                                <div class="location">Mobile Apps</div>
+                            </div>
+                            <button class="details">Details</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div class="job-details-modal" id="projectDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="header-left">
+                    <button class="close-modal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="header-right">
+                    <button class="bookmark-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </button>
+                    <button class="share-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                            <polyline points="16 6 12 2 8 6"/>
+                            <line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="job-header">
+                    <h1 class="job-title"></h1>
+                    <div class="company-info">
+                        <img class="company-logo" src="" alt="Project logo">
+                        <div class="company-details">
+                            <h2 class="company-name"></h2>
+                            <p class="company-location"></p>
+                        </div>
+                    </div>
+                    <div class="job-meta"></div>
+                </div>
+
+                <div class="job-content">
+                    <div class="section">
+                        <h3>Project Description</h3>
+                        <p class="job-description"></p>
+                    </div>
+
+                    <div class="section">
+                        <h3>Features & Functionality</h3>
+                        <ul class="qualifications-list"></ul>
+                    </div>
+
+                    <div class="section">
+                        <h3>Technical Requirements</h3>
+                        <ul class="responsibilities-list"></ul>
+                    </div>
+
+                    <div class="section">
+                        <h3>Similar Projects</h3>
+                        <div class="similar-jobs"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="apply-now-btn">View Project</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../controller/projects.js"></script>
+</body>
+</html>

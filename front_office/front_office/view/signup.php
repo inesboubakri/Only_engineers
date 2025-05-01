@@ -1,0 +1,483 @@
+<?php
+session_start();
+// Display errors if there are any
+if (isset($_SESSION['errors'])) {
+    $errors = $_SESSION['errors'];
+    unset($_SESSION['errors']);
+}
+
+// Get form data if it exists
+if (isset($_SESSION['form_data'])) {
+    $formData = $_SESSION['form_data'];
+    unset($_SESSION['form_data']);
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - OnlyEngineers</title>
+    <link rel="stylesheet" href="../view/signup.css">
+    <link rel="stylesheet" href="../view/signup-error.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .signup-container {
+            display: flex;
+            width: 1000px;
+            height: 600px;
+            background-color: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        /* Left Panel Styles */
+        .left-panel {
+            width: 45%;
+            background-color: #6366F1;
+            color: white;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .logo p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .hero-content {
+            margin-top: 60px;
+        }
+        
+        .hero-content h1 {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 30px;
+        }
+        
+        .illustration {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+        }
+        
+        /* Right Panel Styles */
+        .right-panel {
+            width: 55%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .language-selector i {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+        
+        .signup-form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 40px 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .signup-form-container h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #6366F1;
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        
+        .password-group {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 5px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 3px;
+            width: 16px;
+            height: 16px;
+            accent-color: #6366F1;
+        }
+        
+        .checkbox-group label {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+            margin-left: 10px;
+        }
+        
+        .checkbox-group a {
+            color: #6366F1;
+            text-decoration: none;
+        }
+        
+        .signup-button {
+            width: 100%;
+            padding: 15px;
+            background-color: #6366F1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        .signup-button:hover {
+            background-color: #5254CC;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #ddd;
+        }
+        
+        .divider::before {
+            margin-right: 15px;
+        }
+        
+        .divider::after {
+            margin-left: 15px;
+        }
+        
+        .social-signup {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-btn img {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .social-btn i {
+            font-size: 18px;
+        }
+        
+        .google:hover {
+            border-color: #DB4437;
+        }
+        
+        .facebook {
+            color: #4267B2;
+        }
+        
+        .facebook:hover {
+            border-color: #4267B2;
+        }
+        
+        .instagram {
+            color: #E1306C;
+        }
+        
+        .instagram:hover {
+            border-color: #E1306C;
+        }
+        
+        .twitter {
+            color: #1DA1F2;
+        }
+        
+        .twitter:hover {
+            border-color: #1DA1F2;
+        }
+        
+        .linkedin {
+            color: #0077B5;
+        }
+        
+        .linkedin:hover {
+            border-color: #0077B5;
+        }
+        
+        .login-link {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .login-link a {
+            color: #6366F1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* Error styling */
+        .error {
+            border-color: #f44336 !important;
+            box-shadow: 0 0 0 2px rgba(234, 67, 53, 0.1) !important;
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .error-banner {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            color: #d32f2f;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            position: relative;
+            font-size: 14px;
+        }
+        
+        .close-btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            background: none;
+            border: none;
+            color: #d32f2f;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 900px) {
+            .signup-container {
+                width: 90%;
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            
+            .left-panel {
+                padding: 30px;
+            }
+            
+            .hero-content {
+                margin-top: 30px;
+            }
+            
+            .illustration {
+                height: 200px;
+            }
+            
+            .signup-form-container {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="left-panel">
+            <div class="logo">
+                <h3>OnlyEngineers</h3>
+                <p>Connect, Learn, Engineer</p>
+            </div>
+            
+            <div class="hero-content">
+                <h1>Learn From World's<br>Best Engineers<br>Around The World.</h1>
+                
+                <div class="illustration">
+                    <!-- Animated elements will be added via CSS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-panel">
+            <div class="language-selector">
+                <span>English(USA)</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            
+            <div class="signup-form-container">
+                <h2>Create Account</h2>
+                
+                <!-- Display error banner if any -->
+                <?php if (isset($errors) && !empty($errors)): ?>
+                <div class="error-banner">
+                    <button class="close-btn" onclick="this.parentElement.remove()">&times;</button>
+                    <ul>
+                        <?php foreach($errors as $key => $error): ?>
+                            <li><?php echo htmlspecialchars($error); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php endif; ?>
+                
+                <!-- Changed form to submit to register_user.php -->
+                <form id="signupForm" action="../model/register_user.php" method="POST">
+                    <div class="form-group">
+                        <input type="text" id="fullName" name="fullName" placeholder="Full Name" required 
+                               value="<?php echo isset($formData['fullName']) ? htmlspecialchars($formData['fullName']) : ''; ?>">
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Email Address" required
+                               value="<?php echo isset($formData['email']) ? htmlspecialchars($formData['email']) : ''; ?>">
+                    </div>
+                    
+                    <div class="form-group password-group">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <button type="button" class="toggle-password">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="termsAgree" name="termsAgree" required>
+                        <label for="termsAgree">I agree to the <a href="#">terms of service</a> and <a href="#">privacy policy</a></label>
+                    </div>
+                    
+                    <button type="submit" class="signup-button">Sign Up</button>
+                </form>
+                
+                <div class="divider">
+                    <span>Or Sign Up With</span>
+                </div>
+                
+                <div class="social-signup">
+                    <button class="social-btn google">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                    </button>
+                    <button class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="social-btn instagram">
+                        <i class="fab fa-instagram"></i>
+                    </button>
+                    <button class="social-btn twitter">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button class="social-btn linkedin">
+                        <i class="fab fa-linkedin-in"></i>
+                    </button>
+                </div>
+                
+                <div class="login-link">
+                    <p>Already have an account? <a href="../view/signin.php">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="../controller/signup.js"></script>
+</body>
+</html>

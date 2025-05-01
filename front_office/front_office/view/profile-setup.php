@@ -1,0 +1,756 @@
+<?php
+session_start();
+// Check if there's an error message to display
+if (isset($_SESSION['profile_error'])) {
+    $profileError = $_SESSION['profile_error'];
+    unset($_SESSION['profile_error']);
+}
+
+// Check if signup data exists
+if (!isset($_SESSION['signup_data'])) {
+    // Redirect to signup if no data exists
+    header("Location: ../view/signup.php");
+    exit();
+}
+
+// Get the user data from session for pre-filling form fields
+$userData = $_SESSION['signup_data'];
+$fullName = $userData['full_name'];
+$email = $userData['email'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyEngineers - Complete your professional profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #6366F1;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .step-circle.active {
+            background-color: #6366F1;
+            color: white;
+        }
+        .step-circle.completed {
+            background-color: #6366F1;
+            color: white;
+        }
+        .step-circle.inactive {
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+        .form-section {
+            display: none;
+        }
+        .form-section.active {
+            display: block;
+        }
+        .btn-primary {
+            background-color: #6366F1;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #4F46E5;
+        }
+        .btn-secondary {
+            background-color: #e9ecef;
+            color: #6c757d;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #dee2e6;
+        }
+        .profile-pic-container {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto;
+            position: relative;
+            background-color: #e9ecef;
+        }
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: #6366F1;
+            color: white;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .experience-item, .education-item, .organization-item, .honors-item, .course-item, .project-item, .language-item, .skill-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            color: #dc3545;
+            cursor: pointer;
+        }
+        .required-field::after {
+            content: "*";
+            color: #dc3545;
+            margin-left: 4px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #6366F1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+        }
+        .word-count {
+            font-size: 12px;
+            color: #6c757d;
+            text-align: right;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+        input.border-red-500, select.border-red-500, textarea.border-red-500 {
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-indigo-500">OnlyEngineers</h1>
+            <p class="text-gray-600 mt-2">Complete your professional profile</p>
+        </div>
+
+        <div class="progress-bar mb-8">
+            <div class="progress-fill" style="width: 20%"></div>
+        </div>
+
+        <div class="flex justify-between mb-12">
+            <div class="flex flex-col items-center">
+                <div class="step-circle active">1</div>
+                <span class="text-sm mt-2 text-indigo-500">Basic Info</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="step-circle inactive">2</div>
+                <span class="text-sm mt-2 text-gray-500">About</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="step-circle inactive">3</div>
+                <span class="text-sm mt-2 text-gray-500">Experience</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="step-circle inactive">4</div>
+                <span class="text-sm mt-2 text-gray-500">Education</span>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="step-circle inactive">5</div>
+                <span class="text-sm mt-2 text-gray-500">Skills & More</span>
+            </div>
+        </div>
+
+        <form id="profileForm" action="../model/save_profile.php" method="POST" enctype="multipart/form-data" class="bg-white rounded-lg shadow-md p-8">
+            <!-- Step 1: Basic Information -->
+            <div id="step1" class="form-section active">
+                <h2 class="text-2xl font-bold mb-6">Basic Information</h2>
+                <p class="text-gray-600 mb-8">Let's start with some basic information about you.</p>
+
+                <div class="mb-8 flex flex-col items-center">
+                    <div class="profile-pic-container mb-4">
+                        <img id="profilePic" class="profile-pic" src="https://cdn.jsdelivr.net/gh/userpics/placeholder@main/placeholder.jpg" alt="Profile picture">
+                        <label for="profilePicInput" class="upload-btn">
+                            <i class="fas fa-camera"></i>
+                        </label>
+                        <input type="file" id="profilePicInput" name="profilePic" accept="image/*" class="hidden" onchange="previewProfilePic(event)">
+                    </div>
+                    <button type="button" id="uploadProfileBtn" class="text-indigo-500 text-sm font-medium">Upload Profile Picture</button>
+                </div>
+
+                <div class="mb-6">
+                    <label for="position" class="block text-gray-700 mb-2 required-field">Position/Title</label>
+                    <input type="text" id="position" name="position" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Your professional title or current position" required>
+                    <div id="position-error" class="error-message">Position should contain letters, not just numbers or symbols</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="country" class="block text-gray-700 mb-2 required-field">Country</label>
+                        <select id="country" name="country" class="w-full px-4 py-2 border border-gray-300 rounded-md" required onchange="updateCities()">
+                            <option value="" disabled selected>Select a country</option>
+                            <option value="France">France</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Tunisia">Tunisia</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="city" class="block text-gray-700 mb-2 required-field">City</label>
+                        <select id="city" name="city" class="w-full px-4 py-2 border border-gray-300 rounded-md" required disabled>
+                            <option value="" disabled selected>Select a city</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <label for="birthday" class="block text-gray-700 mb-2 required-field">Birthday</label>
+                    <input type="date" id="birthday" name="birthday" class="w-full px-4 py-2 border border-gray-300 rounded-md" required max="">
+                    <div id="birthday-error" class="error-message">You must be at least 18 years old</div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="button" id="step1Next" class="btn-primary px-6 py-2 rounded-md">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 2: About You -->
+            <div id="step2" class="form-section">
+                <h2 class="text-2xl font-bold mb-6">About You</h2>
+                <p class="text-gray-600 mb-8">Tell us about yourself and your professional background.</p>
+
+                <div class="mb-8">
+                    <label for="about" class="block text-gray-700 mb-2 required-field">About</label>
+                    <textarea id="about" name="about" rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Write a brief description about yourself (10-255 words)" required></textarea>
+                    <div class="word-count"><span id="aboutWordCount">0</span> words (10-255 words required)</div>
+                    <div id="about-error" class="error-message">Please write at least 10 words</div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">What are you seeking?</h3>
+                    <p class="text-gray-600 mb-4">Select all that apply</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="seeking-network" name="seeking" value="network" class="mr-2">
+                            <label for="seeking-network">Seeking to network</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="seeking-job" name="seeking" value="job" class="mr-2">
+                            <label for="seeking-job">Seeking for a job</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="seeking-event" name="seeking" value="event" class="mr-2">
+                            <label for="seeking-event">Seeking for event</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="seeking-learn" name="seeking" value="learn" class="mr-2">
+                            <label for="seeking-learn">Seeking to learn</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="seeking-project" name="seeking" value="project" class="mr-2">
+                            <label for="seeking-project">Seeking to contribute to a project</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="seeking-investor" name="seeking" value="investor" class="mr-2">
+                            <label for="seeking-investor">Seeking for an investor</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="seeking-hire" name="seeking" value="hire" class="mr-2">
+                            <label for="seeking-hire">Seeking to hire talents</label>
+                        </div>
+                    </div>
+                    <div id="seeking-error" class="error-message">Please select at least one option</div>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="button" id="step2Prev" class="btn-secondary px-6 py-2 rounded-md">Previous</button>
+                    <button type="button" id="step2Next" class="btn-primary px-6 py-2 rounded-md">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Experience -->
+            <div id="step3" class="form-section">
+                <h2 class="text-2xl font-bold mb-6">Work Experience</h2>
+                <p class="text-gray-600 mb-8">Add your work experience, starting with the most recent.</p>
+
+                <div id="experienceContainer">
+                    <div class="experience-item" data-index="1">
+                        <div class="absolute top-4 right-4">
+                            <i class="fas fa-trash delete-btn" onclick="removeExperience(this)"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-4">Experience #1</h3>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2 required-field">Job Title</label>
+                            <input type="text" name="jobTitle[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Software Engineer" required>
+                            <div class="error-message text-validation-error">Title must contain letters, not just numbers or symbols</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2 required-field">Company</label>
+                            <input type="text" name="company[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Google" required>
+                            <div class="error-message text-validation-error">Company name must contain letters, not just numbers or symbols</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2 required-field">Start Date</label>
+                                <input type="date" name="expStartDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">End Date</label>
+                                <input type="date" name="expEndDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                <div class="error-message date-error">End date must be after start date</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" name="currentJob[]" class="mr-2 current-job-checkbox" onchange="toggleEndDate(this)">
+                                <label>I currently work here</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2 required-field">Description</label>
+                            <textarea name="expDescription[]" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Describe your responsibilities and achievements..." required></textarea>
+                            <div class="word-count"><span class="exp-word-count">0</span> words (min 5 words required)</div>
+                            <div class="error-message word-count-error">Please write at least 5 words</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <button type="button" id="addExperienceBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                        + Add Another Experience
+                    </button>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="button" id="step3Prev" class="btn-secondary px-6 py-2 rounded-md">Previous</button>
+                    <button type="button" id="step3Next" class="btn-primary px-6 py-2 rounded-md">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Education -->
+            <div id="step4" class="form-section">
+                <h2 class="text-2xl font-bold mb-6">Education</h2>
+                <p class="text-gray-600 mb-8">Add your educational background, starting with the most recent.</p>
+
+                <div id="educationContainer">
+                    <div class="education-item" data-index="1">
+                        <div class="absolute top-4 right-4">
+                            <i class="fas fa-trash delete-btn" onclick="removeEducation(this)"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-4">Education #1</h3>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2 required-field">School</label>
+                            <input type="text" name="school[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Stanford University" required>
+                            <div class="error-message text-validation-error">School name must contain letters, not just numbers or symbols</div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2 required-field">Degree</label>
+                            <select name="degree[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                                <option value="" disabled selected>Select a degree</option>
+                                <option value="High School Diploma">High School Diploma</option>
+                                <option value="Associate Degree">Associate Degree</option>
+                                <option value="Bachelor Degree">Bachelor Degree</option>
+                                <option value="Bachelor of Engineering">Bachelor of Engineering</option>
+                                <option value="Master of Science">Master of Science</option>
+                                <option value="Master of Arts">Master of Arts</option>
+                                <option value="Master of Business Administration">Master of Business Administration</option>
+                                <option value="PhD">PhD</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2 required-field">Field of Study</label>
+                            <input type="text" name="fieldOfStudy[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Computer Science, Civil Engineering" required>
+                            <div class="error-message text-validation-error">Field of study must contain letters, not just numbers or symbols</div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2 required-field">Start Date</label>
+                                <input type="date" name="eduStartDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">End Date</label>
+                                <input type="date" name="eduEndDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                <div class="error-message date-error">End date must be after start date</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" name="currentEducation[]" class="mr-2 current-edu-checkbox" onchange="toggleEduEndDate(this)">
+                                <label>I am currently studying here</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2 required-field">Description</label>
+                            <textarea name="eduDescription[]" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Describe your studies, achievements, and activities..." required></textarea>
+                            <div class="word-count"><span class="edu-word-count">0</span> words (min 5 words required)</div>
+                            <div class="error-message word-count-error">Please write at least 5 words</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <button type="button" id="addEducationBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                        + Add Another Education
+                    </button>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="button" id="step4Prev" class="btn-secondary px-6 py-2 rounded-md">Previous</button>
+                    <button type="button" id="step4Next" class="btn-primary px-6 py-2 rounded-md">Continue</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Skills & More -->
+            <div id="step5" class="form-section">
+                <h2 class="text-2xl font-bold mb-6">Skills & More</h2>
+                <p class="text-gray-600 mb-8">Add your skills, languages, organizations, honors, courses, and projects.</p>
+
+                <!-- Organizations -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Organizations</h3>
+                    
+                    <div id="organizationsContainer">
+                        <div class="organization-item" data-index="1">
+                            <div class="absolute top-4 right-4">
+                                <i class="fas fa-trash delete-btn" onclick="removeOrganization(this)"></i>
+                            </div>
+                            <h4 class="font-medium mb-4">Organization #1</h4>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Organization Name</label>
+                                <input type="text" name="orgName[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. IEEE, Engineering Club" required>
+                                <div class="error-message text-validation-error">Organization name must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Position</label>
+                                <input type="text" name="orgPosition[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Vice President, Member">
+                                <div class="error-message text-validation-error">Position must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Start Date</label>
+                                    <input type="date" name="orgStartDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">End Date</label>
+                                    <input type="date" name="orgEndDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                    <div class="error-message date-error">End date must be after start date</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="currentOrg[]" class="mr-2" onchange="toggleOrgEndDate(this)">
+                                    <label>I am currently active here</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Add description field for organizations -->
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Description</label>
+                                <textarea name="orgDescription[]" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Describe your role and contributions in this organization..." required></textarea>
+                                <div class="word-count"><span class="org-word-count">0</span> words (min 5 words required)</div>
+                                <div class="error-message word-count-error">Please write at least 5 words</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <button type="button" id="addOrganizationBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                            + Add Another Organization
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Honors & Awards -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Honors & Awards</h3>
+                    
+                    <div id="honorsContainer">
+                        <div class="honors-item" data-index="1">
+                            <div class="absolute top-4 right-4">
+                                <i class="fas fa-trash delete-btn" onclick="removeHonor(this)"></i>
+                            </div>
+                            <h4 class="font-medium mb-4">Honor/Award #1</h4>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Honor/Award Name</label>
+                                <input type="text" name="honorName[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Dean's List, Excellence Award" required>
+                                <div class="error-message text-validation-error">Honor name must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Issuer</label>
+                                <input type="text" name="honorIssuer[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. University, Professional Association">
+                                <div class="error-message text-validation-error">Issuer must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Date Received</label>
+                                <input type="date" name="honorDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Description</label>
+                                <textarea name="honorDescription[]" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Describe the honor and achievement..." required></textarea>
+                                <div class="word-count"><span class="honor-word-count">0</span> words (min 5 words required)</div>
+                                <div class="error-message word-count-error">Please write at least 5 words</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <button type="button" id="addHonorBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                            + Add Another Honor/Award
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Courses -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Courses</h3>
+                    
+                    <div id="coursesContainer">
+                        <div class="course-item" data-index="1">
+                            <div class="absolute top-4 right-4">
+                                <i class="fas fa-trash delete-btn" onclick="removeCourse(this)"></i>
+                            </div>
+                            <h4 class="font-medium mb-4">Course #1</h4>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Course Title</label>
+                                <input type="text" name="courseTitle[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Machine Learning Course, Web Development" required>
+                                <div class="error-message text-validation-error">Course title must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Provider/Institution</label>
+                                <input type="text" name="courseProvider[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Coursera, edX, University">
+                                <div class="error-message text-validation-error">Provider must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Start Date</label>
+                                    <input type="date" name="courseStartDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">End Date</label>
+                                    <input type="date" name="courseEndDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                    <div class="error-message date-error">End date must be after start date</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="currentCourse[]" class="mr-2" onchange="toggleCourseEndDate(this)">
+                                    <label>I am currently taking this course</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Description</label>
+                                <textarea name="courseDescription[]" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Describe what you learned in this course..." required></textarea>
+                                <div class="word-count"><span class="course-word-count">0</span> words (min 5 words required)</div>
+                                <div class="error-message word-count-error">Please write at least 5 words</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <button type="button" id="addCourseBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                            + Add Another Course
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Projects -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Projects</h3>
+                    
+                    <div id="projectsContainer">
+                        <div class="project-item" data-index="1">
+                            <div class="absolute top-4 right-4">
+                                <i class="fas fa-trash delete-btn" onclick="removeProject(this)"></i>
+                            </div>
+                            <h4 class="font-medium mb-4">Project #1</h4>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Project Title</label>
+                                <input type="text" name="projectTitle[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Web Application, Research Project" required>
+                                <div class="error-message text-validation-error">Project title must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Organization/Client</label>
+                                <input type="text" name="projectProvider[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. Self-initiated, Client name, Company">
+                                <div class="error-message text-validation-error">Organization must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Start Date</label>
+                                    <input type="date" name="projectStartDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">End Date</label>
+                                    <input type="date" name="projectEndDate[]" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                                    <div class="error-message date-error">End date must be after start date</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="currentProject[]" class="mr-2" onchange="toggleProjectEndDate(this)">
+                                    <label>I am currently working on this project</label>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Description</label>
+                                <textarea name="projectDescription[]" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Describe the project and what you accomplished..." required></textarea>
+                                <div class="word-count"><span class="project-word-count">0</span> words (min 5 words required)</div>
+                                <div class="error-message word-count-error">Please write at least 5 words</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <button type="button" id="addProjectBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                            + Add Another Project
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Languages -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Languages</h3>
+                    
+                    <div id="languagesContainer">
+                        <div class="language-item" data-index="1">
+                            <div class="absolute top-4 right-4">
+                                <i class="fas fa-trash delete-btn" onclick="removeLanguage(this)"></i>
+                            </div>
+                            <h4 class="font-medium mb-4">Language #1</h4>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Language</label>
+                                <input type="text" name="language[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. English, French, German" required>
+                                <div class="error-message text-validation-error">Language must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Proficiency Level</label>
+                                <select name="languageLevel[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                                    <option value="" disabled selected>Select proficiency level</option>
+                                    <option value="Native">Native</option>
+                                    <option value="Fluent">Fluent</option>
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Basic">Basic</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <button type="button" id="addLanguageBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                            + Add Another Language
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Skills -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold mb-4">Skills</h3>
+                    
+                    <div id="skillsContainer">
+                        <div class="skill-item" data-index="1">
+                            <div class="absolute top-4 right-4">
+                                <i class="fas fa-trash delete-btn" onclick="removeSkill(this)"></i>
+                            </div>
+                            <h4 class="font-medium mb-4">Skill #1</h4>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Skill</label>
+                                <input type="text" name="skill[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g. JavaScript, Project Management, CAD Design" required>
+                                <div class="error-message text-validation-error">Skill must contain letters, not just numbers or symbols</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2 required-field">Proficiency Level</label>
+                                <select name="skillLevel[]" class="w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                                    <option value="" disabled selected>Select proficiency level</option>
+                                    <option value="Expert">Expert</option>
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Beginner">Beginner</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <button type="button" id="addSkillBtn" class="w-full border border-dashed border-indigo-300 text-indigo-500 px-4 py-2 rounded-md hover:bg-indigo-50 transition">
+                            + Add Another Skill
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="button" id="step5Prev" class="btn-secondary px-6 py-2 rounded-md">Previous</button>
+                    <button type="submit" id="submitProfile" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
+                        Setup Profile
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="../controller/profile-setup.js"></script>
+</body>
+</html>

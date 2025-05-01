@@ -1,0 +1,26 @@
+[2025-04-27 01:34:17] === Début de la mise à jour de la table participants ===
+[2025-04-27 01:34:17] Connexion à la base de données établie
+[2025-04-27 01:34:17] Structure actuelle de la table participants:
+[2025-04-27 01:34:17] - id: int(11), NO, PRI, 
+[2025-04-27 01:34:17] - user_id: int(11), NO, MUL, 
+[2025-04-27 01:34:17] - hackathon_id: int(11), NO, MUL, 
+[2025-04-27 01:34:17] - participation_type: enum('individual','team'), YES, , individual
+[2025-04-27 01:34:17] - full_name: varchar(255), YES, , 
+[2025-04-27 01:34:17] - email: varchar(255), YES, , 
+[2025-04-27 01:34:17] - phone: varchar(20), YES, , 
+[2025-04-27 01:34:17] - team_name: varchar(255), YES, , 
+[2025-04-27 01:34:17] - is_team_lead: tinyint(1), YES, , 0
+[2025-04-27 01:34:17] - role: varchar(50), YES, , 
+[2025-04-27 01:34:17] - photo: varchar(255), YES, , 
+[2025-04-27 01:34:17] - registration_date: timestamp, NO, , current_timestamp()
+[2025-04-27 01:34:17] Contrainte de clé étrangère trouvée: participants_ibfk_1
+[2025-04-27 01:34:17] Cette contrainte référence users(user_id)
+[2025-04-27 01:34:17] Transaction démarrée
+[2025-04-27 01:34:17] Exécution de: ALTER TABLE participants DROP FOREIGN KEY participants_ibfk_1
+[2025-04-27 01:34:17] Contrainte de clé étrangère supprimée avec succès
+[2025-04-27 01:34:17] Exécution de: ALTER TABLE participants MODIFY user_id INT NULL
+[2025-04-27 01:34:18] Colonne user_id modifiée pour accepter NULL
+[2025-04-27 01:34:18] Exécution de: ALTER TABLE participants ADD CONSTRAINT participants_ibfk_1 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE
+[2025-04-27 01:34:18] Erreur PDO: SQLSTATE[HY000]: General error: 1005 Can't create table `onlyengs`.`participants` (errno: 150 "Foreign key constraint is incorrectly formed")
+[2025-04-27 01:34:18] Code erreur: HY000
+[2025-04-27 01:34:18] === Fin de la mise à jour de la table participants ===

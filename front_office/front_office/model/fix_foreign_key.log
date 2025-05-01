@@ -1,0 +1,27 @@
+[2025-04-27 01:36:53] === Début de la correction de la contrainte de clé étrangère ===
+[2025-04-27 01:36:53] Connexion à la base de données établie
+[2025-04-27 01:36:53] Vérification de la structure des tables users et participants
+[2025-04-27 01:36:53] Exception: Colonne id non trouvée dans la table users
+[2025-04-27 01:36:53] Trace: #0 {main}
+[2025-04-27 01:36:53] === Fin de la correction de la contrainte de clé étrangère ===
+[2025-04-27 01:39:16] === Début de la correction de la contrainte de clé étrangère ===
+[2025-04-27 01:39:16] Connexion à la base de données établie
+[2025-04-27 01:39:16] Vérification de la structure des tables users et participants
+[2025-04-27 01:39:16] Clé primaire de la table users identifiée: user_id
+[2025-04-27 01:39:16] Structure de l'ID dans users: Type = int(11), Null = NO, Key = PRI
+[2025-04-27 01:39:16] Structure de user_id dans participants: Type = int(11), Null = YES, Key = MUL
+[2025-04-27 01:39:16] Contraintes de clé étrangère existantes: participants_ibfk_2
+[2025-04-27 01:39:16] Début de la transaction
+[2025-04-27 01:39:16] Exécution: ALTER TABLE participants DROP FOREIGN KEY `participants_ibfk_2`
+[2025-04-27 01:39:16] Contrainte participants_ibfk_2 supprimée
+[2025-04-27 01:39:16] Modification du type de user_id: ALTER TABLE participants MODIFY user_id int(11) NULL
+[2025-04-27 01:39:16] Type de user_id modifié pour correspondre exactement à user_id dans users
+[2025-04-27 01:39:16] Un index existe déjà pour user_id, aucun besoin d'en créer un nouveau
+[2025-04-27 01:39:16] Ajout de la nouvelle contrainte: ALTER TABLE participants ADD CONSTRAINT fk_participant_user 
+                  FOREIGN KEY (user_id) REFERENCES users(user_id) 
+                  ON DELETE SET NULL ON UPDATE CASCADE
+[2025-04-27 01:39:16] Nouvelle contrainte ajoutée avec succès
+[2025-04-27 01:39:16] Erreur PDO: There is no active transaction (Code: 0)
+[2025-04-27 01:39:16] Trace: #0 C:\xampp\htdocs\hachathon_user\hachathon_user\projet_webb\front_office\front_office\model\fix_foreign_key.php(110): PDO->commit()
+#1 {main}
+[2025-04-27 01:39:16] === Fin de la correction de la contrainte de clé étrangère ===
