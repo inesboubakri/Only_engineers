@@ -316,38 +316,28 @@
       </form>
     </div>
   </div>
- <!-- Article Modal -->
-<div id="articleModal" class="modal" role="dialog" aria-labelledby="articleTitle" aria-hidden="true" style="display: none;">
+  
+<!-- Article Modal -->
+<div id="articleModal" class="modal" role="dialog" aria-labelledby="articleTitle" aria-hidden="true">
     <div class="modal-content">
-        <!-- Modal Header -->
         <header class="modal-header">
-            <button id="closeArticleModalBtn" class="close-btn" aria-label="Fermer la modale">×</button>
+            <button id="closeArticleModalBtn" class="close-btn" aria-label="Fermer">×</button>
             <div class="article-meta">
-                <div class="author-details">
-                    <p id="articleAuthor" class="author-name" aria-label="Nom de l'auteur"></p>
-                    <p id="articleDate" class="publish-date" aria-label="Date de publication"></p>
-                </div>
+                <p id="articleAuthor" class="author-name" aria-label="Auteur"></p>
+                <p id="articleDate" class="publish-date" aria-label="Date"></p>
             </div>
             <h1 id="articleTitle" class="article-title"></h1>
         </header>
-
-        <!-- Modal Body -->
         <main class="modal-body">
-            <!-- Article Image Section -->
             <section class="article-image-container">
-                <img id="articleImage" src="" alt="Image de l'article" class="featured-image" loading="lazy">
+                <img id="articleImage" src="" alt="Image article" class="featured-image" loading="lazy">
             </section>
-
-            <!-- Contenu de l'article -->
-            <section class="article-text-content" aria-label="Contenu complet de l'article">
+            <section class="article-text-content" aria-label="Contenu article">
                 <p id="articleCategory" class="article-category"></p>
                 <div id="articleContent"></div>
             </section>
         </main>
-
-        <!-- Article Footer -->
         <footer class="article-footer">
-            <!-- Reading Time -->
             <div class="reading-time" aria-label="Temps de lecture">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                     <circle cx="12" cy="12" r="10"></circle>
@@ -355,383 +345,240 @@
                 </svg>
                 <span id="readingTime">5 min read</span>
             </div>
-
-            <!-- Social Actions -->
             <div class="social-actions" role="region" aria-label="Actions sociales">
                 <div class="like-container">
                     <button class="action-btn like-btn" id="likeButton" aria-label="J'aime">
                         <span class="like-icon" aria-hidden="true">👍</span> J'aime
                     </button>
                     <div class="emoji-selector" id="emojiSelector" aria-label="Sélecteur d'emojis">
-                        <button class="emoji" data-emoji="👍" aria-label="Emoji pouce en l'air">👍</button>
-                        <button class="emoji" data-emoji="❤️" aria-label="Emoji cœur">❤️</button>
-                        <button class="emoji" data-emoji="😍" aria-label="Emoji yeux en cœur">😍</button>
-                        <button class="emoji" data-emoji="😂" aria-label="Emoji rire">😂</button>
-                        <button class="emoji" data-emoji="😮" aria-label="Emoji surpris">😮</button>
+                        <button class="emoji" data-emoji="👍" aria-label="Pouce">👍</button>
+                        <button class="emoji" data-emoji="❤️" aria-label="Cœur">❤️</button>
+                        <button class="emoji" data-emoji="😍" aria-label="Yeux cœur">😍</button>
+                        <button class="emoji" data-emoji="😂" aria-label="Rire">😂</button>
+                        <button class="emoji" data-emoji="😮" aria-label="Surpris">😮</button>
                     </div>
                 </div>
                 <button class="action-btn share-btn" id="shareButton" aria-label="Partager">
                     <span class="share-icon" aria-hidden="true">↗️</span> Partager
                 </button>
             </div>
-
-            <!-- Share Buttons -->
             <div class="share-buttons" aria-label="Boutons de partage"></div>
         </footer>
-
-        <!-- Comments Section -->
-        <section class="comments-section" aria-label="Section des commentaires">
+        <section class="comments-section" aria-label="Commentaires">
             <h2>Commentaires</h2>
             <div id="commentsContainer" aria-live="polite"></div>
-
-            <!-- Comment Form -->
-            <!-- Comment Form -->
-<form class="comment-form" id="commentForm" aria-label="Formulaire de commentaire">
-    <textarea
-      id="commentContent"
-      placeholder="Ajoutez un commentaire..."
-      rows="4"
-      aria-label="Champ pour écrire un commentaire"
-      required
-    ></textarea>
-    <input type="hidden" id="articleId" value="">
-    <button id="submitComment" class="action-btn" type="submit" aria-label="Publier le commentaire">
-      Publier
-    </button>
-  </form>
-  
+            <form class="comment-form" id="commentForm" aria-label="Formulaire commentaire">
+                <textarea id="commentContent" placeholder="Ajoutez un commentaire..." rows="4" aria-label="Commentaire" required></textarea>
+                <input type="hidden" id="articleId" value="">
+                <button id="submitComment" class="action-btn" type="submit" aria-label="Publier">Publier</button>
+            </form>
+        </section>
+    </div>
+</div>
 
 <!-- Share Modal -->
 <div id="shareModal" class="share-modal" role="dialog" aria-labelledby="shareModalTitle" aria-hidden="true">
     <div class="share-modal-content">
-        <button class="close-btn" onclick="closeShareModal()" aria-label="Fermer la modale de partage">×</button>
+        <button class="close-btn" onclick="closeShareModal()" aria-label="Fermer">×</button>
         <h2 id="shareModalTitle">Partager sur</h2>
         <div class="social-icons" aria-label="Options de partage">
-            <a href="#" class="social-icon facebook" onclick="shareOnSocial('facebook')" aria-label="Partager sur Facebook">
-                <img src="ressources/facbook.png" alt="Icône Facebook">
+            <a href="#" class="social-icon facebook" onclick="shareOnSocial('facebook')" aria-label="Facebook">
+                <img src="ressources/facebook.png" alt="Icône Facebook">
             </a>
-            <a href="#" class="social-icon github" onclick="shareOnSocial('github')" aria-label="Partager sur GitHub">
+            <a href="#" class="social-icon github" onclick="shareOnSocial('github')" aria-label="GitHub">
                 <img src="ressources/git-icon.png" alt="Icône GitHub">
             </a>
-            <a href="#" class="social-icon instagram" onclick="shareOnSocial('instagram')" aria-label="Partager sur Instagram">
+            <a href="#" class="social-icon instagram" onclick="shareOnSocial('instagram')" aria-label="Instagram">
                 <img src="ressources/instagram.jpg" alt="Icône Instagram">
             </a>
-            <a href="#" class="social-icon tiktok" onclick="shareOnSocial('tiktok')" aria-label="Partager sur TikTok">
+            <a href="#" class="social-icon tiktok" onclick="shareOnSocial('tiktok')" aria-label="TikTok">
                 <img src="ressources/tiktok.png" alt="Icône TikTok">
             </a>
-            <a href="#" class="social-icon whatsapp" onclick="shareOnSocial('whatsapp')" aria-label="Partager sur WhatsApp">
+            <a href="#" class="social-icon whatsapp" onclick="shareOnSocial('whatsapp')" aria-label="WhatsApp">
                 <img src="ressources/whatsapp.jpg" alt="Icône WhatsApp">
             </a>
         </div>
     </div>
 </div>
 
+<!-- Articles Container -->
+<div id="articles-container"></div>
+<div id="jobCardsContainer"></div>
+
+<!-- Add Article Modal -->
+<button id="openAddModalBtn">Ajouter un article</button>
+<div id="addnewsModal" class="modal">
+    <div class="modal-content">
+        <button id="closeAddModalBtn" class="close-btn">×</button>
+        <h2>Ajouter un article</h2>
+        <form id="addnewsForm">
+            <input type="text" name="title" placeholder="Titre" required>
+            <textarea name="content" placeholder="Contenu" rows="5" required></textarea>
+            <input type="file" name="image" accept="image/*">
+            <input type="text" name="category" placeholder="Catégorie" required>
+            <button type="submit">Ajouter</button>
+            <button type="button" id="cancelAddModalBtn">Annuler</button>
+        </form>
+    </div>
+</div>
+
+ 
+    
 
 
 
 
 
 
-
-
-
-  
 
 <script>
-    // =================== Ajouter un Commentaire ===================
-    document.getElementById('commentForm')?.addEventListener('submit', function (e) {
-        e.preventDefault();
-    
-        const content = document.getElementById('content').value.trim();
-        const newsId = document.getElementById('articleModal').dataset.articleId; // Correct : dataset.articleId car on l'associe à articleModal
-    
-        if (!content || !newsId) {
-            alert("Veuillez remplir le commentaire et vérifier l'article.");
-            return;
-        }
-    
-        const formData = new FormData();
-        formData.append('content', content);
-        formData.append('idnews', newsId);
-    
-        fetch('http://localhost/projet_web/back_office/controllers/commentController.php?action=addComment', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
+// === 1. Charger les articles ===
+const articlesContainer = document.getElementById("jobCardsContainer");
+
+function loadArticles() {
+    fetch("/projet_web/front_office/front_office/controller/NewsController.php")
+        .then(res => res.json())
         .then(data => {
-            if (data.success) {
-                alert("✅ Commentaire ajouté !");
-                document.getElementById('commentForm').reset();
-            } else {
-                alert("❌ Erreur : " + data.message);
-            }
+            articlesContainer.innerHTML = "";
+            data.forEach(article => {
+                const card = document.createElement("div");
+                card.classList.add("job-card");
+                card.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <p>${article.author} | ${article.created_at}</p>
+                    <button onclick="openArticleModal(${article.idnews})">Lire plus</button>
+                `;
+                articlesContainer.appendChild(card);
+            });
         })
-        .catch(error => {
-            console.error("Erreur réseau :", error);
-            alert("❌ Une erreur réseau s'est produite.");
-        });
-    });
-    function addCommentaire(content, idnews, user_id) {
-    fetch('http://localhost/projet_web/back_office/api/comments.php?action=addCommentaire', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content, idnews, user_id })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Commentaire ajouté !');
-            loadCommentaires(idnews); // Recharge les commentaires
-        } else {
-            alert(data.message);
-        }
-    })
-    .catch(error => console.error('Erreur:', error));
+        .catch(err => console.error("Erreur chargement articles:", err));
 }
 
-    // =================== Ouvrir un Article ===================
-    function openArticleModal(articleId) {
-        const modal = document.getElementById('articleModal');
-        modal.style.display = 'block';
-        modal.dataset.articleId = articleId;
+loadArticles();
+
+// === 2. Gestion du modal d’ajout ===
+const addModal = document.getElementById("addnewsModal");
+
+// Correction de l'appel de `getElementById` pour `closeAddModalBtn`
+document.getElementById("closeAddModalBtn").onclick = () => addModal.style.display = "none";
+document.getElementById("cancelAddModalBtn").onclick = () => addModal.style.display = "none";
+
+// Correction de l'appel pour ouvrir le modal
+document.getElementById("openAddModalBtn").onclick = () => addModal.style.display = "block";
+
+// === 3. Soumettre le formulaire d'ajout d'article ===
+document.getElementById("addnewsForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
     
-        const cachedArticle = localStorage.getItem(`article_${articleId}`);
-        if (cachedArticle) {
-            displayArticleData(JSON.parse(cachedArticle));
-            return;
+    fetch("/projet_web/front_office/front_office/controller/NewsController.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(response => {
+        if (response.success) {
+            alert("Article ajouté !");
+            this.reset();
+            addModal.style.display = "none";
+            loadArticles();
+        } else {
+            alert("Erreur: " + response.message);
         }
-    
-        fetch(`http://localhost/projet_web/back_office/controllers/newsController.php?action=getArticle&articleId=${articleId}`)
-            .then(res => {
-                if (!res.ok) throw new Error('Erreur lors de la récupération de l\'article');
-                return res.json();
-            })
-            .then(data => {
-                if (data.success && data.data) {
-                    localStorage.setItem(`article_${articleId}`, JSON.stringify(data.data));
-                    displayArticleData(data.data);
-                } else {
-                    document.getElementById('articleContent').textContent = 'Article non trouvé.';
-                }
-            })
-            .catch(err => {
-                console.error('Erreur:', err);
-                document.getElementById('articleContent').textContent = 'Erreur lors du chargement de l\'article.';
-            });
-    }
-    
-    // =================== Fermer Modale ===================
-    document.getElementById('closeArticleModalBtn')?.addEventListener('click', () => {
-        document.getElementById('articleModal').style.display = 'none';
-    });
-    
-    // =================== Like & Emoji ===================
-    document.addEventListener('DOMContentLoaded', function () {
-        const likeButton = document.getElementById('likeButton');
-        const emojiSelector = document.getElementById('emojiSelector');
-    
-        if (likeButton && emojiSelector) {
-            likeButton.addEventListener('click', (e) => {
-                e.stopPropagation();
-                emojiSelector.style.display = (emojiSelector.style.display === 'flex') ? 'none' : 'flex';
-            });
-    
-            document.querySelectorAll('.emoji').forEach(emoji => {
-                emoji.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    const currentEmoji = this.getAttribute('data-emoji');
-                    likeButton.innerHTML = `<span class="like-icon">${currentEmoji}</span> J'aime`;
-                    emojiSelector.style.display = 'none';
-                });
-            });
-    
-            document.addEventListener('click', () => emojiSelector.style.display = 'none');
-            emojiSelector.addEventListener('click', (e) => e.stopPropagation());
-    
-            document.getElementById('shareButton')?.addEventListener('click', openShareModal);
-        }
-    });
-    
-    // =================== Partage ===================
-    function openShareModal() {
-        document.getElementById('shareModal').style.display = 'block';
-    }
-    
-    function closeShareModal() {
-        document.getElementById('shareModal').style.display = 'none';
-    }
-    
-    function shareOnSocial(platform) {
-        const currentUrl = encodeURIComponent(window.location.href);
-        let shareUrl = '';
-    
-        switch (platform) {
-            case 'facebook':
-                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
-                break;
-            case 'github':
-                shareUrl = 'https://github.com'; // À personnaliser
-                break;
-            case 'instagram':
-                shareUrl = 'https://www.instagram.com'; // Instagram n'autorise pas de partage direct web
-                break;
-        }
-    
-        if (shareUrl) {
-            window.open(shareUrl, '_blank');
-        }
-    }
-    
-    // =================== Clics en dehors des Modales ===================
-    window.onclick = function (event) {
-        if (event.target === document.getElementById('shareModal')) closeShareModal();
-        if (event.target === document.getElementById('articleModal')) document.getElementById('articleModal').style.display = 'none';
-    };
-    
-    // =================== Chargement Articles ===================
-    function loadArticles() {
-        const container = document.getElementById('articles-container');
-        if (!container) {
-            console.error("L'élément #articles-container est manquant.");
-            return;
-        }
-    
-        fetch('http://localhost/projet_web/back_office/controllers/newsController.php')
-            .then(res => res.json())
-            .then(data => {
-                if (data.success && data.data.length) {
-                    generateArticleCards(data.data);
-                } else {
-                    container.innerHTML = `<p class="no-articles">Aucun article disponible</p>`;
-                }
-            })
-            .catch(err => {
-                console.error('Erreur lors du chargement des articles:', err);
-                container.innerHTML = `<p class="error">Erreur lors du chargement des articles</p>`;
-            });
-    }
-    
-    function generateArticleCards(news) {
-        const container = document.getElementById('articles-container');
-        container.innerHTML = news.map(article => `
-            <div class="article-card">
-                <h3>${article.title || 'Sans titre'}</h3>
-                <p>Par ${article.full_name || article.author || 'Auteur inconnu'}</p>
-                <p>${article.category || 'Non catégorisé'}</p>
-                <p>${article.content || 'Pas de contenu.'}</p>
-                ${article.image ? `<img src="http://localhost/projet_web/uploads/news_images/${encodeURIComponent(article.image)}" alt="${article.title}" onerror="this.src='http://localhost/projet_web/default_image.png';">` : ''}
-                <p>${new Date(article.created_at).toLocaleDateString()}</p>
-                <button class="details" data-id="${article.idnews}">Lire l'article</button>
-            </div>
-        `).join('');
-    
-        document.querySelectorAll('.details').forEach(button => {
-            button.addEventListener('click', () => openArticleModal(button.dataset.id));
-        });
-    }
-    
-    document.addEventListener('DOMContentLoaded', loadArticles);
-    
-    // =================== Afficher Détail d'un Article ===================
-    function displayArticleData(article) {
-        document.getElementById('articleTitle').textContent = article.title;
-        document.getElementById('articleAuthor').textContent = `Par ${article.full_name || article.author || 'Auteur inconnu'}`;
-        document.getElementById('articleDate').textContent = new Date(article.created_at).toLocaleDateString();
-        document.getElementById('articleContent').innerHTML = DOMPurify.sanitize(article.content);
-        document.getElementById('articleCategory').textContent = article.category;
-    
-        const articleImage = document.getElementById('articleImage');
-        articleImage.src = article.image
-            ? `http://localhost/projet_web/uploads/news_images/${encodeURIComponent(article.image)}`
-            : 'http://localhost/projet_web/default_image.png';
-        articleImage.alt = article.title || 'Image article';
-    }
-    
-    // =================== Ajout d'Articles ===================
-    const jobCardsContainer = document.getElementById('jobCardsContainer');
-    const openModalBtn = document.getElementById('openAddModalBtn');
-    const closeAddModalBtn = document.getElementById('closeAddModalBtn');
-    const cancelAddModalBtn = document.getElementById('cancelAddModalBtn');
-    const addnewsModal = document.getElementById('addnewsModal');
-    const addnewsForm = document.getElementById('addnewsForm');
-    
-    const generateJobCards = (articles) => {
-        jobCardsContainer.innerHTML = articles.map(article => `
-            <div class="job-card">
-                <h4>${article.title}</h4>
-                <img src="http://localhost/projet_web/uploads/news_images/${article.image}" 
-                     alt="${article.title}" 
-                     onerror="this.src='http://localhost/projet_web/default_image.png';">
-                <div>${article.category.split(',').map(cat => `<span>${cat.trim()}</span>`).join('')}</div>
-                <button class="details" data-id="${article.idnews}">Lire l'article</button>
-            </div>
-        `).join('');
-    
-        document.querySelectorAll('.details').forEach(btn => {
-            btn.addEventListener('click', () => openArticleModal(btn.dataset.id));
-        });
-    };
-    
-    function loadJobArticles() {
-        fetch('http://localhost/projet_web/back_office/controllers/newsController.php')
-            .then(res => res.json())
-            .then(data => {
-                if (data.success && data.data.length) {
-                    generateJobCards(data.data);
-                } else {
-                    jobCardsContainer.innerHTML = `<p class="no-articles">Aucun article disponible</p>`;
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                jobCardsContainer.innerHTML = `<p class="error">Erreur lors du chargement des articles</p>`;
-            });
-    }
-    
-    openModalBtn?.addEventListener('click', () => addnewsModal.style.display = 'block');
-    closeAddModalBtn?.addEventListener('click', () => addnewsModal.style.display = 'none');
-    cancelAddModalBtn?.addEventListener('click', () => addnewsModal.style.display = 'none');
-    window.addEventListener('click', (e) => {
-        if (e.target === addnewsModal) addnewsModal.style.display = 'none';
-    });
-    
-    addnewsForm?.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(addnewsForm);
-    
-        fetch('http://localhost/projet_web/back_office/controllers/newsController.php', {
-            method: 'POST',
-            body: formData
+    })
+    .catch(err => console.error("Erreur ajout article:", err));
+});
+
+// === 4. Ouvrir un article + afficher détails + commentaires ===
+function openArticleModal(idnews) {
+    const modal = document.getElementById("articleModal");
+    const title = document.getElementById("articleTitle");
+    const content = document.getElementById("articleContent");
+    const image = document.getElementById("articleImage");
+    const category = document.getElementById("articleCategory");
+    const author = document.getElementById("articleAuthor");
+    const date = document.getElementById("articleDate");
+    const articleIdInput = document.getElementById("articleId");
+
+    fetch(`/projet_web/front_office/front_office/controller/NewsController.php?id=${idnews}`)
+        .then(res => res.json())
+        .then(article => {
+            title.textContent = article.title;
+            content.textContent = article.content;
+            image.src = `uploads/${article.image}`;
+            category.textContent = article.category;
+            author.textContent = article.author;
+            date.textContent = article.created_at;
+            articleIdInput.value = idnews;
+            modal.style.display = "block";
+
+            // Charger commentaires
+            loadComments(idnews);
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                addnewsModal.style.display = 'none';
-                addnewsForm.reset();
-                loadJobArticles();
-            } else {
-                alert(data.message || "Erreur lors de l'ajout.");
+        .catch(err => console.error("Erreur article:", err));
+}
+
+// Fermer le modal de l'article
+document.getElementById("closeArticleModalBtn").onclick = () => {
+    document.getElementById("articleModal").style.display = "none";
+};
+
+
+// === 5. Charger les commentaires pour un article ===
+function loadComments(idnews) {
+    const container = document.getElementById("commentsContainer");
+    container.innerHTML = "<p>Chargement...</p>";
+
+    fetch("/projet_web/front_office/front_office/controller/CommentController.php")
+        .then(res => res.json())
+        .then(response => {
+            const filtered = response.data.filter(c => c.idnews == idnews);
+            if (filtered.length === 0) {
+                container.innerHTML = "<p>Aucun commentaire.</p>";
+                return;
             }
+
+            container.innerHTML = "";
+            filtered.forEach(c => {
+                const div = document.createElement("div");
+                div.classList.add("comment");
+                div.innerHTML = `
+                    <p>${c.content}</p>
+                    <small>${c.created_date}</small>
+                `;
+                container.appendChild(div);
+            });
         })
-        .catch(err => {
-            console.error(err);
-            alert("Erreur réseau lors de l'ajout de l'article.");
-        });
-    });
-    
-    loadJobArticles();
+        .catch(err => console.error("Erreur chargement commentaires:", err));
+}
+
+
+// === 6. Soumettre un commentaire ===
+document.getElementById("commentForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const content = document.getElementById("commentContent").value;
+    const idnews = document.getElementById("articleId").value;
+
+    if (!content.trim()) return;
+
+    fetch("/projet_web/front_office/front_office/controller/CommentController.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, idnews })
+    })
+    .then(res => res.json())
+    .then(response => {
+        if (response.success) {
+            document.getElementById("commentContent").value = "";
+            loadComments(idnews);
+        } else {
+            alert("Erreur: " + response.message);
+        }
+    })
+    .catch(err => console.error("Erreur ajout commentaire:", err));
+});
     </script>
     
-
-
-
-
-
-
-
 
 
 

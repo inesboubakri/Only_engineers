@@ -343,235 +343,141 @@
 
 
 <script>
-    window.openEditModal = function(newsStr) {
-        try {
-            if (!newsStr) {
-                console.error('Aucune donnée reçue pour l\'édition');
-                return;
-            }
-    
-            let news;
-            if (typeof newsStr === 'string') {
-                try {
-                    news = JSON.parse(decodeURIComponent(newsStr));
-                } catch {
-                    news = JSON.parse(newsStr);
-                }
-            } else if (typeof newsStr === 'object') {
-                news = newsStr;
-            } else {
-                throw new Error('Format de données non supporté');
-            }
-    
-            const requiredFields = ['idnews', 'title', 'author', 'content', 'category', 'status'];
-            const missing = requiredFields.filter(field => !(field in news));
-            if (missing.length > 0) {
-                throw new Error(`Champs manquants: ${missing.join(', ')}`);
-            }
-    
-            const setValue = (id, value) => {
-                const el = document.getElementById(id);
-                if (el) el.value = value || '';
-            };
-    
-            setValue('edit_idnews', news.idnews);
-            setValue('edit_title', news.title);
-            setValue('edit_author', news.author);
-            setValue('edit_content', news.content);
-            setValue('edit_newscategory', news.category);
-            setValue('edit_status', news.status);
-    
-            const modal = document.getElementById('editnewsModal');
-            if (modal) {
-                modal.classList.add('visible');
-                document.body.style.overflow = 'hidden';
-            } else {
-                throw new Error('Modal d\'édition non trouvée');
-            }
-    
-        } catch (error) {
-            console.error('Erreur lors de l\'ouverture de l\'édition:', error);
-            alert('Impossible d\'ouvrir l\'éditeur. Vérifiez la console pour plus de détails.');
-        }
-    };
-    
     document.addEventListener('DOMContentLoaded', () => {
-        const modals = {
-            add: document.getElementById('addnewsModal'),
-            edit: document.getElementById('editnewsModal'),
-            delete: document.getElementById('deleteConfirmModal')
-        };
+      const commentsContainer = document.getElementById('commentsContainer');
+      const commentForm      = document.getElementById('commentForm');
+      const commentInput     = document.getElementById('commentContent');
+      const articleIdInput   = document.getElementById('articleId');
     
-        const forms = {
-            add: document.getElementById('addnewsForm'),
-            edit: document.getElementById('editnewsForm')
-        };
-    
-        let currentNewsId = null;
-    
-        function toggleModal(type, show) {
-            Object.values(modals).forEach(m => m.classList.remove('visible'));
-            document.body.style.overflow = show ? 'hidden' : '';
-            if (show && modals[type]) modals[type].classList.add('visible');
-        }
-    
-        function setupForm(type) {
-            const form = forms[type];
-            if (!form) return;
-    
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!validateForm(type)) return;
-    
-                const formData = new FormData(form);
-                const url = 'http://localhost/projet_web/back_office/controllers/newsController.php';
-    
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        body: formData
-                    });
-    
-                    const result = await response.json();
-                    if (result.success) {
-                        toggleModal(type, false);
-                        loadNews();
-                        alert(`News ${type === 'add' ? 'ajoutée' : 'modifiée'} avec succès !`);
-                    } else {
-                        throw new Error(result.message);
-                    }
-                } catch (error) {
-                    alert(`Erreur: ${error.message}`);
-                }
-            });
-        }
-    
-        function validateForm(type) {
-            let isValid = true;
-            const allowedCategories = ['Tech', 'Business', 'Science', 'Published', 'Drafts'];
-            const config = {
-                add: {
-                    fields: ['title', 'author', 'content', 'category', 'image', 'created_at', 'status'],
-                    prefix: ''
-                },
-                edit: {
-                    fields: ['title', 'author', 'content', 'category', 'status'],
-                    prefix: 'edit_'
-                }
-            };
-    
-            config[type].fields.forEach(field => {
-                const input = document.getElementById(`${config[type].prefix}${field}`);
-                if (!input) return;
-                const value = input.value.trim();
-    
-                if (value === "") {
-                    isValid = false;
-                    showError(input, 'Ce champ est requis');
-                }
-    
-                if (field === 'category' && value !== "") {
-                    const matched = allowedCategories.some(cat => cat.toLowerCase() === value.toLowerCase());
-                    if (!matched) {
-                        isValid = false;
-                        showError(input, 'Catégorie invalide : Tech, Business, Science, Published, Drafts');
-                    }
-                }
-            });
-    
-            return isValid;
-        }
-    
-        function showError(input, message) {
-            const span = input.parentElement.querySelector('.error-message');
-            if (span) span.textContent = message;
-        }
-    
-        // Gestion fermeture modals
-        document.querySelectorAll('.close, .cancel-btn').forEach(btn => {
-            btn.addEventListener('click', () => toggleModal(null, false));
-        });
-    
-        document.querySelector('.add-button').addEventListener('click', () => {
-            forms.add.reset();
-            toggleModal('add', true);
-        });
-    
-        window.confirmDelete = (id) => {
-            currentNewsId = id;
-            toggleModal('delete', true);
-        };
-    
-        document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
-            try {
-                const response = await fetch(`http://localhost/projet_web/back_office/controllers/newsController.php?idnews=${currentNewsId}`, {
-                    method: 'DELETE'
-                });
-                const result = await response.json();
-                if (result.success) {
-                    toggleModal(null, false);
-                    loadNews();
-                    alert('News supprimée !');
-                }
-            } catch {
-                alert('Erreur lors de la suppression.');
+      // 1️⃣ Charger les commentaires d’un article
+      function loadComments(idnews) {
+        commentsContainer.innerHTML = 'Chargement…';
+        fetch(`/projet_web/front_office/front_office/controller/CommentController.php?articleId=${idnews}`)
+          .then(r => r.json())
+          .then(resp => {
+            if (!resp.success) throw new Error(resp.message);
+            const list = resp.data;
+            if (list.length === 0) {
+              commentsContainer.innerHTML = '<p>Aucun commentaire.</p>';
+              return;
             }
-        });
+            commentsContainer.innerHTML = '';
+            list.forEach(c => {
+              const div = document.createElement('div');
+              div.className = 'comment';
     
-        setupForm('add');
-        setupForm('edit');
-        loadNews();
-    });
+              div.innerHTML = `
+                <p>${c.content}</p>
+                <small>${c.created_date}</small>
+                <button class="edit-btn"   data-id="${c.idcommentaire}">✏️</button>
+                <button class="delete-btn" data-id="${c.idcommentaire}">🗑️</button>
+              `;
+              commentsContainer.appendChild(div);
+            });
     
-    // Chargement des news
-    async function loadNews() {
-        try {
-            const response = await fetch('http://localhost/projet_web/back_office/controllers/newsController.php');
-            const data = await response.json();
+            // Activer les boutons Edit/Delete
+            commentsContainer.querySelectorAll('.delete-btn')
+              .forEach(btn => btn.onclick = () => deleteComment(btn.dataset.id, idnews));
+            commentsContainer.querySelectorAll('.edit-btn')
+              .forEach(btn => btn.onclick   = () => startEditComment(btn.dataset.id, idnews));
+          })
+          .catch(err => {
+            console.error(err);
+            commentsContainer.innerHTML = '<p>Erreur chargement.</p>';
+          });
+      }
     
-            const tbody = document.getElementById('newsTableBody');
-            tbody.innerHTML = (data.data || []).map(news => `
-                <tr>
-                    <td>${news.idnews}</td>
-                    <td>${news.title}</td>
-                    <td>${news.author}</td>
-                    <td>${news.content.substring(0, 50)}${news.content.length > 50 ? '...' : ''}</td>
-                    <td>${news.category}</td>
-                    <td>
-                        ${news.image ? `<img src="../uploads/news_images/${news.image}" style="width:50px;height:50px;">` : 'Aucune'}
-                    </td>
-                    <td>${news.created_at}</td>
-                    <td>${news.status}</td>
-                    <td>
-                        <div class="actions-wrapper">
-                            <button class="action-btn" onclick="toggleDropdown(${news.idnews})">:</button>
-                            <div class="dropdown-content" id="dropdown-${news.idnews}">
-                                <button onclick="openEditModal('${encodeURIComponent(JSON.stringify(news))}')">
-                                    <i class="fas fa-edit"></i> Éditer
-                                </button>
-                                <button onclick="confirmDelete(${news.idnews})">
-                                    <i class="fas fa-trash"></i> Supprimer
-                                </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        } catch (error) {
-            console.error('Erreur lors du chargement des news:', error);
-        }
-    }
+      // 2️⃣ Ajouter un commentaire
+      commentForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const content = commentInput.value.trim();
+        const idnews  = articleIdInput.value;
+        if (!content) return;
     
-    function toggleDropdown(id) {
-        document.querySelectorAll('.dropdown-content').forEach(d => {
-            d.classList.toggle('show', d.id === `dropdown-${id}`);
-        });
-    }
+        fetch('/projet_web/front_office/front_office/controller/CommentController.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content, idnews })
+        })
+        .then(r => r.json())
+        .then(resp => {
+          if (!resp.success) throw new Error(resp.message);
+          commentInput.value = '';
+          loadComments(idnews);
+        })
+        .catch(err => alert('Erreur: ' + err.message));
+      });
     
-    document.addEventListener('click', e => {
-        if (!e.target.closest('.action-btn')) {
-            document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
-        }
+      // 3️⃣ Supprimer un commentaire
+      function deleteComment(idcommentaire, idnews) {
+        if (!confirm('Confirmer la suppression ?')) return;
+        fetch('/projet_web/front_office/front_office/controller/CommentController.php', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idcommentaire })
+        })
+        .then(r => r.json())
+        .then(resp => {
+          if (!resp.success) throw new Error(resp.message);
+          loadComments(idnews);
+        })
+        .catch(err => alert('Erreur: ' + err.message));
+      }
+    
+      // 4️⃣ Éditer un commentaire (pré-remplir le formulaire)
+      function startEditComment(idcommentaire, idnews) {
+        // Récupérer le contenu actuel
+        fetch(`/projet_web/front_office/front_office/controller/CommentController.php?commentId=${idcommentaire}`)
+          .then(r => r.json())
+          .then(resp => {
+            if (!resp.success) throw new Error(resp.message);
+            commentInput.value = resp.data.content;
+            articleIdInput.value = idnews;
+            commentForm.dataset.editId = idcommentaire;  // marquer en mode édition
+          })
+          .catch(err => alert('Erreur: ' + err.message));
+      }
+    
+      // 5️⃣ Intercepter la soumission pour la mise à jour
+      commentForm.addEventListener('submit', e => {
+        const editId = commentForm.dataset.editId;
+        if (!editId) return; // c’est un ajout, pas un édit
+        e.preventDefault();
+    
+        const content = commentInput.value.trim();
+        const idnews  = articleIdInput.value;
+        fetch('/projet_web/front_office/front_office/controller/CommentController.php', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idcommentaire: editId, content })
+        })
+        .then(r => r.json())
+        .then(resp => {
+          if (!resp.success) throw new Error(resp.message);
+          delete commentForm.dataset.editId;
+          commentInput.value = '';
+          loadComments(idnews);
+        })
+        .catch(err => alert('Erreur: ' + err.message));
+      });
+    
+      // Quand on ouvre le modal d’article, on passe l’ID et on charge les commentaires
+      window.openArticleModal = function(idnews) {
+        document.getElementById('articleModal').style.display = 'block';
+        articleIdInput.value = idnews;
+        loadComments(idnews);
+      };
+    
+      // Fermer le modal
+      document.getElementById('closeArticleModalBtn').onclick = () => {
+        document.getElementById('articleModal').style.display = 'none';
+        delete commentForm.dataset.editId;
+        commentInput.value = '';
+      };
+    
+      // Initialisation si articleId déjà présent
+      const initId = articleIdInput.value;
+      if (initId) loadComments(initId);
     });
     </script>
     
@@ -626,11 +532,15 @@
                     <th>Contenu</th>
                     <th>ID News</th>
                     <th>Utilisateur</th>
+                    <th>Date de création</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="commentsTableBody">
                 <!-- Données chargées dynamiquement -->
+                <tr>
+                    <td colspan="6">Chargement en cours...</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -687,73 +597,103 @@
     cursor: pointer;
     font-size: 1.2em;
     color: #007bff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
 }
 
 .commentaires-table .action-btn:hover {
     color: #0056b3;
+    background-color: #e0e0e0;
+}
+
+.loading {
+    color: #666;
+    font-style: italic;
 }
 </style>
 
 <script>
 async function loadCommentaires(articleId = 1) {
+    const tbody = document.getElementById('commentsTableBody');
+    if (!tbody) {
+        console.error('Table body non trouvé');
+        return;
+    }
+
+    tbody.innerHTML = '<tr><td colspan="6" class="loading">Chargement des commentaires...</td></tr>';
+
     try {
-        const response = await fetch(`http://localhost/projet_web/back_office/controllers/commentController.php?action=getCommentaires&articleId=${articleId}`);
-        if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
+        const response = await fetch(`/projet_web/back_office/controllers/commentController.php?action=getCommentaires&articleId=${articleId}`);
+        
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP ${response.status}`);
+        }
 
         const data = await response.json();
         console.log("Données reçues :", data);
 
-        if (!data.success) throw new Error(data.message || 'Erreur lors du chargement');
+        if (!data.success) {
+            throw new Error(data.message || 'Erreur lors du chargement des commentaires');
+        }
 
-        const tbody = document.getElementById('commentsTableBody');
-        if (!tbody) throw new Error('Table non trouvée');
+        if (!data.data || data.data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6">Aucun commentaire trouvé</td></tr>';
+            return;
+        }
 
-        tbody.innerHTML = (data.data || []).map(commentaire => `
+        tbody.innerHTML = data.data.map(commentaire => `
             <tr>
-                <td>${commentaire.id_commentaire || '-'}</td>
+                <td>${commentaire.id_comment || commentaire.id_commentaire || '-'}</td>
                 <td>${(commentaire.content || '').substring(0, 100)}${commentaire.content?.length > 100 ? '...' : ''}</td>
-                <td>${commentaire.idnews || '-'}</td>
+                <td>${commentaire.idnews || commentaire.news_id || '-'}</td>
                 <td>${commentaire.username || commentaire.user_id || '-'}</td>
+                <td>${commentaire.created_date || commentaire.date_creation || '-'}</td>
                 <td>
-                    <button class="action-btn" onclick="confirmDeleteCommentaire(${commentaire.id_commentaire})">
+                    <button class="action-btn" onclick="confirmDeleteCommentaire(${commentaire.id_comment || commentaire.id_commentaire})">
                         <i class="fas fa-trash"></i> Supprimer
                     </button>
                 </td>
             </tr>
         `).join('');
+
     } catch (error) {
         console.error('Erreur chargement commentaires:', error);
-        const tbody = document.getElementById('commentsTableBody');
-        if (tbody) {
-            tbody.innerHTML = '<tr><td colspan="5">Erreur de chargement. Veuillez réessayer.</td></tr>';
-        }
+        tbody.innerHTML = `<tr><td colspan="6">Erreur de chargement: ${error.message}</td></tr>`;
     }
 }
 
 window.confirmDeleteCommentaire = async (id) => {
-    if (confirm('Voulez-vous vraiment supprimer ce commentaire ?')) {
-        try {
-            const response = await fetch(`http://localhost/projet_web/back_office/controllers/commentController.php?action=deleteCommentaire&id_comment=${id}`, {
-                method: 'DELETE'
-            });
-            const result = await response.json();
-            if (result.success) {
-                alert('Commentaire supprimé avec succès !');
-                loadCommentaires();
-            } else {
-                throw new Error(result.message || 'Erreur inconnue');
-            }
-        } catch (error) {
-            console.error('Erreur suppression commentaire:', error);
-            alert(`Erreur lors de la suppression: ${error.message}`);
+    if (!confirm('Voulez-vous vraiment supprimer ce commentaire ?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/projet_web/back_office/controllers/commentController.php?action=deleteCommentaire&id_comment=${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+        
+        const result = await response.json();
+        
+        if (!result.success) {
+            throw new Error(result.message || 'Erreur lors de la suppression');
         }
+
+        alert('Commentaire supprimé avec succès !');
+        loadCommentaires();
+        
+    } catch (error) {
+        console.error('Erreur suppression commentaire:', error);
+        alert(`Erreur lors de la suppression: ${error.message}`);
     }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadCommentaires(1);
+    loadCommentaires();
 });
 </script>
-
 </body>
 </html>
