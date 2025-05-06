@@ -136,6 +136,40 @@
             color: #b91c1c;
             border: 1px solid #f87171;
         }
+        #matchResults {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f0f4f8;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+#matchResults h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+#matchResults ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#matchResults li {
+  padding: 8px 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  transition: background-color 0.2s;
+}
+
+#matchResults li:hover {
+  background-color: #e6f0ff;
+}
+
     </style>
 </head>
 <body class="light-theme">
@@ -233,6 +267,7 @@
             <button class="filter-btn">Data</button>
             <button id="downloadPdfButton" class="filter-btn" onclick="generatePDF()">Download PDF</button>
             <button id="sortByStatusButton" class="filter-btn" onclick="sortProjects()">Sort by Status</button>
+            <button onclick="showStats()" class="filter-btn">Show Skill Statistics</button>
 
         </div>
     </div>
@@ -246,7 +281,10 @@
     </div>
 </div>
 
-
+<div id="stat-container" style="display:none; text-align:center; margin-top:30px;">
+    <canvas id="skillChart" style="max-width:700px;"></canvas>
+</div>
+  
                     <!-- Projects Table -->
                     <div class="table-container">
                         <table class="users-table">
@@ -271,6 +309,7 @@
             </div>
         </div>
     </div>
+    <div id="matchResults" style="display: none;"></div>
 
  <!-- Add Project Form (Popup) -->
 <!-- Add Project Form (Popup) -->
@@ -358,6 +397,8 @@
 </div>
 
 <!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     // Open the Add Project Form popup
     document.getElementById('addProjectButton').onclick = function() {
@@ -501,6 +542,8 @@ function displayProjects(projects) {
                 <td>
                     <button class="edit-btn" onclick="openEditForm(${project.id}, '${encodeURIComponent(project.project)}', '${encodeURIComponent(project.description)}', '${project.type}', '${encodeURIComponent(project.skills_required)}', '${project.git_link}', '${project.status}')">Edit</button>
                     <button class="delete-btn" onclick="deleteProject(${project.id})">Delete</button>
+     <button class="match-btn" onclick="matchUsers('${project.skills_required}')">Match</button>
+
                 </td>
             </tr>
         `;
@@ -508,6 +551,37 @@ function displayProjects(projects) {
 
     tableBody.innerHTML = html;
 }
+
+
+function matchUsers(skillsRequired) {
+  fetch(`match.php?skills_required=${encodeURIComponent(skillsRequired)}`)
+    .then(response => response.json())
+    .then(users => {
+      const container = document.getElementById("matchResults");
+      container.innerHTML = "";
+
+      if (users.length === 0) {
+        container.innerHTML = "<p>Aucun utilisateur correspondant trouvé.</p>";
+      } else {
+        let list = "<h3>Utilisateurs correspondants :</h3><ul>";
+        users.forEach(user => {
+          list += `<li><strong>${user.full_name}</strong> — ${user.skills}</li>`;
+        });
+        list += "</ul>";
+        container.innerHTML = list;
+      }
+
+      container.style.display = "block";
+    })
+    .catch(error => {
+      console.error("Erreur :", error);
+      alert("Erreur lors de la récupération des correspondances.");
+    });
+}
+
+
+
+
 
 
 
@@ -547,7 +621,44 @@ function generatePDF() {
     // Use html2pdf to capture the table and generate the PDF
     html2pdf().from(tableContent).save('projects_table.pdf');
 }
+function showStats() {
+        const skillsCount = {}; // Object to store the count of each skill
 
+        allProjects.forEach(project => {
+            const skills = project.skills_required.split(','); // Assuming skills are comma separated
+            skills.forEach(skill => {
+                skill = skill.trim();
+                skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+            });
+        });
+
+        const skillNames = Object.keys(skillsCount);
+        const skillValues = Object.values(skillsCount);
+
+        const ctx = document.getElementById('skillChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: skillNames,
+                datasets: [{
+                    label: 'Skills Required',
+                    data: skillValues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        document.getElementById('stat-container').style.display = 'block';
+    }
 
 
     // Add validation for the Add Project form

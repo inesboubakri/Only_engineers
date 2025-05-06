@@ -70,10 +70,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!$date_depot) {
-        $errors[] = "La date du dépôt est requise.";
-    } elseif (strtotime($date_depot) > time()) {
-        $errors[] = "La date ne peut pas être dans le futur.";
-    }
+      $errors[] = "La date du dépôt est requise.";
+  } else {
+      // Convertir la date de dépôt en timestamp
+      $depot_timestamp = strtotime($date_depot);
+      
+      // Vérifier si la date de dépôt a un format valide
+      if ($depot_timestamp === false) {
+          $errors[] = "Format de date invalide.";
+      } else {
+          // Réinitialiser l'heure de la date de dépôt et de la date actuelle pour comparaison uniquement des dates
+          $depot_date_only = date("Y-m-d", $depot_timestamp);
+          $today_date_only = date("Y-m-d", time());
+  
+          // Comparer les dates : la date de dépôt doit être exactement aujourd'hui
+          if ($depot_date_only !== $today_date_only) {
+              $errors[] = "La date du dépôt doit être exactement aujourd'hui.";
+          }
+      }
+  }
+  
+  
     if (strlen($commentaire) < 5) {
         $errors[] = "Le commentaire doit contenir au moins 5 caractères.";
     }
@@ -220,6 +237,33 @@ if (isset($_GET['action']) && $_GET['action'] === 'edit' && isset($_GET['depot_i
     <a href="projects.php" class="btn btn-back">&larr; Retour</a>
     <h1><?=htmlspecialchars($project['project'])?></h1>
 
+
+
+<?php
+$skills = strtolower($project['skills_required']);
+
+$skillLinks = [
+    'php' => ['https://vscode.dev/', 'Ouvrir dans VS Code'],
+    'javascript' => ['https://vscode.dev/', 'Ouvrir dans VS Code'],
+    'c++' => ['https://www.qt.io/download', 'Ouvrir dans Qt Creator'],
+    'python' => ['https://jupyter.org/try', 'Ouvrir dans Jupyter Notebook'],
+    'java' => ['https://www.eclipse.org/downloads/', 'Ouvrir dans Eclipse IDE'],
+    'html' => ['https://codepen.io/pen/', 'Ouvrir dans CodePen'],
+    'arduino' => ['https://create.arduino.cc/editor', 'Ouvrir dans Arduino Web Editor']
+    // Add more here as needed
+];
+
+foreach ($skillLinks as $keyword => [$url, $label]) {
+    if (strpos($skills, $keyword) !== false) {
+        echo "<p><a class=\"btn\" href=\"$url\" target=\"_blank\">$label</a></p>";
+    }
+}
+?>
+
+
+
+
+
     <h2>Dépôts</h2>
 
     <a href="?id=<?= $id ?>&action=add" class="btn btn-add">Ajouter un dépôt</a>
@@ -319,6 +363,10 @@ function validateForm(form) {
   const today = new Date();
   const depotDate = new Date(dateDepot);
 
+  // Réinitialiser l'heure de "today" et de "depotDate" pour ne comparer que la date (sans l'heure)
+  today.setHours(0, 0, 0, 0);
+  depotDate.setHours(0, 0, 0, 0);
+
   let errors = [];
 
   // 1. Commentaire validation
@@ -330,17 +378,23 @@ function validateForm(form) {
   if (!dateDepot) {
     errors.push("La date de dépôt est obligatoire.");
   } else if (depotDate > today) {
+    // Date dans le futur
     errors.push("La date de dépôt ne peut pas être dans le futur.");
+  } else if (depotDate < today) {
+    // Date dans le passé
+    errors.push("La date de dépôt ne peut pas être dans le passé.");
   }
 
   // 3. Show errors if any
   if (errors.length > 0) {
     alert(errors.join("\n"));
-    return false; // Block form submission
+    return false; // Bloquer l'envoi du formulaire
   }
 
-  return true; // Allow form submission
+  return true; // Permettre l'envoi du formulaire
 }
+
+
 </script>
 </body>
 </html>
