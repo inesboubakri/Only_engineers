@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device=device-width, initial-scale=1.0">
+    <title>Articles Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        .users-table th, .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .users-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .users-table tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .article-img {
+            width: 60px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .published { background-color: #d1fae5; color: #065f46; }
+        .draft { background-color: #fef3c7; color: #92400e; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal.visible { display: block; }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .close { float: right; font-size: 24px; cursor: pointer; }
+
+        .form-group { margin-bottom: 15px; }
+
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group .lt-editor-container {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-height: 200px;
+            padding: 8px;
+            background: white;
+        }
+
+        .error-message { color: red; font-size: 0.8em; margin-top: 5px; display: block; }
+
+        .form-actions { display: flex; justify-content: space-between; }
+
+        .submit-btn, .cancel-btn, .confirm-btn, .action-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-btn { background-color: #4CAF50; color: white; border: none; }
+        .cancel-btn { background-color: #f0f0f0; border: 1px solid #ccc; }
+        .confirm-btn { background-color: #ff4444; color: white; border: none; }
+        .action-btn { background-color: #ff4444; color: white; border: none; margin-right: 5px; }
+
+        .report-modal-content { text-align: center; }
+
+        .format-btn { background-color: #4CAF50; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin: 10px; border: none; }
+        .download-btn { background-color: #4CAF50; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-top: 10px; border: none; display: none; }
+        .download-btn.visible { display: inline-block; }
+
+        .service-card.status-card .service-icon { background-color: #fdba74; }
+
+        .status-stats { display: flex; justify-content: space-between; margin-top: 10px; }
+        .status-stats div { font-size: 0.9em; color: #333; }
+
+        .filter-btn.active { background-color: #4CAF50; color: white; }
+
+        .stats-window {
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .stats-window h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .stats-table th, .stats-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .stats-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .print-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-content button {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .dropdown-content button:hover {
+            background-color: #f1f1f1;
+        }
+
+        body.light-theme {
+            background-color: #f4f7fa;
+            color: #333;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <li><div class="nav-icon">👥</div><span>Users</span></li>
+                    <li><div class="nav-icon">👥</div><span>Jobs</span></li>
+                    <li><div class="nav-icon">🚀</div><span>Projects</span></li>
+                    <li class="active"><div class="nav-icon">📰</div><span>Articles</span></li>
+                    <li><div class="nav-icon">🏆</div><span>Hackathons</span></li>
+                    <li><div class="nav-icon">📚</div><span>Courses</span></li>
+                    <li><div class="nav-icon">💼</div><span>Opportunities</span></li>
+                    <li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li>
+                    <li><div class="nav-icon">🚪</div><span>Sign out</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search" id="searchInput">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles Content -->
+            <div class="users-view">
+                <!-- Top Cards Row -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>📰</span>
+                        </div>
+                        <div class="service-title">Articles Analytics</div>
+                        <div class="service-description">Generate comprehensive PDF reports about articles</div>
+                        <button class="service-button" id="generateReportBtn">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card stats-card">
+                        <div class="service-icon purple">
+                            <span>👁️</span>
+                        </div>
+                        <div class="service-title">Total Views</div>
+                        <div class="service-amount" id="totalViews">Loading...</div>
+                        <div class="service-change positive">+12.7%</div>
+                    </div>
+                    
+                    <div class="service-card authors-card">
+                        <div class="service-icon teal">
+                            <span>✍️</span>
+                        </div>
+                        <div class="service-title">Active Authors</div>
+                        <div class="service-amount" id="activeAuthors">Loading...</div>
+                        <div class="service-change positive">+5.3%</div>
+                    </div>
+                    
+                    <div class="service-card status-card">
+                        <div class="service-icon orange">
+                            <span>📊</span>
+                        </div>
+                        <div class="service-title">Article Status</div>
+                        <div class="status-stats">
+                            <div>Published: <span id="publishedCount">Loading...</span></div>
+                            <div>Draft: <span id="draftCount">Loading...</span></div>
+                        </div>
+                        <button class="service-button" id="viewStatsBtn">View Detailed Stats</button>
+                    </div>
+                </div>
+                
+                <!-- Articles Table Section -->
+                <div class="card users-table-card">
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="Tech">Tech</button>
+                            <button class="filter-btn" data-filter="Business">Business</button>
+                            <button class="filter-btn" data-filter="Science">Science</button>
+                            <button class="filter-btn" data-filter="published">Published</button>
+                            <button class="filter-btn" data-filter="draft">Drafts</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="add-button">
+                                <span class="add-icon">+</span>
+                                <span>Add News</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>idnews</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Content</th>
+                                    <th>Category</th>
+                                    <th>Image</th>
+                                    <th>Created At</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="newsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Add News Modal -->
+                    <div id="addnewsModal" class="modal">
+                        <div class="modal-content">
+                            <h2>Add New News</h2>
+                            <span class="close">×</span>
+                            <form id="addnewsForm" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="title">Title:</label>
+                                    <input type="text" id="title" name="title" required minlength="3" maxlength="250">
+                                    <span class="error-message" id="title-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="author">Author:</label>
+                                    <input type="text" id="author" name="author" required minlength="3" maxlength="150">
+                                    <span class="error-message" id="author-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="content">Content:</label>
+                                    <div id="add-lt-editor" class="lt-editor-container"></div>
+                                    <input type="hidden" name="content" id="add-hidden-content">
+                                    <span class="error-message" id="content-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="category">Category:</label>
+                                    <select id="category" name="category" required>
+                                        <option value="" disabled selected>Choose a category</option>
+                                        <option value="Tech">Tech</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Science">Science</option>
+                                    </select>
+                                    <span class="error-message" id="category-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="image">Image:</label>
+                                    <input type="file" id="image" name="image" accept="image/*">
+                                    <span class="error-message" id="image-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="created_at">Date:</label>
+                                    <input type="datetime-local" id="created_at" name="created_at" required>
+                                    <span class="error-message" id="date-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="status">Status:</label>
+                                    <select id="status" name="status" required>
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="published">Published</option>
+                                        <option value="draft">Draft</option>
+                                    </select>
+                                    <span class="error-message" id="status-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="reading_time">Reading Time (minutes):</label>
+                                    <input type="number" id="reading_time" name="reading_time" min="0" value="0">
+                                    <span class="error-message" id="reading_time-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="jaime">Likes:</label>
+                                    <input type="number" id="jaime" name="jaime" min="0" value="0">
+                                    <span class="error-message" id="jaime-error"></span>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="submit-btn">Add News</button>
+                                    <button type="button" class="cancel-btn">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Edit News Modal -->
+                    <div id="editnewsModal" class="modal edit-modal">
+                        <div class="modal-content">
+                            <h2>Edit News</h2>
+                            <span class="close">×</span>
+                            <form id="editnewsForm" enctype="multipart/form-data">
+                                <input type="hidden" id="edit_idnews" name="idnews">
+
+                                <div class="form-group">
+                                    <label for="edit_title">Title:</label>
+                                    <input type="text" id="edit_title" name="title" required minlength="3" maxlength="250">
+                                    <span class="error-message" id="edit-title-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_author">Author:</label>
+                                    <input type="text" id="edit_author" name="author" required minlength="3" maxlength="150">
+                                    <span class="error-message" id="edit-author-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_content">Content:</label>
+                                    <div id="edit-lt-editor" class="lt-editor-container"></div>
+                                    <input type="hidden" name="content" id="edit-hidden-content">
+                                    <span class="error-message" id="edit-content-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_category">Category:</label>
+                                    <select id="edit_category" name="category" required>
+                                        <option value="" disabled selected>Choose a category</option>
+                                        <option value="Tech">Tech</option>
+                                        <option value="Business">Business</option>
+                                        <option value="Science">Science</option>
+                                    </select>
+                                    <span class="error-message" id="edit-category-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_image">Image:</label>
+                                    <input type="file" id="edit_image" name="image" accept="image/*">
+                                    <span class="error-message" id="edit-image-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_created_at">Date:</label>
+                                    <input type="datetime-local" id="edit_created_at" name="created_at" required>
+                                    <span class="error-message" id="edit-date-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_status">Status:</label>
+                                    <select id="edit_status" name="status" required>
+                                        <option value="" disabled selected>Select Status</option>
+                                        <option value="published">Published</option>
+                                        <option value="draft">Draft</option>
+                                    </select>
+                                    <span class="error-message" id="edit-status-error"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="edit_reading_time">Reading Time (minutes):</label>
+                                    <input type="number" id="edit_reading_time" name="reading_time" min="0" value="0">
+                                    <span class="error-message" id="edit-reading_time-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit_jaime">Likes:</label>
+                                    <input type="number" id="edit_jaime" name="jaime" min="0" value="0">
+                                    <span class="error-message" id="edit-jaime-error"></span>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="submit-btn">Save Changes</button>
+                                    <button type="button" class="cancel-btn">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Delete Confirmation Modal -->
+                    <div id="deleteConfirmModal" class="modal delete-modal">
+                        <div class="modal-content">
+                            <h2>Confirm Deletion</h2>
+                            <p>Are you sure you want to delete this news? This action cannot be undone.</p>
+                            <input type="hidden" id="delete_news_id">
+                            <div class="modal-footer">
+                                <button type="button" class="cancel-btn">Cancel</button>
+                                <button type="button" class="confirm-btn" id="confirmDeleteBtn">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Format Selection Modal -->
+                    <div id="reportFormatModal" class="modal">
+                        <div class="modal-content report-modal-content">
+                            <span class="close">×</span>
+                            <h2>Generate News Report</h2>
+                            <p>Generate a PDF report for News articles:</p>
+                            <button class="format-btn" id="generatePdfBtn">PDF</button>
+                            <button class="cancel-btn">Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- Report Generation Modal -->
+                    <div id="reportStatusModal" class="modal">
+                        <div class="modal-content report-modal-content">
+                            <span class="close">×</span>
+                            <h2>Generating Report</h2>
+                            <p id="reportStatus">Please wait while the report is being generated...</p>
+                            <button class="download-btn" id="downloadReportBtn">Download Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.openEditModal = function(newsStr) {
+            try {
+                let news;
+                if (typeof newsStr === 'string') {
+                    try {
+                        news = JSON.parse(decodeURIComponent(newsStr));
+                    } catch (e) {
+                        news = JSON.parse(newsStr);
+                    }
+                } else if (typeof newsStr === 'object') {
+                    news = newsStr;
+                } else {
+                    throw new Error('Unsupported data format');
+                }
+
+                const requiredFields = ['idnews', 'title', 'author', 'content', 'category', 'status', 'created_at'];
+                const missingFields = requiredFields.filter(field => !(field in news));
+                
+                if (missingFields.length > 0) {
+                    throw new Error(`Missing fields: ${missingFields.join(', ')}`);
+                }
+
+                const setValue = (id, value) => {
+                    const element = document.getElementById(id);
+                    if (element) element.value = value || '';
+                };
+
+                setValue('edit_idnews', news.idnews);
+                setValue('edit_title', news.title);
+                setValue('edit_author', news.author);
+                setValue('edit_category', news.category);
+                setValue('edit_status', news.status);
+                setValue('edit_reading_time', news.reading_time || '0');
+                setValue('edit_jaime', news.jaime || '0');
+
+                const date = new Date(news.created_at);
+                const formattedDate = date.toISOString().slice(0, 16);
+                setValue('edit_created_at', formattedDate);
+
+                if (window.editLtEditor) {
+                    window.editLtEditor.setText(news.content || '');
+                    document.getElementById('edit-hidden-content').value = news.content || '';
+                }
+
+                const editModal = document.getElementById('editnewsModal');
+                if (editModal) {
+                    editModal.classList.add('visible');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    throw new Error('Edit modal not found');
+                }
+            } catch (error) {
+                console.error('Error opening edit modal:', error);
+                alert('Unable to open editor. Check console for details.');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modals = {
+                add: document.getElementById('addnewsModal'),
+                edit: document.getElementById('editnewsModal'),
+                delete: document.getElementById('deleteConfirmModal'),
+                reportFormat: document.getElementById('reportFormatModal'),
+                reportStatus: document.getElementById('reportStatusModal')
+            };
+
+            const forms = {
+                add: document.getElementById('addnewsForm'),
+                edit: document.getElementById('editnewsForm')
+            };
+
+            let currentNewsId = null;
+            let allNews = [];
+
+            let addLtEditor = null;
+            let editLtEditor = null;
+
+            if (window.LTEditor) {
+                addLtEditor = new window.LTEditor({
+                    container: document.getElementById('add-lt-editor'),
+                    language: 'fr',
+                    onTextChange: function (text) {
+                        document.getElementById('add-hidden-content').value = text;
+                    }
+                });
+                window.addLtEditor = addLtEditor;
+
+                editLtEditor = new window.LTEditor({
+                    container: document.getElementById('edit-lt-editor'),
+                    language: 'fr',
+                    onTextChange: function (text) {
+                        document.getElementById('edit-hidden-content').value = text;
+                    }
+                });
+                window.editLtEditor = editLtEditor;
+            } else {
+                console.warn('LanguageTool editor not loaded. Using fallback textarea.');
+                document.getElementById('add-lt-editor').innerHTML = '<textarea id="add_content_fallback" name="content" required></textarea>';
+                document.getElementById('edit-lt-editor').innerHTML = '<textarea id="edit_content_fallback" name="content" required></textarea>';
+            }
+
+            function toggleModal(modalType, show) {
+                Object.values(modals).forEach(m => m.classList.remove('visible'));
+                if (show && modals[modalType]) {
+                    modals[modalType].classList.add('visible');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                    if (modalType === 'add' && addLtEditor) {
+                        addLtEditor.setText('');
+                        document.getElementById('add-hidden-content').value = '';
+                    }
+                    if (modalType === 'edit' && editLtEditor) {
+                        editLtEditor.setText('');
+                        document.getElementById('edit-hidden-content').value = '';
+                    }
+                }
+            }
+
+            function setupForm(formType) {
+                const form = forms[formType];
+                if (!form) return;
+
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if (!validateForm(formType)) return;
+
+                    const formData = new FormData(form);
+                    const url = 'http://localhost/fpjw/projet_web/back_office/controllers/newsController.php';
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                        }
+
+                        const result = await response.json();
+                        if (result.success) {
+                            toggleModal(formType, false);
+                            loadNews();
+                            alert(`News ${formType === 'add' ? 'added' : 'modified'}!`);
+                            form.reset();
+                            if (formType === 'add' && addLtEditor) {
+                                addLtEditor.setText('');
+                            }
+                            if (formType === 'edit' && editLtEditor) {
+                                editLtEditor.setText('');
+                            }
+                        } else {
+                            throw new Error(result.message);
+                        }
+                    } catch (error) {
+                        alert(`Error: ${error.message}`);
+                    }
+                });
+            }
+
+            function validateForm(formType) {
+                let isValid = true;
+                const allowedCategories = ['Tech', 'Business', 'Science'];
+                const allowedStatuses = ['published', 'draft'];
+
+                const config = {
+                    add: {
+                        fields: ['title', 'author', 'content', 'category', 'created_at', 'status', 'reading_time', 'jaime'],
+                        prefix: '',
+                        contentField: 'add-hidden-content'
+                    },
+                    edit: {
+                        fields: ['title', 'author', 'content', 'category', 'created_at', 'status', 'reading_time', 'jaime'],
+                        prefix: 'edit_',
+                        contentField: 'edit-hidden-content'
+                    }
+                };
+
+                config[formType].fields.forEach(field => {
+                    const input = field === 'content' 
+                        ? document.getElementById(config[formType].contentField)
+                        : document.getElementById(`${config[formType].prefix}${field}`);
+                    if (!input) return;
+
+                    const value = input.value.trim();
+                    const errorSpan = document.getElementById(`${config[formType].prefix}${field}-error`);
+
+                    if (errorSpan) errorSpan.textContent = '';
+
+                    if (field !== 'reading_time' && field !== 'jaime' && value === '') {
+                        isValid = false;
+                        if (errorSpan) errorSpan.textContent = 'This field is required';
+                        return;
+                    }
+
+                    if (field === 'title') {
+                        if (value.length < 5) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Title must be at least 5 characters';
+                        }
+                        if (value.length > 250) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Title is too long (max 250 characters)';
+                        }
+                    }
+
+                    if (field === 'author') {
+                        if (!/^[A-Za-z\s]+$/.test(value)) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Author name must contain only letters';
+                        }
+                        if (value.length > 150) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Author name is too long (max 150 characters)';
+                        }
+                    }
+
+                    if (field === 'content') {
+                        if (value.length < 10) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Content must be at least 10 characters';
+                        }
+                    }
+
+                    if (field === 'category') {
+                        if (!allowedCategories.includes(value)) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Please choose a valid category: Tech, Business, Science';
+                        }
+                    }
+
+                    if (field === 'status') {
+                        if (!allowedStatuses.includes(value)) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Please choose a valid status: Published or Draft';
+                        }
+                    }
+
+                    if (field === 'created_at') {
+                        const inputDate = new Date(value);
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        
+                        if (isNaN(inputDate.getTime()) || inputDate < today) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Date must be today or a future date';
+                        }
+                    }
+
+                    if (field === 'reading_time' || field === 'jaime') {
+                        const numValue = parseInt(value, 10);
+                        if (isNaN(numValue) || numValue < 0) {
+                            isValid = false;
+                            if (errorSpan) errorSpan.textContent = 'Value must be a positive number or zero';
+                        }
+                    }
+                });
+
+                return isValid;
+            }
+
+            async function loadStats() {
+                try {
+                    const response = await fetch('http://localhost/fpjw/projet_web/back_office/controllers/newsController.php?action=stats', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    if (result.success) {
+                        document.getElementById('totalViews').textContent = result.data.total_views.toLocaleString();
+                        document.getElementById('activeAuthors').textContent = result.data.active_authors;
+                        document.getElementById('publishedCount').textContent = result.data.published || 0;
+                        document.getElementById('draftCount').textContent = result.data.draft || 0;
+                    } else {
+                        throw new Error(result.message);
+                    }
+                } catch (error) {
+                    console.error('Error loading stats:', error);
+                    document.getElementById('totalViews').textContent = 'Error';
+                    document.getElementById('activeAuthors').textContent = 'Error';
+                    document.getElementById('publishedCount').textContent = 'Error';
+                    document.getElementById('draftCount').textContent = 'Error';
+                }
+            }
+
+            async function generateReport() {
+                try {
+                    toggleModal('reportStatus', true);
+                    document.getElementById('reportStatus').textContent = 'Generating News PDF report...';
+                    document.getElementById('downloadReportBtn').classList.remove('visible');
+
+                    const url = 'http://localhost/fpjw/projet_web/back_office/controllers/newsController.php?action=report&username=Ines%20Boubakri';
+                    const response = await fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`HTTP Error: ${response.status} ${response.statusText} - ${errorText}`);
+                    }
+
+                    const result = await response.json();
+                    if (result.success && result.data.file_url) {
+                        document.getElementById('reportStatus').textContent = 'Report generated successfully!';
+                        const downloadBtn = document.getElementById('downloadReportBtn');
+                        downloadBtn.classList.add('visible');
+                        downloadBtn.onclick = () => {
+                            const link = document.createElement('a');
+                            link.href = result.data.file_url;
+                            link.download = 'news_report.pdf';
+                            link.click();
+                            toggleModal('reportStatus', false);
+                        };
+                    } else {
+                        throw new Error(result.message || 'Failed to generate report');
+                    }
+                } catch (error) {
+                    console.error('Error generating PDF report:', error);
+                    document.getElementById('reportStatus').textContent = `Error: An issue occurred while generating the report. Please try again or contact support. Details: ${error.message}`;
+                    documentareportModal('reportStatus', false);
+                }
+            }
+
+            async function openStatsWindow() {
+                try {
+                    const response = await fetch('http://localhost/fpjw/projet_web/back_office/controllers/newsController.php?action=stats', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    if (!result.success) {
+                        throw new Error(result.message || 'Failed to fetch stats');
+                    }
+
+                    const statsData = result.data.news || [];
+                    const statsWindow = window.open('', '_blank');
+                    statsWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>Articles Statistics</title>
+                            <style>
+                                body {
+                                    font-family: 'Inter', sans-serif;
+                                    padding: 20px;
+                                }
+                                h2 {
+                                    text-align: center;
+                                    margin-bottom: 20px;
+                                }
+                                .stats-table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    margin-bottom: 20px;
+                                }
+                                .stats-table th, .stats-table td {
+                                    padding: 10px;
+                                    border: 1px solid #ddd;
+                                    text-align: left;
+                                }
+                                .stats-table th {
+                                    background-color: #f8f9fa;
+                                    font-weight: 600;
+                                }
+                                .print-btn {
+                                    display: block;
+                                    margin: 20px auto;
+                                    padding: 10px 20px;
+                                    background-color: #4CAF50;
+                                    color: white;
+                                    border: none;
+                                    border-radius: 4px;
+                                    cursor: pointer;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <h2>Articles Statistics (Summary)</h2>
+                            <table class="stats-table">
+                                <thead>
+                                    <tr>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Created At</th>
+                                        <th>Status</th>
+                                        <th>Views</th>
+                                        <th>Likes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${statsData.map(item => `
+                                        <tr>
+                                            <td>${item.author || 'N/A'}</td>
+                                            <td>${item.category || 'N/A'}</td>
+                                            <td>${item.created_at ? new Date(item.created_at).toLocaleString() : 'N/A'}</td>
+                                            <td>${item.status || 'N/A'}</td>
+                                            <td>${item.nb_vues || 0}</td>
+                                            <td>${item.jaime || 0}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+
+                            <h2>Articles Statistics (Detailed)</h2>
+                            <table class="stats-table">
+                                <thead>
+                                    <tr>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Created At</th>
+                                        <th>Status</th>
+                                        <th>Views</th>
+                                        <th>Likes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${statsData.map(item => `
+                                        <tr>
+                                            <td>${item.author || 'N/A'}</td>
+                                            <td>${item.category || 'N/A'}</td>
+                                            <td>${item.created_at ? new Date(item.created_at).toLocaleString() : 'N/A'}</td>
+                                            <td>${item.status || 'N/A'}</td>
+                                            <td>${item.nb_vues || 0}</td>
+                                            <td>${item.jaime || 0}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                            <button class="print-btn" onclick="window.print()">Print Statistics</button>
+                        </body>
+                        </html>
+                    `);
+                    statsWindow.document.close();
+                } catch (error) {
+                    console.error('Error opening stats window:', error);
+                    alert('Error loading statistics: ' + error.message);
+                }
+            }
+
+            function applyFilter(filter) {
+                let filteredNews = allNews;
+                if (filter !== 'all') {
+                    if (['Tech', 'Business', 'Science'].includes(filter)) {
+                        filteredNews = allNews.filter(news => news.category === filter);
+                    } else if (filter === 'published' || filter === 'draft') {
+                        filteredNews = allNews.filter(news => news.status === filter);
+                    }
+                }
+                renderNewsTable(filteredNews);
+            }
+
+            function renderNewsTable(newsData) {
+                const tbody = document.getElementById('newsTableBody');
+                tbody.innerHTML = newsData.map(news => `
+                    <tr>
+                        <td>${news.idnews}</td>
+                        <td>${news.title}</td>
+                        <td>${news.author}</td>
+                        <td>${news.content.substring(0, 50)}${news.content.length > 50 ? '...' : ''}</td>
+                        <td>${news.category}</td>
+                        <td>${news.image ? `<img src="../Uploads/news_images/${news.image}" class="article-img" onerror="this.src='https://via.placeholder.com/60x40';">` : 'No Image'}</td>
+                        <td>${new Date(news.created_at).toLocaleString()}</td>
+                        <td><span class="status-badge ${news.status}">${news.status}</span></td>
+                        <td>
+                            <div class="actions-wrapper">
+                                <button class="action-btn" onclick="toggleDropdown(${news.idnews})">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-content" id="dropdown-${news.idnews}">
+                                    <button onclick="openEditModal('${encodeURIComponent(JSON.stringify(news))}')">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button onclick="confirmDelete(${news.idnews})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            function setupFilters() {
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        applyFilter(btn.dataset.filter);
+                    });
+                });
+            }
+
+            function setupSearch() {
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', () => {
+                    const query = searchInput.value.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                    const filteredNews = allNews.filter(news => {
+                        const title = news.title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                        const author = news.author.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                        const content = news.content.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                        return title.includes(query) || author.includes(query) || content.includes(query);
+                    });
+                    renderNewsTable(filteredNews);
+                });
+            }
+
+            document.querySelectorAll('.close, .cancel-btn').forEach(btn => {
+                btn.addEventListener('click', () => toggleModal(null, false));
+            });
+
+            document.querySelector('.add-button').addEventListener('click', () => {
+                forms.add.reset();
+                if (addLtEditor) {
+                    addLtEditor.setText('');
+                    document.getElementById('add-hidden-content').value = '';
+                }
+                toggleModal('add', true);
+            });
+
+            window.confirmDelete = (id) => {
+                currentNewsId = id;
+                toggleModal('delete', true);
+            };
+
+            document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
+                try {
+                    const response = await fetch(`http://localhost/fpjw/projet_web/back_office/controllers/newsController.php?idnews=${currentNewsId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    if (result.success) {
+                        toggleModal(null, false);
+                        loadNews();
+                        alert('News deleted!');
+                    } else {
+                        throw new Error(result.message);
+                    }
+                } catch (error) {
+                    alert('Error during deletion: ' + error.message);
+                }
+            });
+
+            document.getElementById('generateReportBtn').addEventListener('click', () => {
+                toggleModal('reportFormat', true);
+            });
+
+            document.getElementById('generatePdfBtn').addEventListener('click', () => {
+                toggleModal('reportFormat', false);
+                generateReport();
+            });
+
+            document.getElementById('viewStatsBtn').addEventListener('click', () => {
+                openStatsWindow();
+            });
+
+            async function loadNews() {
+                try {
+                    const response = await fetch('http://localhost/fpjw/projet_web/back_office/controllers/newsController.php', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    if (!result.success) {
+                        throw new Error(result.message || 'Failed to fetch data');
+                    }
+
+                    allNews = result.data;
+                    renderNewsTable(allNews);
+                } catch (error) {
+                    console.error('Error loading news:', error);
+                    alert('Error loading news: ' + error.message);
+                }
+            }
+
+            function toggleDropdown(id) {
+                document.querySelectorAll('.dropdown-content').forEach(d => 
+                    d.classList.toggle('show', d.id === `dropdown-${id}`)
+                );
+            }
+
+            document.addEventListener('click', e => {
+                if (!e.target.closest('.action-btn')) {
+                    document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
+                }
+            });
+
+            setupForm('add');
+            setupForm('edit');
+            setupFilters();
+            setupSearch();
+            loadNews();
+            loadStats();
+        });
+    </script>
+    <script src="https://unpkg.com/@languagetool/editor-sdk@latest/dist/bundle.min.js"></script>
+</body>
+</html>

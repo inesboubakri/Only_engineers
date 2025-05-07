@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .vertical-card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .job-content {
+            padding: 24px;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .job-content.technology {
+            background: linear-gradient(135deg, #60a5fa, #1e40af);
+        }
+        .job-content.programming {
+            background: linear-gradient(135deg, #4ade80, #047857);
+        }
+        .job-content.career {
+            background: linear-gradient(135deg, #fb923c, #b45309);
+        }
+        .job-content.design {
+            background: linear-gradient(135deg, #c084fc, #7e22ce);
+        }
+        .job-content.ai-ml {
+            background: linear-gradient(135deg, #f87171, #b91c1c);
+        }
+        .job-content.technology *, .job-content.programming *, 
+        .job-content.career *, .job-content.design *, 
+        .job-content.ai-ml * {
+            color: #fff !important;
+        }
+        .job-content.technology svg, .job-content.programming svg, 
+        .job-content.career svg, .job-content.design svg, 
+        .job-content.ai-ml svg {
+            stroke: #fff !important;
+        }
+        [data-theme="dark"] .job-content.technology {
+            background: linear-gradient(135deg, #1e40af, #1e1b4b);
+        }
+        [data-theme="dark"] .job-content.programming {
+            background: linear-gradient(135deg, #047857, #022c22);
+        }
+        [data-theme="dark"] .job-content.career {
+            background: linear-gradient(135deg, #b45309, #3f1e0b);
+        }
+        [data-theme="dark"] .job-content.design {
+            background: linear-gradient(135deg, #7e22ce, #2e1065);
+        }
+        [data-theme="dark"] .job-content.ai-ml {
+            background: linear-gradient(135deg, #b91c1c, #450a0a);
+        }
+        [data-theme="dark"] .job-content.technology *, 
+        [data-theme="dark"] .job-content.programming *, 
+        [data-theme="dark"] .job-content.career *, 
+        [data-theme="dark"] .job-content.design *, 
+        [data-theme="dark"] .job-content.ai-ml * {
+            color: #f3f4f6 !important;
+        }
+        [data-theme="dark"] .job-content.technology svg, 
+        [data-theme="dark"] .job-content.programming svg, 
+        [data-theme="dark"] .job-content.career svg, 
+        [data-theme="dark"] .job-content.design svg, 
+        [data-theme="dark"] .job-content.ai-ml svg {
+            stroke: #f3f4f6 !important;
+        }
+        .job-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            animation: cardFadeIn 0.5s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .job-card:hover {
+            transform: translateY(-8px) rotate(1deg);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        @keyframes cardFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+        .category-badge {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .category-badge::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .job-content.technology .category-badge::before {
+            background: #3b82f6;
+        }
+        .job-content.programming .category-badge::before {
+            background: #22c55e;
+        }
+        .job-content.career .category-badge::before {
+            background: #f97316;
+        }
+        .job-content.design .category-badge::before {
+            background: #a855f7;
+        }
+        .job-content.ai-ml .category-badge::before {
+            background: #ef4444;
+        }
+        .tags span {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 8px;
+            transition: background 0.2s ease;
+        }
+        .tags span:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+        .card-footer {
+            padding: 16px 24px;
+            background: #f9fafb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        [data-theme="dark"] .card-footer {
+            background: #1f2937;
+        }
+        .card-footer .details {
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .job-content.technology + .card-footer .details {
+            background: linear-gradient(135deg, #60a5fa, #1e40af);
+            color: #fff;
+        }
+        .job-content.programming + .card-footer .details {
+            background: linear-gradient(135deg, #4ade80, #047857);
+            color: #fff;
+        }
+        .job-content.career + .card-footer .details {
+            background: linear-gradient(135deg, #fb923c, #b45309);
+            color: #fff;
+        }
+        .job-content.design + .card-footer .details {
+            background: linear-gradient(135deg, #c084fc, #7e22ce);
+            color: #fff;
+        }
+        .job-content.ai-ml + .card-footer .details {
+            background: linear-gradient(135deg, #f87171, #b91c1c);
+            color: #fff;
+        }
+        .card-footer .details:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        [data-theme="dark"] .job-card {
+            border-color: #4b5563;
+            background: #1f2937;
+        }
+        [data-theme="dark"] .tags span {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        [data-theme="dark"] .tags span:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .job-title h4 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin: 12px 0;
+            line-height: 1.3;
+        }
+        .company-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            position: absolute;
+            top: -28px;
+            right: 24px;
+            background: #fff;
+            object-fit: cover;
+        }
+        .chatbot-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            height: 600px;
+            background-color: #fff;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+                        0 32px 64px -48px rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+        .chatbot-popup.visible {
+            display: block;
+        }
+        .chat-header {
+            display: flex;
+            align-items: center;
+            background: #6366f1;
+            padding: 15px 22px;
+            justify-content: space-between;
+        }
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bot-avatar {
+            height: 35px;
+            width: 35px;
+            padding: 6px;
+            fill: #fff;
+            flex-shrink: 0;
+            background: #4f46e5;
+            border-radius: 50%;
+        }
+        .logo-texte {
+            color: #fff;
+            font-size: 1.31rem;
+            font-weight: 600;
+        }
+        .chat-body {
+            padding: 25px 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 82px;
+            background-color: #fff;
+            scrollbar-width: auto;
+            scrollbar-color: #888 #f1f1f1;
+        }
+        .chat-body::-webkit-scrollbar {
+            width: 12px;
+        }
+        .chat-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .chat-body::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 10px;
+            border: 3px solid #f1f1f1;
+        }
+        .chat-body .message {
+            display: flex;
+            gap: 11px;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        .chat-body .user-message {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .chat-body .message-text {
+            padding: 12px 16px;
+            max-width: 75%;
+            font-size: 0.95rem;
+            border-radius: 10px;
+        }
+        .chat-body .bot-message .message-text {
+            background: #F2F2FF;
+            border-radius: 13px 13px 13px 3px;
+        }
+        .chat-body .user-message .message-text {
+            color: #fff;
+            background: #5350C4;
+            border-radius: 13px 3px 13px 13px;
+        }
+        
+        .thinking-indicator .dot {
+            height: 7px;
+            width: 7px;
+            border-radius: 50%;
+            background: #6366f1;
+            animation: dotPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chat-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .chat-footer .chat-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            background-color: #fff;
+        }
+        .message-input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border: 2px solid #6366f1;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: #fff;
+            color: #333;
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            height: 50px;
+        }
+        .message-input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+        }
+        .chat-controls button {
+            border: none;
+            background: none;
+            color: #6366f1;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .chat-controls button:hover {
+            color: #4f46e5;
+        }
+        .chatbot-button {
+            background-color: white;
+            padding: 0.375rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-color: transparent;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        #newsList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .job-details {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .comments-section {
+            margin-top: 2rem;
+            border-top: 1px solid #ccc;
+            padding-top: 1rem;
+        }
+        .comments-list {
+            margin-bottom: 1rem;
+        }
+        .comment {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            background-color: #fafafa;
+            position: relative;
+        }
+        .comment-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .comment-actions button {
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .edit-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+        .comment-form textarea {
+            width: 100%;
+            padding: 0.5rem;
+            resize: vertical;
+        }
+        .comment-form .action-btn {
+            margin-top: 0.5rem;
+        }
+        #addnewsForm {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            color: #333;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border 0.3s ease;
+        }
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus,
+        input[type="date"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .cancel-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .cancel-btn:hover {
+            background-color: #d32f2f;
+        }
+        .error-message {
+            color: #f44336;
+            font-size: 0.9em;
+            display: none;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .close {
+            float: right;
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+        .modal-content input {
+            margin: 10px 0;
+            padding: 8px;
+            font-size: 14px;
+            width: 90%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .modal-content button:hover {
+            background-color: #45a049;
+        }
+        #qrcode {
+            margin-top: 20px;
+            border: 5px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .qr-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .qr-button:hover {
+            background-color: #45a049;
+        }
+        .qr-button::before {
+            content: 'QR';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .pdf-customization-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .pdf-customization-modal .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .pdf-customization-modal .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .pdf-customization-modal .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .pdf-customization-modal .submit-btn {
+            background-color: #28a745;
+        }
+        .pdf-customization-modal .submit-btn:hover {
+            background-color: #218838;
+        }
+        .pdf-customization-modal select,
+        .pdf-customization-modal input[type="number"] {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 1em;
+            width: 100%;
+        }
+        .pdf-customization-modal input[type="number"] {
+            width: 80px;
+        }
+        .article-window-container {
+            padding: 20px;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .article-window-header h2 {
+            font-size: 1.8rem;
+            color: #333;
+        }
+        .article-window-header p {
+            color: #555;
+        }
+        .article-window-image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+        .article-window-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        .article-window-footer {
+            margin-top: 20px;
+        }
+        .social-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .like-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .like-btn:hover {
+            background-color: #0056b3;
+        }
+        .share-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .share-btn:hover {
+            background-color: #218838;
+        }
+        .pdf-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .pdf-btn:hover {
+            background-color: #d32f2f;
+        }
+        .emoji-selector {
+            display: none;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .emoji {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .share-buttons {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .sidebar {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .clear-all, .reset-filters {
+            background: #f44336;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .clear-all:hover, .reset-filters:hover {
+            background: #d32f2f;
+            transform: scale(1.05);
+        }
+        .filter-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        .filter-section.article-type {
+            background: #e6f0ff;
+        }
+        .filter-section.reading-time {
+            background: #e6ffe6;
+        }
+        .filter-section.publication-year {
+            background: #fff0e6;
+        }
+        .filter-section.popularity {
+            background: #ffe6e6;
+        }
+        .filter-section.status {
+            background: #f0f0f0;
+        }
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+        .filter-header:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .filter-options {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            transition: max-height 0.3s ease;
+        }
+        .filter-options.hidden {
+            max-height: 0;
+            overflow: hidden;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .radio-option:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .radio-option input[type="checkbox"] {
+            margin-right: 10px;
+            accent-color: #007bff;
+        }
+        .label-text {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .count {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: #555;
+        }
+        .expand-btn svg {
+            transition: transform 0.3s ease;
+        }
+        .expand-btn.active svg {
+            transform: rotate(180deg);
+        }
+        .sort select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .sort select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            outline: none;
+        }
+        [data-theme="dark"] .sort select {
+            background: #374151;
+            color: #e5e7eb;
+            border-color: #4b5563;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <img src="../assets/logo.png" alt="Only Engineers">
+                </a>
+            </div>
+            <div class="nav-center">
+                <nav class="nav-links">
+                    <a href="../view/home.html">Home</a>
+                    <a href="../view/Dashboard.html">Dashboard</a>
+                    <a href="../view/index.html">Jobs</a>
+                    <a href="../view/projects.html">Projects</a>
+                    <a href="../view/courses.html">Courses</a>
+                    <a href="../view/hackathon.html">Hackathons</a>
+                    <a href="../view/articles.html" class="active">Articles</a>
+                    <a href="../view/networking.html">Networking</a>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <div class="notification-wrapper">
+                    <button class="icon-button notification">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </button>
+                    <span class="notification-dot"></span>
+                </div>
+                <button class="icon-button theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="user-profile">
+                    <a href="../view/user-profile.html">
+                        <img src="../assets/profil.jpg" alt="User profile" class="avatar">
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <aside class="sidebar">
+                <div class="filters">
+                    <div class="filters-header">
+                        <h3>Filtres</h3>
+                        <button class="reset-filters">Réinitialiser</button>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <input type="text" placeholder="Rechercher...">
+                        </div>
+                    </div>
+                    <div class="filter-section article-type">
+                        <div class="filter-header">
+                            <h4>Type d'article</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="checkbox" name="articleType" value="All">
+                                <span class="label-text">Tous</span>
+                                <span class="count">(1143)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="articleType" value="Technology">
+                                <span class="label-text">Technologie</span>
+                                <span class="count">(510)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="articleType" value="Programming">
+                                <span class="label-text">Programmation</span>
+                                <span class="count">(324)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="articleType" value="Career">
+                                <span class="label-text">Carrière</span>
+                                <span class="count">(234)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="articleType" value="Design">
+                                <span class="label-text">Design</span>
+                                <span class="count">(65)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="articleType" value="AI & ML">
+                                <span class="label-text">IA & ML</span>
+                                <span class="count">(10)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-section reading-time">
+                        <div class="filter-header">
+                            <h4>Temps de lecture</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="checkbox" name="readingTime" value="Under 5 min">
+                                <span class="label-text">Moins de 5 min</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="readingTime" value="5-10 min">
+                                <span class="label-text">5-10 min</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="readingTime" value="10-15 min">
+                                <span class="label-text">10-15 min</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="readingTime" value="Over 15 min">
+                                <span class="label-text">Plus de 15 min</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-section publication-year">
+                        <div class="filter-header">
+                            <h4>Année de publication</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="checkbox" name="publicationYear" value="2025">
+                                <span class="label-text">2025</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="publicationYear" value="2024">
+                                <span class="label-text">2024</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="publicationYear" value="2023">
+                                <span class="label-text">2023</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-section status">
+                        <div class="filter-header">
+                            <h4>Statut</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="checkbox" name="status" value="published">
+                                <span class="label-text">Publié</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="status" value="draft">
+                                <span class="label-text">Brouillon</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="filter-section popularity">
+                        <div class="filter-header">
+                            <h4>Popularité</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="checkbox" name="popularity" value="Most Viewed">
+                                <span class="label-text">Les plus vus</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="checkbox" name="popularity" value="Most Liked">
+                                <span class="label-text">Les plus aimés</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <section class="jobs">
+                <div class="jobs-header">
+                    <h2>Articles recommandés <span class="count">386</span></h2>
+                    <button class="chatbot-button" id="chatbotButton">
+                        🤖 Chatbot
+                    </button>
+                    <div class="chatbot-popup" id="chatbot-popup">
+                        <div class="chat-header">
+                            <div class="header-info">
+                                <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 1024 1024">
+                                    <path d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4 .7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"></path>
+                                </svg>
+                                <h2 class="logo-texte">OnlyEngineersBot</h2>
+                            </div>
+                        </div>
+                        <div class="chat-body">
+                            <div class="message bot-message">
+                                <div class="message-text">Hey there 🔴 <br /> How can I help you today?</div>
+                            </div>
+                            <div class="thinking-indicator" style="display: none;">
+                                <svg class="bot-avatar" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 1024 1024">
+                                    <path d="M738.3 287.6H285.7c-59 0-106.8 47.8-106.8 106.8v303.1c0 59 47.8 106.8 106.8 106.8h81.5v111.1c0 .7.8 1.1 1.4 .7l166.9-110.6 41.8-.8h117.4l43.6-.4c59 0 106.8-47.8 106.8-106.8V394.5c0-59-47.8-106.9-106.8-106.9zM351.7 448.2c0-29.5 23.9-53.5 53.5-53.5s53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5-53.5-23.9-53.5-53.5zm157.9 267.1c-67.8 0-123.8-47.5-132.3-109h264.6c-8.6 61.5-64.5 109-132.3 109zm110-213.7c-29.5 0-53.5-23.9-53.5-53.5s23.9-53.5 53.5-53.5 53.5 23.9 53.5 53.5-23.9 53.5-53.5 53.5zM867.2 644.5V453.1h26.5c19.4 0 35.1 15.7 35.1 35.1v121.1c0 19.4-15.7 35.1-35.1 35.1h-26.5zM95.2 609.4V488.2c0-19.4 15.7-35.1 35.1-35.1h26.5v191.3h-26.5c-19.4 0-35.1-15.7-35.1-35.1zM561.5 149.6c0 23.4-15.6 43.3-36.9 49.7v44.9h-30v-44.9c-21.4-6.5-36.9-26.3-36.9-49.7 0-28.6 23.3-51.9 51.9-51.9s51.9 23.3 51.9 51.9z"></path>
+                                </svg>
+                                <div class="dots">
+                                    <span>...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-footer">
+                            <form action="#" class="chat-form">
+                                <textarea placeholder="Message..." class="message-input" required></textarea>
+                                <div class="chat-controls">
+                                    <button type="submit" id="send-message" class="material-symbols-rounded">⬆️</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sort">
+                        <span>Trier par :</span>
+                        <select id="sortSelect">
+                            <option value="created_at" selected>Plus récent</option>
+                            <option value="nb_vues">Plus vus</option>
+                            <option value="jaime">Plus aimés</option>
+                        </select>
+                        <button class="view-toggle" id="articleViewToggle">
+                            <svg class="grid-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 4h4v4H4zM12 4h4v4h-4zM4 12h4v4H4zM12 12h4v4h-4z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <svg class="list-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="job-cards" id="jobCardsContainer"></div>
+                <div class="promo-card">
+                    <div class="promo-content">
+                        <h2>Atteignez des milliers de lecteurs</h2>
+                        <button id="openAddModalBtn" class="add-button">
+                            <span class="add-icon">+</span>
+                            <span>Ajouter une actualité</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="addnewsModal" class="modal" hidden>
+                    <div class="modal-content">
+                        <button id="closeAddModalBtn" class="close-btn" type="button" aria-label="Fermer">×</button>
+                        <h2>Ajouter une actualité</h2>
+                        <form id="addnewsForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="title">Titre</label>
+                                <input id="title" name="title" type="text" required minlength="3" maxlength="250">
+                            </div>
+                            <div class="form-group">
+                                <label for="author">Auteur</label>
+                                <input id="author" name="author" type="text" required minlength="3" maxlength="150">
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Contenu</label>
+                                <textarea id="content" name="content" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Catégorie</label>
+                                <select id="category" name="category" required>
+                                    <option value="" disabled selected>Choisissez</option>
+                                    <option>Technology</option>
+                                    <option>Programming</option>
+                                    <option>Career</option>
+                                    <option>Design</option>
+                                    <option>AI & ML</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="reading_time">Reading_Time</label>
+                                <select id="reading_time" name="Reading_Time" required>
+                                    <option value="" disabled selected>Choisissez</option>
+                                    <option>Under 5 min</option>
+                                    <option>5-10 min</option>
+                                    <option>10-15 min</option>
+                                    <option>Over 15 min</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Image</label>
+                                <input id="image" name="image" type="file" accept="image/*" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="created_at">Date</label>
+                                <input id="created_at" name="created_at" type="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Statut</label>
+                                <select id="status" name="status" required>
+                                    <option value="" disabled selected>Choisissez</option>
+                                    <option>Brouillon</option>
+                                    <option>Publié</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="languages">Publier dans les langues (optionnel)</label>
+                                <select id="languages" name="languages" multiple>
+                                    <option value="en">Anglais</option>
+                                    <option value="fr" selected>Français</option>
+                                    <option value="es">Espagnol</option>
+                                    <option value="de">Allemand</option>
+                                    <option value="it">Italien</option>
+                                    <option value="pt">Portugais</option>
+                                    <option value="zh">Chinois</option>
+                                    <option value="ja">Japonais</option>
+                                    <option value="ru">Russe</option>
+                                    <option value="ar">Arabe</option>
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="submit-btn">Ajouter</button>
+                                <button type="button" id="cancelAddModalBtn" class="cancel-btn">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="pdfCustomizationModal" class="pdf-customization-modal">
+                    <div class="modal-content">
+                        <span class="close" id="closePdfModalBtn">×</span>
+                        <h2>Personnaliser le PDF</h2>
+                        <form id="pdfCustomizationForm" method="POST" action="generate_pdf.php">
+                            <div class="form-group">
+                                <label for="fontSize">Taille de la police :</label>
+                                <select id="fontSize" name="fontSize">
+                                    <option value="10pt">Petite (10pt)</option>
+                                    <option value="12pt" selected>Normale (12pt)</option>
+                                    <option value="14pt">Grande (14pt)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fontFamily">Police :</label>
+                                <select id="fontFamily" name="fontFamily">
+                                    <option value="Times">Times New Roman</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Courier">Courier</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="lineSpacing">Interligne :</label>
+                                <select id="lineSpacing" name="lineSpacing">
+                                    <option value="1.0">Simple (1.0)</option>
+                                    <option value="1.15" selected>Normal (1.15)</option>
+                                    <option value="1.5">Double (1.5)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="margin">Marges (mm) :</label>
+                                <input type="number" id="margin" name="margin" min="10" max="30" value="15">
+                            </div>
+                            <div class="form-group">
+                                <label for="orientation">Orientation :</label>
+                                <select id="orientation" name="orientation">
+                                    <option value="portrait" selected>Portrait</option>
+                                    <option value="landscape">Paysage</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="colorScheme">Schéma de couleurs :</label>
+                                <select id="colorScheme" name="colorScheme">
+                                    <option value="default">Par défaut (Noir sur Blanc)</option>
+                                    <option value="sepia">Sépia</option>
+                                    <option value="dark">Mode sombre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="includeAuthor" name="includeAuthor" checked>
+                                    Inclure l'auteur
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="includeDate" name="includeDate" checked>
+                                    Inclure la date
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="includeComments" name="includeComments">
+                                    Inclure les commentaires
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="includeImages" name="includeImages">
+                                    Inclure les images
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="includeHeaderFooter" name="includeHeaderFooter">
+                                    Inclure en-tête/pied de page
+                                </label>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="submit-btn">Générer PDF</button>
+                                <button type="button" class="cancel-btn" id="cancelPdfModalBtn">Annuler</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="qr-button" onclick="openQRModal()"></div>
+        <div id="qrModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeQRModal()">×</span>
+                <h3>Générer un QR Code</h3>
+                <input type="text" id="modalQrText" placeholder="Entrez le lien">
+                <button onclick="generateQRCodeFromModal()">Générer</button>
+                <div id="qrcode"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+    <script>
+        const BASE_URL = 'http://localhost/fpjw/projet_web/front_office/front_office/';
+        const NEWS_ENDPOINT = `${BASE_URL}controller/News.php`;
+        const COMMENT_ENDPOINT = `${BASE_URL}controller/comment.php`;
+        const PDF_ENDPOINT = 'http://localhost/fpjw/generate_pdf.php';
+        const DETAIL_PAGE_URL = `${BASE_URL}view/detailpage.html`;
+        const DEFAULT_IMAGE = `${BASE_URL}news_images/default_image.png`;
+
+        function translateContent(text, targetLang) {
+            return `${DOMPurify.sanitize(text)} [Translated to ${targetLang}]`;
+        }
+
+        document.querySelectorAll('.filter-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const options = header.nextElementSibling;
+                const expandBtn = header.querySelector('.expand-btn');
+                options.classList.toggle('hidden');
+                expandBtn.classList.toggle('active');
+            });
+        });
+
+        function getFilters() {
+            const filters = {};
+
+            const articleTypeCheckboxes = document.querySelectorAll('input[name="articleType"]:checked');
+            const articleTypes = Array.from(articleTypeCheckboxes).map(cb => cb.value);
+            if (articleTypes.includes('All')) {
+                filters.articleType = '';
+            } else if (articleTypes.length > 0) {
+                filters.articleType = articleTypes.join(',');
+            }
+
+            const readingTimeCheckboxes = document.querySelectorAll('input[name="readingTime"]:checked');
+            const readingTimes = Array.from(readingTimeCheckboxes).map(cb => cb.value);
+            if (readingTimes.length > 0) {
+                filters.readingTime = readingTimes.join(',');
+            }
+
+            const yearCheckboxes = document.querySelectorAll('input[name="publicationYear"]:checked');
+            const years = Array.from(yearCheckboxes).map(cb => cb.value);
+            if (years.length > 0) {
+                filters.publicationYear = years.join(',');
+            }
+
+            const statusCheckboxes = document.querySelectorAll('input[name="status"]:checked');
+            const statuses = Array.from(statusCheckboxes).map(cb => cb.value);
+            if (statuses.length > 0) {
+                filters.status = statuses.join(',');
+            }
+
+            const popularityCheckboxes = document.querySelectorAll('input[name="popularity"]:checked');
+            const sortSelect = document.querySelector('#sortSelect');
+            if (popularityCheckboxes.length > 0) {
+                const popularity = popularityCheckboxes[0].value;
+                if (popularity === 'Most Viewed') {
+                    filters.sort = 'nb_vues';
+                    sortSelect.value = 'nb_vues';
+                } else if (popularity === 'Most Liked') {
+                    filters.sort = 'jaime';
+                    sortSelect.value = 'jaime';
+                }
+            } else {
+                filters.sort = sortSelect.value || 'created_at';
+            }
+
+            return filters;
+        }
+
+        document.querySelectorAll('input[name="popularity"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    document.querySelectorAll('input[name="popularity"]').forEach(cb => {
+                        if (cb !== checkbox) cb.checked = false;
+                    });
+                    loadArticles();
+                }
+            });
+        });
+
+        document.querySelector('input[name="articleType"][value="All"]').addEventListener('change', function() {
+            if (this.checked) {
+                document.querySelectorAll('input[name="articleType"]').forEach(cb => {
+                    if (cb.value !== 'All') cb.checked = false;
+                });
+            }
+            loadArticles();
+        });
+
+        document.querySelectorAll('input[name="articleType"]').forEach(checkbox => {
+            if (checkbox.value !== 'All') {
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        document.querySelector('input[name="articleType"][value="All"]').checked = false;
+                    }
+                    loadArticles();
+                });
+            }
+        });
+
+        function loadArticles() {
+            const filters = getFilters();
+            const queryParams = new URLSearchParams(filters).toString();
+            const url = `${NEWS_ENDPOINT}?${queryParams}`;
+            console.log('Fetching articles from:', url);
+
+            fetch(url)
+                .then(res => {
+                    if (!res.ok) {
+                        return res.text().then(text => {
+                            throw new Error(`HTTP error! Status: ${res.status}, Response: ${text}`);
+                        });
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    const container = document.querySelector('#jobCardsContainer');
+                    if (data.success && Array.isArray(data.data)) {
+                        container.innerHTML = data.data.map(article => `
+                            <div class="job-card">
+                                <div class="job-content ${article.category.toLowerCase().replace(/ & /g, '-')}">
+                                    <div class="card-header">
+                                        <div class="category-badge">${DOMPurify.sanitize(article.category)}</div>
+                                        <div class="tags">
+                                            <span>${article.Reading_Time}</span>
+                                        </div>
+                                    </div>
+                                    <div class="job-title">
+                                        <h4>${DOMPurify.sanitize(article.title)}</h4>
+                                    </div>
+                                    <div class="job-details">
+                                        <span>Auteur: ${DOMPurify.sanitize(article.author)}</span>
+                                        <span>Date: ${new Date(article.created_at).toLocaleDateString('fr-FR')}</span>
+                                        <span>Vues: ${article.nb_vues}</span>
+                                        <span>Likes: ${article.jaime}</span>
+                                    </div>
+                                    <img src="${article.image || DEFAULT_IMAGE}" alt="Company logo" class="company-logo">
+                                </div>
+                                <div class="card-footer">
+                                    <button class="details" onclick="incrementViewsAndNavigate('${article.idnews}')">Voir détails</button>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        container.innerHTML = '<p>Aucun article trouvé.</p>';
+                        console.warn('Invalid response format:', data);
+                    }
+                })
+                .catch(err => {
+                    console.error('Erreur chargement articles:', err.message);
+                    document.querySelector('#jobCardsContainer').innerHTML = `<p>Erreur chargement articles: ${err.message}. Vérifiez la connexion au serveur et l'URL ${url}.</p>`;
+                });
+        }
+
+        document.querySelector('.reset-filters').addEventListener('click', () => {
+            document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            document.querySelector('#sortSelect').value = 'created_at';
+            loadArticles();
+        });
+
+        document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(checkbox => {
+            if (checkbox.name !== 'popularity') {
+                checkbox.addEventListener('change', loadArticles);
+            }
+        });
+
+        document.querySelector('#sortSelect').addEventListener('change', () => {
+            document.querySelectorAll('input[name="popularity"]').forEach(cb => {
+                cb.checked = false;
+            });
+            loadArticles();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadArticles();
+
+            const themeToggle = document.querySelector('#themeToggle');
+            themeToggle.addEventListener('click', () => {
+                document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+                document.querySelector('.sun-icon').style.display = document.body.dataset.theme === 'dark' ? 'none' : 'block';
+                document.querySelector('.moon-icon').style.display = document.body.dataset.theme === 'dark' ? 'block' : 'none';
+            });
+
+            document.querySelector('#chatbotButton').addEventListener('click', () => {
+                document.querySelector('#chatbot-popup').classList.toggle('visible');
+            });
+
+            const addModal = document.querySelector('#addnewsModal');
+            document.querySelector('#openAddModalBtn').addEventListener('click', () => {
+                addModal.style.display = 'flex';
+            });
+            document.querySelector('#closeAddModalBtn').addEventListener('click', () => {
+                addModal.style.display = 'none';
+            });
+            document.querySelector('#cancelAddModalBtn').addEventListener('click', () => {
+                addModal.style.display = 'none';
+            });
+
+            document.querySelector('#addnewsForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                const languages = Array.from(form.querySelector('#languages').selectedOptions).map(opt => opt.value);
+
+                try {
+                    let success = false;
+                    let errorMessage = '';
+
+                    if (languages.length === 0) {
+                        const res = await fetch(NEWS_ENDPOINT, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            success = true;
+                        } else {
+                            errorMessage = data.message || 'Erreur lors de l\'ajout';
+                        }
+                    } else {
+                        for (const lang of languages) {
+                            const translatedFormData = new FormData();
+                            for (const [key, value] of formData.entries()) {
+                                if (key === 'title' || key === 'content') {
+                                    translatedFormData.append(key, translateContent(value, lang));
+                                } else {
+                                    translatedFormData.append(key, value);
+                                }
+                            }
+                            translatedFormData.append('language', lang);
+
+                            const res = await fetch(NEWS_ENDPOINT, {
+                                method: 'POST',
+                                body: translatedFormData
+                            });
+                            const data = await res.json();
+
+                            if (data.success) {
+                                success = true;
+                            } else {
+                                const fallbackFormData = new FormData();
+                                for (const [key, value] of formData.entries()) {
+                                    if (key === 'title' || key === 'content') {
+                                        fallbackFormData.append(key, translateContent(value, lang));
+                                    } else {
+                                        fallbackFormData.append(key, value);
+                                    }
+                                }
+                                const fallbackRes = await fetch(NEWS_ENDPOINT, {
+                                    method: 'POST',
+                                    body: fallbackFormData
+                                });
+                                const fallbackData = await fallbackRes.json();
+                                if (fallbackData.success) {
+                                    success = true;
+                                    console.warn(`Langue ${lang} ajoutée sans champ 'language' (serveur non compatible)`);
+                                } else {
+                                    success = false;
+                                    errorMessage = data.message || `Erreur lors de l'ajout en ${lang}`;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (success) {
+                        alert('Article ajouté avec succès' + (languages.length > 0 ? ' dans les langues sélectionnées' : ''));
+                        addModal.style.display = 'none';
+                        form.reset();
+                        loadArticles();
+                    } else {
+                        alert('Erreur: ' + errorMessage);
+                    }
+                } catch (err) {
+                    console.error('Erreur lors de l\'ajout:', err);
+                    alert('Erreur réseau lors de l\'ajout. Vérifiez la connexion au serveur.');
+                }
+            });
+
+            const pdfModal = document.querySelector('#pdfCustomizationModal');
+            document.querySelector('#closePdfModalBtn').addEventListener('click', () => {
+                pdfModal.style.display = 'none';
+            });
+            document.querySelector('#cancelPdfModalBtn').addEventListener('click', () => {
+                pdfModal.style.display = 'none';
+            });
+
+            window.openQRModal = () => {
+                document.querySelector('#qrModal').style.display = 'flex';
+            };
+            window.closeQRModal = () => {
+                document.querySelector('#qrModal').style.display = 'none';
+            };
+            window.generateQRCodeFromModal = () => {
+                const qrText = document.querySelector('#modalQrText').value;
+                const qrcodeContainer = document.querySelector('#qrcode');
+                qrcodeContainer.innerHTML = '';
+                if (qrText) {
+                    new QRCode(qrcodeContainer, {
+                        text: qrText,
+                        width: 128,
+                        height: 128
+                    });
+                }
+            };
+        });
+
+        // Function to increment views and navigate
+        function incrementViewsAndNavigate(id) {
+            fetch(`${NEWS_ENDPOINT}?action=increment_views&id=${id}`)
+                .then(res => res.json())
+                .then(() => {
+                    window.location.href = `${DETAIL_PAGE_URL}?id=${id}`;
+                })
+                .catch(err => {
+                    console.error('Erreur lors de l\'incrémentation des vues:', err);
+                    window.location.href = `${DETAIL_PAGE_URL}?id=${id}`; // Navigate even if increment fails
+                });
+        }
+    </script>

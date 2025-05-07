@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'article</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.2/dist/axios.min.js"></script>
+    <style>
+        body { font-family: Arial; margin: 40px; }
+        textarea { width: 100%; height: 200px; }
+        .output { margin-top: 20px; background: #f5f5f5; padding: 10px; border-radius: 5px; }
+        button { padding: 10px 20px; background: #007BFF; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg mt-10">
+        <header class="article-window-header mb-6">
+            <h2 id="articleTitle" class="text-3xl font-bold text-gray-800"></h2>
+            <p id="articleAuthor" class="text-gray-600 mt-2"></p>
+            <p id="articleDate" class="text-gray-500 text-sm mt-1"></p>
+        </header>
+        <figure class="mb-6">
+            <img id="articleImage" class="w-full h-64 object-cover rounded-lg" alt="Image de l'article">
+            <figcaption id="articleCategory" class="text-gray-600 mt-2 text-sm italic"></figcaption>
+        </figure>
+        <section class="article-window-content mb-6">
+            <p id="articleContent" class="text-gray-700 leading-relaxed"></p>
+            <p id="articleError" class="text-red-500 mt-2 hidden"></p>
+        </section>
+        <footer class="article-window-footer">
+            <div class="social-actions space-y-4" role="region" aria-label="Actions sociales">
+                <div class="like-container flex items-center space-x-4">
+                    <button id="likeButton" class="action-btn like-btn bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200 flex items-center">
+                        <span class="like-icon mr-2" aria-hidden="true">👍</span> J'aime
+                    </button>
+                    <div id="emojiSelector" class="emoji-selector flex space-x-2 hidden" aria-label="Sélecteur d'emojis">
+                        <button class="emoji text-2xl" data-emoji="👍" aria-label="Pouce">👍</button>
+                        <button class="emoji text-2xl" data-emoji="❤️" aria-label="Cœur">❤️</button>
+                        <button class="emoji text-2xl" data-emoji="😍" aria-label="Yeux cœur">😍</button>
+                        <button class="emoji text-2xl" data-emoji="😂" aria-label="Rire">😂</button>
+                        <button class="emoji text-2xl" data-emoji="😮" aria-label="Surpris">😮</button>
+                    </div>
+                    <p id="likesCount" class="likes-count text-gray-500 text-sm">J'aimes: 0</p>
+                </div>
+                <button id="shareButton" class="action-btn share-btn bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 transition duration-200 flex items-center">
+                    <span class="share-icon mr-2" aria-hidden="true">↗️</span> Partager
+                </button>
+                <div id="shareButtons" class="share-buttons flex space-x-2 hidden" role="menu">
+                    <button class="share-option bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200" id="shareNative">Partager via l'application</button>
+                    <button class="share-option bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-200" id="copyContent">Copier le contenu</button>
+                </div>
+                <button id="qrcodeButton" class="action-btn qrcode-btn bg-orange-600 text-white px-4 py-2 rounded-lg shadow hover:bg-orange-700 transition duration-200 flex items-center">
+                    <span class="qrcode-icon mr-2" aria-hidden="true">📷</span> QR Code
+                </button>
+                <button id="listenButton" class="action-btn listen-btn bg-teal-600 text-white px-4 py-2 rounded-lg shadow hover:bg-teal-700 transition duration-200 flex items-center">
+                    <span class="listen-icon mr-2" aria-hidden="true">🎧</span> Écouter
+                </button>
+                <div class="summarize-container flex items-center space-x-4">
+                    <button id="summarizeButton" class="action-btn summarize-btn bg-yellow-600 text-white px-4 py-2 rounded-lg shadow hover:bg-yellow-700 transition duration-200 flex items-center">
+                        <span class="summarize-icon mr-2" aria-hidden="true">📝</span> Résumer
+                    </button>
+                    <select id="summarySelector" class="summary-selector bg-white border border-gray-300 rounded-lg p-2">
+                        <option value="short" selected>Court (1 phrase)</option>
+                        <option value="medium">Moyen (3 lignes)</option>
+                        <option value="full">Complet (1 paragraphe)</option>
+                    </select>
+                    <select id="audienceSelector" class="audience-selector bg-white border border-gray-300 rounded-lg p-2">
+                        <option value="general" selected>Général</option>
+                        <option value="children">Enfants</option>
+                        <option value="expert">Experts</option>
+                    </select>
+                </div>
+                <div class="comment-language-container mt-4">
+                    <label for="commentDisplayLanguageSelector" class="block text-gray-700 mb-1">Afficher les commentaires en :</label>
+                    <select id="commentDisplayLanguageSelector" class="language-selector bg-white border border-gray-300 rounded-lg p-2 w-full">
+                        <option value="fr" selected>Français</option>
+                        <option value="en">Anglais</option>
+                        <option value="es">Espagnol</option>
+                        <option value="zh">Chinois</option>
+                    </select>
+                </div>
+                <form id="commentForm" class="mt-4 space-y-2">
+                    <input type="hidden" id="hiddenIdNews" name="idnews">
+                    <textarea id="commentContent" name="content" placeholder="Écrivez votre commentaire ici..." class="w-full p-2 border border-gray-300 rounded-lg resize-y"></textarea>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200">Publier</button>
+                </form>
+                <div id="commentsContainer" class="comments-section mt-6 border-t border-gray-200 pt-4"></div>
+            </div>
+        </footer>
+    </div>
+    <div id="qrcodeModal" class="qrcode-modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="qrcode-modal-content bg-white p-6 rounded-xl max-w-md w-full relative">
+            <span id="closeQrcodeModalBtn" class="close absolute top-4 right-6 text-2xl text-gray-500 hover:text-gray-700 cursor-pointer">×</span>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">QR Code de l'article</h2>
+            <canvas id="qrcodeCanvas" width="200" height="200" class="mx-auto border border-gray-300 rounded"></canvas>
+            <p id="qrcodeMessage" class="text-gray-600 mt-2">Scannez ce QR code pour voir les détails de l'article.</p>
+            <p id="qrcodeError" class="error-message text-red-500 mt-2 hidden">Erreur lors de la génération du QR code.</p>
+            <div class="modal-actions flex justify-between mt-4">
+                <button id="downloadQrcodeBtn" class="download-btn bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>Télécharger</button>
+                <button id="cancelQrcodeModalBtn" class="cancel-btn bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200">Annuler</button>
+            </div>
+        </div>
+    </div>
+    <h1 class="mt-10 text-2xl font-bold text-center">Générateur de Résumé Intelligent</h1>
+    <form id="summaryForm" class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg mt-6">
+        <textarea id="textInput" placeholder="Collez votre texte ici..." class="w-full p-2 border border-gray-300 rounded-lg resize-y"></textarea>
+        <br><br>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200">Générer Résumé</button>
+    </form>
+    <h1 class="mt-10 text-2xl font-bold text-center">Tokeniseur de Texte</h1>
+    <form id="tokenizeForm" class="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow-lg mt-6">
+        <textarea id="tokenizeInput" name="texte" placeholder="Entrez le texte à tokeniser..." class="w-full p-2 border border-gray-300 rounded-lg resize-y"></textarea>
+        <br><br>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition duration-200">Tokeniser</button>
+    </form>
+    <div class="tokenize-output max-w-3xl mx-auto mt-6 p-6 bg-gray-100 rounded-lg shadow-lg" id="tokenizeResult"></div>
+    <div class="output max-w-3xl mx-auto mt-6 p-6 bg-gray-100 rounded-lg shadow-lg" id="result"></div>
+    <script>
+        const BASE_URL = 'http://localhost/fpjw/projet_web/front_office/front_office/';
+        const NEWS_ENDPOINT = `${BASE_URL}controller/News.php`;
+        const COMMENT_ENDPOINT = `${BASE_URL}controller/comment.php`;
+        const AI_ENDPOINT = `${BASE_URL}controller/ai_reply.php`;
+        const TOKENIZE_ENDPOINT = `${BASE_URL}controller/tokenize.php`;
+        const DEFAULT_IMAGE = `${BASE_URL}news_images/default_image.png`;
+
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return { id: params.get('id') || '' };
+        }
+
+        async function fetchArticle(id) {
+            try {
+                const response = await fetch(`${NEWS_ENDPOINT}?action=get&id=${id}`);
+                if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
+                const data = await response.json();
+                if (data.success && data.data && data.data.length > 0) {
+                    return data.data[0];
+                } else {
+                    throw new Error(data.message || 'Article introuvable');
+                }
+            } catch (err) {
+                console.error('Erreur fetch article:', err);
+                return null;
+            }
+        }
+
+        function renderArticle(article) {
+            document.getElementById('articleTitle').textContent = DOMPurify.sanitize(article.title);
+            document.getElementById('articleAuthor').textContent = `Par ${DOMPurify.sanitize(article.author)}`;
+            document.getElementById('articleDate').textContent = new Date(article.created_at).toLocaleDateString('fr-FR');
+            const articleImage = document.getElementById('articleImage');
+            articleImage.src = DOMPurify.sanitize(article.image || DEFAULT_IMAGE);
+            articleImage.alt = DOMPurify.sanitize(article.title);
+            articleImage.onerror = () => { articleImage.src = DEFAULT_IMAGE; };
+            document.getElementById('articleCategory').textContent = DOMPurify.sanitize(article.category);
+            document.getElementById('articleContent').innerHTML = DOMPurify.sanitize(article.content);
+            document.getElementById('hiddenIdNews').value = DOMPurify.sanitize(article.idnews);
+            document.getElementById('likesCount').textContent = `J'aimes: ${article.jaime || 0}`;
+        }
+
+        async function loadComments(idnews, commentsContainer, articleContent, articleAuthor) {
+            if (!idnews) {
+                commentsContainer.innerHTML = '<p class="text-red-500">Erreur : ID de l\'article manquant.</p>';
+                return;
+            }
+            commentsContainer.innerHTML = '<p class="text-gray-500">Chargement des commentaires…</p>';
+            const targetLang = document.getElementById('commentDisplayLanguageSelector').value;
+            try {
+                const res = await fetch(`${COMMENT_ENDPOINT}?action=list&idnews=${idnews}`);
+                const data = await res.json();
+                if (data.status === 'success' && Array.isArray(data.data)) {
+                    const comments = await Promise.all(data.data.map(async c => {
+                        const translatedContent = await translateComment(c.content, targetLang, c.language || 'auto');
+                        let aiReply = c.ai_reply || '';
+                        if (!aiReply) {
+                            aiReply = await generateContextualReply(c.content, articleContent);
+                            const fd = new FormData();
+                            fd.append('id', c.id);
+                            fd.append('reply', aiReply);
+                            await fetch(`${COMMENT_ENDPOINT}?action=add_reply`, {
+                                method: 'POST',
+                                body: fd
+                            });
+                        }
+                        return `
+                            <div class="comment border border-gray-200 p-3 rounded-lg bg-gray-50 mb-2" data-comment-id="${c.id}" data-language="${c.language || 'fr'}">
+                                <p class="comment-content text-gray-800">${DOMPurify.sanitize(translatedContent)}</p>
+                                <p class="comment-date text-gray-500 text-sm mt-1">${new Date(c.created_date).toLocaleString('fr-FR')}</p>
+                                <div class="comment-actions flex space-x-2 mt-2">
+                                    <button class="edit-btn bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm" data-comment-id="${c.id}">Modifier</button>
+                                    <button class="delete-btn bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700 text-sm" data-comment-id="${c.id}">Supprimer</button>
+                                </div>
+                                <div class="ai-reply bg-gray-200 p-2 rounded mt-2 text-gray-700 italic">${DOMPurify.sanitize(aiReply)}</div>
+                            </div>
+                        `;
+                    }));
+                    commentsContainer.innerHTML = comments.length === 0
+                        ? '<p class="text-gray-500">Aucun commentaire pour le moment.</p>'
+                        : comments.join('');
+                } else {
+                    commentsContainer.innerHTML = `<p class="text-red-500">Erreur : ${DOMPurify.sanitize(data.message || 'Erreur lors du chargement des commentaires')}</p>`;
+                }
+            } catch (err) {
+                console.error('Erreur chargement commentaires:', err);
+                commentsContainer.innerHTML = '<p class="text-red-500">Erreur réseau lors du chargement des commentaires.</p>';
+            }
+        }
+
+        async function translateComment(content, targetLang, sourceLang = 'auto') {
+            try {
+                const response = await fetch(`${COMMENT_ENDPOINT}?action=translate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: content, target_lang: targetLang, source_lang: sourceLang })
+                });
+                const data = await response.json();
+                console.log('Translation response:', data);
+                if (data.status === 'success' && data.translated_text) {
+                    let translated = data.translated_text;
+                    const culturalAdaptations = {
+                        en: { 'bonjour': 'Hello', 'merci': 'Thank you', 'super': 'Great' },
+                        es: { 'bonjour': 'Hola', 'merci': 'Gracias', 'super': 'Genial' },
+                        zh: { 'bonjour': '你好', 'merci': '谢谢', 'super': '很好' }
+                    };
+                    if (culturalAdaptations[targetLang]) {
+                        Object.keys(culturalAdaptations[targetLang]).forEach(key => {
+                            translated = translated.replace(new RegExp(key, 'gi'), culturalAdaptations[targetLang][key]);
+                        });
+                    }
+                    return translated;
+                } else {
+                    console.warn('Server translation failed, falling back to client-side:', data.message || 'No translated_text');
+                }
+            } catch (err) {
+                console.error('Erreur traduction (server):', err);
+            }
+
+            const fallbackTranslations = {
+                en: { 'bonjour': 'Hello', 'merci': 'Thank you', 'super': 'Great' },
+                es: { 'bonjour': 'Hola', 'merci': 'Gracias', 'super': 'Genial' },
+                zh: { 'bonjour': '你好', 'merci': '谢谢', 'super': '很好' }
+            };
+            let fallback = content;
+            if (fallbackTranslations[targetLang]) {
+                Object.keys(fallbackTranslations[targetLang]).forEach(key => {
+                    fallback = fallback.replace(new RegExp(key, 'gi'), fallbackTranslations[targetLang][key]);
+                });
+            }
+            return `[Traduit vers ${targetLang}] ${fallback}`;
+        }
+
+        async function generateContextualReply(commentContent, articleContent) {
+            try {
+                const response = await axios.post(AI_ENDPOINT, {
+                    comment: commentContent,
+                    article: articleContent.substring(0, 500)
+                });
+                return response.data.reply || 'Je ne trouve pas de réponse pertinente.';
+            } catch (err) {
+                console.error('Erreur génération réponse IA:', err);
+                return 'Erreur lors de la génération de la réponse.';
+            }
+        }
+
+        function incrementLikes(idnews, likeButton, likesCountEl, callback) {
+            const hasLiked = localStorage.getItem(`liked_${idnews}`);
+            if (hasLiked) {
+                alert('Vous avez déjà aimé cet article.');
+                return;
+            }
+
+            const currentLikes = parseInt(likesCountEl.textContent.split(': ')[1]) || 0;
+            likesCountEl.textContent = `J'aimes: ${currentLikes + 1}`;
+            fetch(`${NEWS_ENDPOINT}?action=increment_likes&idnews=${idnews}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem(`liked_${idnews}`, 'true');
+                        likesCountEl.textContent = `J'aimes: ${data.data.jaime}`;
+                        callback(data);
+                    } else {
+                        likesCountEl.textContent = `J'aimes: ${currentLikes}`;
+                        alert('Erreur lors de l\'incrémentation des j\'aimes : ' + data.message);
+                    }
+                })
+                .catch(err => {
+                    likesCountEl.textContent = `J'aimes: ${currentLikes}`;
+                    alert('Erreur réseau lors de l\'incrémentation des j\'aimes.');
+                });
+        }
+
+        function summarizeText(text, type = 'medium', audience = 'general', maxWords = 100) {
+            if (!text || typeof text !== 'string' || text.trim().length === 0) {
+                return 'Aucun contenu à résumer.';
+            }
+
+            const sentenceRegex = /(?<=[\.!?])\s+(?=[A-Z])|[.!?](?=\s+[A-Z])|[\.!?](?=\s*$)/g;
+            let sentences = text.split(sentenceRegex)
+                .map(s => s.trim())
+                .filter(s => s.length > 0 && s.length <= 500);
+
+            if (sentences.length === 0) {
+                return 'Aucun contenu valide à résumer.';
+            }
+
+            const lengthConfig = {
+                short: { maxSentences: 1, maxWords: Math.min(50, maxWords) },
+                medium: { maxSentences: 3, maxWords: Math.min(100, maxWords) },
+                full: { maxSentences: 5, maxWords: Math.min(200, maxWords) }
+            };
+            const config = lengthConfig[type] || lengthConfig.medium;
+
+            const keywords = ['important', 'clé', 'principal', 'significatif', 'crucial', 'aperçu', 'introduction'];
+            const wordFreq = {};
+            sentences.forEach(sentence => {
+                sentence.split(/\s+/).forEach(word => {
+                    word = word.toLowerCase().replace(/[^a-zA-Z]/g, '');
+                    if (word && word.length > 2) {
+                        wordFreq[word] = (wordFreq[word] || 0) + 1;
+                    }
+                });
+            });
+
+            const sentenceScores = sentences.map((sentence, index) => {
+                let score = 0;
+                const words = sentence.split(/\s+/).map(w => w.replace(/[^a-zA-Z]/g, '').toLowerCase());
+                const entityBoost = words.filter(w => /^[A-Z][a-z]/.test(w)).length * 2;
+                const keywordBoost = words.reduce((sum, word) => sum + (keywords.includes(word) ? 3 : 0), 0);
+                const positionBoost = index === 0 ? 5 : (sentences.length - index) * 0.1;
+                score += entityBoost + keywordBoost + positionBoost;
+
+                sentences.forEach((other, otherIdx) => {
+                    if (index !== otherIdx) {
+                        const sharedWords = words.filter(w => other.toLowerCase().includes(w)).length;
+                        score += sharedWords * 0.5;
+                    }
+                });
+
+                return { sentence, score, index };
+            });
+
+            sentenceScores.sort((a, b) => b.score - a.score);
+            let selectedSentences = [];
+            let currentWordCount = 0;
+            let lastIndex = -1;
+
+            for (const { sentence, score, index } of sentenceScores) {
+                const wordCount = sentence.split(/\s+/).length;
+                if (selectedSentences.length < config.maxSentences &&
+                    currentWordCount + wordCount <= config.maxWords &&
+                    selectedSentences.length < 10) {
+                    if (lastIndex === -1 || index === lastIndex + 1 || score > (sentenceScores[lastIndex + 1]?.score || 0)) {
+                        selectedSentences.push(sentence);
+                        currentWordCount += wordCount;
+                        lastIndex = index;
+                    }
+                }
+            }
+
+            if (selectedSentences.length === 0 && sentences.length > 0) {
+                selectedSentences = [sentences[0]];
+            }
+
+            let summary = selectedSentences.join(' ').trim();
+
+            if (audience === 'children') {
+                summary = summary
+                    .replace(/\b(complexe|technique|avancé|sofistiqué|difficile|dur)\b/gi, match => {
+                        return { complexe: 'simple', technique: 'facile', avancé: 'facile', sofistiqué: 'joli', difficile: 'facile', dur: 'facile' }[match.toLowerCase()] || match;
+                    })
+                    .replace(/\b(\w{10,})\b/gi, match => {
+                        const words = match.split(/[^a-zA-Z]+/);
+                        return words.length > 1 ? words[0] + '...' : match;
+                    })
+                    .toLowerCase();
+            } else if (audience === 'expert') {
+                summary = summary
+                    .replace(/\b(simple|facile|basique)\b/gi, 'détaillé et technique')
+                    .replace(/\b(général)\b/gi, 'spécifique et approfondi')
+                    .replace(/\b(peu)\b/gi, 'significativement')
+                    .replace(/\b(voir|regarder)\b/gi, 'analyser en profondeur');
+            }
+
+            if (summary && !/[.!?]$/.test(summary)) {
+                summary += '.';
+            }
+
+            const words = summary.split(/\s+/);
+            if (words.length > config.maxWords) {
+                summary = words.slice(0, config.maxWords).join(' ') + '...';
+            }
+
+            return summary || 'Résumé non disponible.';
+        }
+
+        async function tokenizeText(text) {
+            try {
+                const response = await axios.post(TOKENIZE_ENDPOINT, { texte: text });
+                if (response.data.status === 'success' && response.data.tokens) {
+                    return response.data.tokens;
+                } else {
+                    throw new Error(response.data.message || 'Erreur lors de la tokenisation.');
+                }
+            } catch (err) {
+                console.error('Erreur tokenisation:', err);
+                return ['Erreur lors de la tokenisation.'];
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const articleError = document.getElementById('articleError');
+                const commentsContainer = document.getElementById('commentsContainer');
+                const commentForm = document.getElementById('commentForm');
+                const likeButton = document.getElementById('likeButton');
+                const emojiSelector = document.getElementById('emojiSelector');
+                const shareButton = document.getElementById('shareButton');
+                const shareButtons = document.getElementById('shareButtons');
+                const qrcodeButton = document.getElementById('qrcodeButton');
+                const qrcodeModal = document.getElementById('qrcodeModal');
+                const qrcodeCanvas = document.getElementById('qrcodeCanvas');
+                const qrcodeMessage = document.getElementById('qrcodeMessage');
+                const qrcodeError = document.getElementById('qrcodeError');
+                const closeQrcodeModalBtn = document.getElementById('closeQrcodeModalBtn');
+                const cancelQrcodeModalBtn = document.getElementById('cancelQrcodeModalBtn');
+                const downloadQrcodeBtn = document.getElementById('downloadQrcodeBtn');
+                const listenButton = document.getElementById('listenButton');
+                const summarizeButton = document.getElementById('summarizeButton');
+                const summarySelector = document.getElementById('summarySelector');
+                const audienceSelector = document.getElementById('audienceSelector');
+                const commentDisplayLanguageSelector = document.getElementById('commentDisplayLanguageSelector');
+                const summaryForm = document.getElementById('summaryForm');
+                const textInput = document.getElementById('textInput');
+                const result = document.getElementById('result');
+                const tokenizeForm = document.getElementById('tokenizeForm');
+                const tokenizeInput = document.getElementById('tokenizeInput');
+                const tokenizeResult = document.getElementById('tokenizeResult');
+
+                const params = getQueryParams();
+                if (!params.id) {
+                    articleError.classList.remove('hidden');
+                    articleError.textContent = 'Erreur : ID de l\'article manquant dans l\'URL.';
+                    commentsContainer.innerHTML = '<p class="text-red-500">Impossible de charger les commentaires sans ID d\'article.</p>';
+                    return;
+                }
+
+                const articleData = await fetchArticle(params.id);
+                if (!articleData) {
+                    articleError.classList.remove('hidden');
+                    articleError.textContent = 'Erreur : Impossible de charger l’article.';
+                    commentsContainer.innerHTML = '<p class="text-red-500">Impossible de charger les commentaires.</p>';
+                    document.getElementById('articleContent').textContent = '';
+                    return;
+                }
+
+                renderArticle(articleData);
+                loadComments(params.id, commentsContainer, articleData.content, articleData.author);
+
+                commentDisplayLanguageSelector.addEventListener('change', () => {
+                    loadComments(params.id, commentsContainer, articleData.content, articleData.author);
+                });
+
+                const savedEmoji = localStorage.getItem(`emoji_${params.id}`);
+                if (savedEmoji) {
+                    likeButton.innerHTML = `<span class="like-icon mr-2">${savedEmoji}</span> J'aime`;
+                }
+
+                let isSpeaking = false;
+                let utterance = null;
+                listenButton.addEventListener('click', () => {
+                    if (!window.speechSynthesis) {
+                        alert('La synthèse vocale n’est pas prise en charge par votre navigateur.');
+                        return;
+                    }
+
+                    if (isSpeaking) {
+                        if (window.speechSynthesis.paused) {
+                            window.speechSynthesis.resume();
+                            listenButton.innerHTML = '<span class="listen-icon mr-2" aria-hidden="true">⏸️</span> Pause';
+                        } else if (window.speechSynthesis.speaking) {
+                            window.speechSynthesis.pause();
+                            listenButton.innerHTML = '<span class="listen-icon mr-2" aria-hidden="true">▶️</span> Reprendre';
+                        } else {
+                            window.speechSynthesis.cancel();
+                            isSpeaking = false;
+                            listenButton.innerHTML = '<span class="listen-icon mr-2" aria-hidden="true">🎧</span> Écouter';
+                        }
+                    } else {
+                        utterance = new SpeechSynthesisUtterance(articleData.content);
+                        utterance.lang = 'fr-FR';
+                        utterance.onend = () => {
+                            isSpeaking = false;
+                            listenButton.innerHTML = '<span class="listen-icon mr-2" aria-hidden="true">🎧</span> Écouter';
+                        };
+                        utterance.onerror = (e) => {
+                            console.error('Erreur audio:', e);
+                            isSpeaking = false;
+                            listenButton.innerHTML = '<span class="listen-icon mr-2" aria-hidden="true">🎧</span> Écouter';
+                            alert('Erreur lors de la lecture audio.');
+                        };
+                        window.speechSynthesis.speak(utterance);
+                        isSpeaking = true;
+                        listenButton.innerHTML = '<span class="listen-icon mr-2" aria-hidden="true">⏸️</span> Pause';
+                    }
+                });
+
+                summarizeButton.addEventListener('click', () => {
+                    const contentEl = document.getElementById('articleContent');
+                    const originalText = articleData.content.trim();
+                    articleError.classList.add('hidden');
+
+                    if (!originalText) {
+                        articleError.classList.remove('hidden');
+                        articleError.textContent = 'Aucun contenu à résumer.';
+                        return;
+                    }
+
+                    const type = summarySelector.value;
+                    const audience = audienceSelector.value;
+                    const maxWords = 100;
+
+                    contentEl.textContent = 'Résumé en cours…';
+                    try {
+                        const summary = summarizeText(originalText, type, audience, maxWords);
+                        contentEl.innerHTML = DOMPurify.sanitize(summary);
+                    } catch (err) {
+                        console.error('Erreur résumé:', err);
+                        contentEl.innerHTML = DOMPurify.sanitize(originalText);
+                        articleError.classList.remove('hidden');
+                        articleError.textContent = 'Erreur lors du résumé : ' + err.message;
+                    }
+                });
+
+                likeButton.addEventListener('click', e => {
+                    e.stopPropagation();
+                    emojiSelector.classList.toggle('hidden');
+                    incrementLikes(params.id, likeButton, document.getElementById('likesCount'), (data) => {
+                        console.log('J\'aimes mis à jour:', data.data.jaime);
+                    });
+                });
+
+                document.querySelectorAll('.emoji').forEach(emoji => {
+                    emoji.addEventListener('click', e => {
+                        e.stopPropagation();
+                        const currentEmoji = emoji.getAttribute('data-emoji');
+                        likeButton.innerHTML = `<span class="like-icon mr-2">${currentEmoji}</span> J'aime`;
+                        localStorage.setItem(`emoji_${params.id}`, currentEmoji);
+                        emojiSelector.classList.add('hidden');
+                    });
+                });
+
+                document.addEventListener('click', () => emojiSelector.classList.add('hidden'));
+                emojiSelector.addEventListener('click', e => e.stopPropagation());
+
+                shareButton.addEventListener('click', () => {
+                    shareButtons.classList.toggle('hidden');
+                });
+
+                document.getElementById('shareNative').addEventListener('click', async () => {
+                    if (navigator.share) {
+                        const shareText = `${articleData.title}\nPar ${articleData.author}\nPublié le ${new Date(articleData.created_at).toLocaleDateString('fr-FR')}\n\n${articleData.content}\n\nLien: ${window.location.href}`;
+                        try {
+                            await navigator.share({
+                                title: articleData.title,
+                                text: shareText
+                            });
+                            alert('Contenu de l\'article partagé avec succès via l\'application !');
+                            console.log('Contenu partagé avec succès');
+                        } catch (err) {
+                            console.error('Erreur partage:', err);
+                            alert('Erreur lors du partage. Essayez de copier le contenu manuellement.');
+                        }
+                    } else {
+                        alert('Le partage natif n’est pas pris en charge par votre navigateur. Utilisez l\'option "Copier le contenu".');
+                    }
+                    shareButtons.classList.add('hidden');
+                });
+
+                document.getElementById('copyContent').addEventListener('click', () => {
+                    const shareText = `${articleData.title}\nPar ${articleData.author}\nPublié le ${new Date(articleData.created_at).toLocaleDateString('fr-FR')}\n\n${articleData.content}\n\nLien: ${window.location.href}`;
+                    navigator.clipboard.writeText(shareText)
+                        .then(() => {
+                            alert('Contenu de l\'article copié dans le presse-papiers ! Vous pouvez maintenant le coller où vous voulez.');
+                        })
+                        .catch(err => {
+                            console.error('Erreur copie contenu:', err);
+                            alert('Erreur lors de la copie du contenu.');
+                        });
+                    shareButtons.classList.add('hidden');
+                });
+
+                qrcodeButton.addEventListener('click', () => {
+                    qrcodeCanvas.innerHTML = '';
+                    qrcodeMessage.classList.remove('hidden');
+                    qrcodeError.classList.add('hidden');
+                    downloadQrcodeBtn.disabled = true;
+
+                    try {
+                        new QRCode(qrcodeCanvas, {
+                            text: window.location.href,
+                            width: 200,
+                            height: 200,
+                            colorDark: '#000000',
+                            colorLight: '#ffffff',
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                        qrcodeModal.classList.remove('hidden');
+                        downloadQrcodeBtn.disabled = false;
+                    } catch (err) {
+                        console.error('Erreur génération QR code:', err);
+                        qrcodeMessage.classList.add('hidden');
+                        qrcodeError.classList.remove('hidden');
+                    }
+                });
+
+                closeQrcodeModalBtn.addEventListener('click', () => {
+                    qrcodeModal.classList.add('hidden');
+                    qrcodeCanvas.innerHTML = '';
+                });
+
+                cancelQrcodeModalBtn.addEventListener('click', () => {
+                    qrcodeModal.classList.add('hidden');
+                    qrcodeCanvas.innerHTML = '';
+                });
+
+                downloadQrcodeBtn.addEventListener('click', () => {
+                    const canvas = qrcodeCanvas.querySelector('canvas');
+                    if (canvas) {
+                        const link = document.createElement('a');
+                        link.href = canvas.toDataURL('image/png');
+                        link.download = `qrcode_article_${params.id}.png`;
+                        link.click();
+                    } else {
+                        alert('Aucun QR code à télécharger.');
+                    }
+                });
+
+                commentForm.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    const idnews = params.id;
+                    const commentContent = document.getElementById('commentContent').value.trim();
+
+                    if (!idnews) {
+                        alert('Erreur : ID de l\'article manquant.');
+                        return;
+                    }
+
+                    if (!commentContent) {
+                        alert('Le commentaire ne peut pas être vide.');
+                        return;
+                    }
+
+                    const fd = new FormData();
+                    fd.append('content', commentContent);
+                    fd.append('idnews', idnews);
+
+                    try {
+                        const response = await fetch(`${COMMENT_ENDPOINT}?action=add`, {
+                            method: 'POST',
+                            body: fd
+                        });
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            commentForm.reset();
+                            const newCommentId = data.data.id;
+                            const aiReply = await generateContextualReply(commentContent, articleData.content);
+                            const replyFd = new FormData();
+                            replyFd.append('id', newCommentId);
+                            replyFd.append('reply', aiReply);
+                            await fetch(`${COMMENT_ENDPOINT}?action=add_reply`, {
+                                method: 'POST',
+                                body: replyFd
+                            });
+                            loadComments(idnews, commentsContainer, articleData.content, articleData.author);
+                        } else {
+                            alert(data.message || 'Erreur lors de l’ajout du commentaire.');
+                        }
+                    } catch (err) {
+                        console.error('Erreur ajout commentaire:', err);
+                        alert('Erreur réseau lors de l’ajout du commentaire.');
+                    }
+                });
+
+                commentsContainer.addEventListener('click', async e => {
+                    const commentId = e.target.dataset.commentId;
+                    const idnews = params.id;
+
+                    if (!idnews) {
+                        alert('Erreur : ID de l\'article manquant.');
+                        return;
+                    }
+
+                    if (e.target.classList.contains('delete-btn')) {
+                        if (!confirm('Voulez-vous vraiment supprimer ce commentaire ?')) return;
+                        const fd = new FormData();
+                        fd.append('id', commentId);
+                        try {
+                            const response = await fetch(`${COMMENT_ENDPOINT}?action=delete`, {
+                                method: 'POST',
+                                body: fd
+                            });
+                            const data = await response.json();
+                            if (data.status === 'success') {
+                                loadComments(idnews, commentsContainer, articleData.content, articleData.author);
+                            } else {
+                                alert(data.message || 'Erreur lors de la suppression du commentaire.');
+                            }
+                        } catch (err) {
+                            console.error('Erreur suppression commentaire:', err);
+                            alert('Erreur réseau lors de la suppression du commentaire.');
+                        }
+                    } else if (e.target.classList.contains('edit-btn')) {
+                        const commentElement = e.target.closest('.comment');
+                        const contentElement = commentElement.querySelector('.comment-content');
+                        const originalContent = contentElement.textContent;
+
+                        contentElement.innerHTML = `
+                            <textarea class="edit-comment-textarea w-full p-2 border border-gray-300 rounded-lg mt-2">${DOMPurify.sanitize(originalContent)}</textarea>
+                            <div class="edit-actions flex space-x-2 mt-2">
+                                <button class="save-btn bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700 text-sm">Enregistrer</button>
+                                <button class="cancel-btn bg-gray-300 px-2 py-1 rounded hover:bg-gray-400 text-sm">Annuler</button>
+                            </div>
+                        `;
+
+                        const saveBtn = commentElement.querySelector('.save-btn');
+                        const cancelBtn = commentElement.querySelector('.cancel-btn');
+
+                        saveBtn.addEventListener('click', async () => {
+                            const newContent = commentElement.querySelector('.edit-comment-textarea').value.trim();
+                            if (!newContent) return alert('Le commentaire ne peut pas être vide.');
+
+                            const fd = new FormData();
+                            fd.append('id', commentId);
+                            fd.append('content', newContent);
+
+                            try {
+                                const response = await fetch(`${COMMENT_ENDPOINT}?action=edit`, {
+                                    method: 'POST',
+                                    body: fd
+                                });
+                                const data = await response.json();
+                                if (data.status === 'success') {
+                                    loadComments(idnews, commentsContainer, articleData.content, articleData.author);
+                                } else {
+                                    alert(data.message || 'Erreur lors de la modification du commentaire.');
+                                }
+                            } catch (err) {
+                                console.error('Erreur modification commentaire:', err);
+                                alert('Erreur réseau lors de la modification du commentaire.');
+                            }
+                        });
+
+                        cancelBtn.addEventListener('click', () => {
+                            contentElement.innerHTML = DOMPurify.sanitize(originalContent);
+                        });
+                    }
+                });
+
+                summaryForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const text = textInput.value.trim();
+                    const type = summarySelector.value;
+                    const audience = audienceSelector.value;
+                    const maxWords = 100;
+
+                    if (!text) {
+                        result.innerText = 'Veuillez coller un texte à résumer.';
+                        return;
+                    }
+
+                    try {
+                        const summary = summarizeText(text, type, audience, maxWords);
+                        result.innerText = DOMPurify.sanitize(summary);
+                    } catch (err) {
+                        console.error('Erreur résumé:', err);
+                        result.innerText = 'Erreur lors de la génération du résumé.';
+                    }
+                });
+
+                tokenizeForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const text = tokenizeInput.value.trim();
+
+                    if (!text) {
+                        tokenizeResult.innerText = 'Veuillez entrer un texte à tokeniser.';
+                        return;
+                    }
+
+                    tokenizeResult.innerText = 'Tokenisation en cours…';
+                    try {
+                        const tokens = await tokenizeText(text);
+                        tokenizeResult.innerHTML = '<pre>' + DOMPurify.sanitize(JSON.stringify(tokens, null, 2)) + '</pre>';
+                    } catch (err) {
+                        console.error('Erreur tokenisation:', err);
+                        tokenizeResult.innerText = 'Erreur lors de la tokenisation.';
+                    }
+                });
+            } catch (err) {
+                console.error('Erreur initialisation page:', err);
+                document.getElementById('articleError').classList.remove('hidden');
+                document.getElementById('articleError').textContent = 'Erreur lors du chargement de la page.';
+                document.getElementById('articleContent').textContent = '';
+            }
+        });
+    </script>

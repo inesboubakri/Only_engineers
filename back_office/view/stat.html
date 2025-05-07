@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Architecture IoT - 3 Couches</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #ffffff);
+      margin: 0;
+      padding: 40px;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .layer {
+      border-left: 5px solid #2196f3;
+      padding-left: 25px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .layer::before {
+      content: "";
+      position: absolute;
+      left: -15px;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      background: #2196f3;
+      border-radius: 50%;
+      border: 5px solid white;
+      box-shadow: 0 0 0 3px #2196f3;
+    }
+
+    .layer h2 {
+      margin: 0;
+      color: #0d47a1;
+      font-size: 22px;
+    }
+
+    .layer p {
+      margin-top: 10px;
+      color: #333;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 25px;
+      background-color: #0d47a1;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #1565c0;
+    }
+
+    @media print {
+      .buttons {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      .layer h2 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="content">
+    <div class="layer">
+      <h2>1. Couche de Perception</h2>
+      <p>Capteurs, RFID, QR codes, microcontrôleurs (Arduino, ESP32), objets intelligents, détection de température, humidité, mouvement...</p>
+    </div>
+
+    <div class="layer">
+      <h2>2. Couche Réseau</h2>
+      <p>Wi-Fi, Zigbee, Bluetooth, 4G/5G, Ethernet, MQTT, passerelles IoT, routeurs... Permet la transmission des données vers le cloud.</p>
+    </div>
+
+    <div class="layer">
+      <h2>3. Couche Application</h2>
+      <p>Applications mobiles, plateformes cloud (AWS, Azure, Google Cloud), traitement de données, interfaces utilisateurs, dashboards, intelligence artificielle...</p>
+    </div>
+
+    <div class="buttons">
+      <button class="btn" onclick="downloadPDF()">Télécharger en PDF</button>
+      <button class="btn" onclick="window.print()">Imprimer la page</button>
+    </div>
+  </div>
+
+  <script>
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const content = document.getElementById("content");
+
+      await doc.html(content, {
+        callback: function (doc) {
+          doc.save("architecture_iot.pdf");
+        },
+        x: 10,
+        y: 10,
+        width: 180
+      });
+    }
+  </script>
+
+</body>
+</html>

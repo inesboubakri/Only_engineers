@@ -1,0 +1,33 @@
+2025-05-05 17:06:23 - Reçu : texte='bonjoru', langue='en'
+2025-05-05 17:06:23 - Exécution de la commande : "C:\Users\derou\AppData\Local\Programs\Python\Python311\python.exe" "C:\xampp\htdocs\fpjw\projet_web\front_office\front_office\translate\translate.py" "bonjoru" "en" 2>&1
+2025-05-05 17:06:26 - Sortie du script Python : {"detectedLang": "hr", "translated": "bonjoru"}
+
+2025-05-05 17:06:26 - Reçu : texte='bonjoru', langue='en'
+2025-05-05 17:06:26 - Exécution de la commande : "C:\Users\derou\AppData\Local\Programs\Python\Python311\python.exe" "C:\xampp\htdocs\fpjw\projet_web\front_office\front_office\translate\translate.py" "bonjoru" "en" 2>&1
+2025-05-05 17:06:27 - Sortie du script Python : {"detectedLang": "hr", "translated": "bonjoru"}
+
+2025-05-05 17:06:29 - Reçu : texte='bonjour', langue='en'
+2025-05-05 17:06:29 - Exécution de la commande : "C:\Users\derou\AppData\Local\Programs\Python\Python311\python.exe" "C:\xampp\htdocs\fpjw\projet_web\front_office\front_office\translate\translate.py" "bonjour" "en" 2>&1
+2025-05-05 17:06:30 - Sortie du script Python : {"detectedLang": "hr", "translated": "bonjour"}
+
+2025-05-05 17:06:37 - Reçu : texte='bonjour', langue='de'
+2025-05-05 17:06:37 - Exécution de la commande : "C:\Users\derou\AppData\Local\Programs\Python\Python311\python.exe" "C:\xampp\htdocs\fpjw\projet_web\front_office\front_office\translate\translate.py" "bonjour" "de" 2>&1
+2025-05-05 17:06:39 - Sortie du script Python : {"detectedLang": "hr", "translated": "Bonjour"}
+
+2025-05-05 17:16:49 - Erreur : méthode de requête invalide
+2025-05-05 17:17:09 - Reçu : texte='Bonjour tout le monde', langue=''
+2025-05-05 17:17:09 - Erreur : langue invalide ''
+2025-05-05 17:17:27 - Reçu : texte='Hello', langue=''
+2025-05-05 17:17:27 - Erreur : langue invalide ''
+2025-05-05 17:18:07 - Reçu : texte='Bonjour tout le monde', langue='en'
+2025-05-05 17:18:07 - Exécution de la commande : "C:\Users\derou\AppData\Local\Programs\Python\Python311\python.exe" "C:\xampp\htdocs\fpjw\projet_web\front_office\front_office\translate\translate.py" "Bonjour tout le monde" "en" 2>&1
+2025-05-05 17:18:08 - Sortie du script Python : {"detectedLang": "fr", "translated": "Hello everyone"}
+
+2025-05-05 17:19:06 - Reçu : texte='Bonjour tout le monde', langue='en'
+2025-05-05 17:19:06 - Exécution de la commande : "C:\Users\derou\AppData\Local\Programs\Python\Python311\python.exe" "C:\xampp\htdocs\fpjw\projet_web\front_office\front_office\translate\translate.py" "Bonjour tout le monde" "en" 2>&1
+2025-05-05 17:19:10 - Sortie du script Python : {"detectedLang": "fr", "translated": "Hello everyone"}
+
+2025-05-05 17:19:11 - Reçu : texte='Bonjour tout le monde', langue='en'
+2025-05-05 17:19:11 - Exécution de la commande : "C:\Users\derou\AppData\Local\Programs\Python\Python311\python.exe" "C:\xampp\htdocs\fpjw\projet_web\front_office\front_office\translate\translate.py" "Bonjour tout le monde" "en" 2>&1
+2025-05-05 17:19:12 - Sortie du script Python : {"detectedLang": "fr", "translated": "Hello everyone"}
+

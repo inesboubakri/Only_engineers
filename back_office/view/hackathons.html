@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=width=device-width, initial-scale=1.0">
+    <title>Hackathons Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <li><div class="nav-icon">👥</div><span>Users</span></li>
+                    <li><div class="nav-icon">👩🏻‍💻</div><span>jobs</span></li>
+                    <li><div class="nav-icon">🚀</div><span>Projects</span></li>
+                    <li><div class="nav-icon">📰</div><span>News</span></li>
+                    <li class="active"><div class="nav-icon">🏆</div><span>Hackathons</span></li>
+                    <li><div class="nav-icon">📚</div><span>Courses</span></li>
+                    <li><div class="nav-icon">💼</div><span>Opportunities</span></li>
+                    <li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li>
+                    <li><div class="nav-icon">🚪</div><span>Sign out</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hackathons Content -->
+            <div class="users-view">
+                <!-- Top Cards Row -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>🏆</span>
+                        </div>
+                        <div class="service-title">Hackathons Analytics</div>
+                        <div class="service-description">Generate comprehensive reports with key metrics and insights</div>
+                        <button class="service-button">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card hackathon-stats-card">
+                        <div class="service-icon purple">
+                            <span>👥</span>
+                        </div>
+                        <div class="service-title">Active Participants</div>
+                        <div class="service-amount">1,248</div>
+                        <div class="service-change positive">+24.5%</div>
+                    </div>
+                    
+                    <div class="service-card company-card">
+                        <div class="service-icon teal">
+                            <span>💰</span>
+                        </div>
+                        <div class="service-title">Total Prizes</div>
+                        <div class="service-amount">$260,000</div>
+                        <div class="service-change positive">+45.8%</div>
+                    </div>
+                </div>
+                
+                <!-- Hackathons Table Section -->
+                <div class="card users-table-card">
+                    <!-- Table Filter Options -->
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Upcoming</button>
+                            <button class="filter-btn">Ongoing</button>
+                            <button class="filter-btn">Past</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="add-button">
+                                <span class="add-icon">+</span>
+                                <span>Add Hackathon</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Hackathons Table -->
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Location</th>
+                                    <th>Required Skills</th>
+                                    <th>Organizer</th>
+                                    <th>Max Participants</th>
+                                    <th>Prize Pool</th>
+                                    <th>Image</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hackathonsTableBody">
+                                <!-- Data will be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="addHackathonModal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Hackathon</h2>
+            <span class="close">&times;</span>
+            <form id="addHackathonForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required minlength="3" maxlength="40">
+                    <span class="error-message" id="name-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" required></textarea>
+                    <span class="error-message" id="description-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" required>
+                    <span class="error-message" id="start-date-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" required>
+                    <span class="error-message" id="end-date-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="start_time">Start Time:</label>
+                    <input type="time" id="start_time" name="start_time" required>
+                    <span class="error-message" id="start-time-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="end_time">End Time:</label>
+                    <input type="time" id="end_time" name="end_time" required>
+                    <span class="error-message" id="end-time-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location" required>
+                    <span class="error-message" id="location-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="required_skills">Required Skills (separate with commas):</label>
+                    <input type="text" id="required_skills" name="required_skills" required placeholder="e.g. JavaScript, Python, React">
+                    <span class="error-message" id="skills-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="organizer">Organizer:</label>
+                    <input type="text" id="organizer" name="organizer" required minlength="3" maxlength="20">
+                    <span class="error-message" id="organizer-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prize_pool">Prize Pool ($):</label>
+                    <input type="number" id="prize_pool" name="prize_pool" required min="1">
+                    <span class="error-message" id="prize-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="max_participants">Max Participants:</label>
+                    <input type="number" id="max_participants" name="max_participants" required min="1">
+                    <span class="error-message" id="participants-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image">Image:</label>
+                    <input type="file" id="image" name="image" accept="image/*">
+                    <span class="error-message" id="image-error"></span>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Add Hackathon</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editHackathonModal" class="modal edit-modal">
+        <div class="modal-content">
+            <h2>Edit Hackathon</h2>
+            <span class="close">&times;</span>
+            <form id="editHackathonForm" enctype="multipart/form-data">
+                <input type="hidden" id="edit_id" name="id">
+                <div class="form-group">
+                    <label for="edit_name">Name:</label>
+                    <input type="text" id="edit_name" name="name" required minlength="3" maxlength="40">
+                    <span class="error-message" id="edit-name-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_description">Description:</label>
+                    <textarea id="edit_description" name="description" required></textarea>
+                    <span class="error-message" id="edit-description-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_start_date">Start Date:</label>
+                    <input type="date" id="edit_start_date" name="start_date" required>
+                    <span class="error-message" id="edit-start-date-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_end_date">End Date:</label>
+                    <input type="date" id="edit_end_date" name="end_date" required>
+                    <span class="error-message" id="edit-end-date-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_start_time">Start Time:</label>
+                    <input type="time" id="edit_start_time" name="start_time" required>
+                    <span class="error-message" id="edit-start-time-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_end_time">End Time:</label>
+                    <input type="time" id="edit_end_time" name="end_time" required>
+                    <span class="error-message" id="edit-end-time-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_location">Location:</label>
+                    <input type="text" id="edit_location" name="location" required>
+                    <span class="error-message" id="edit-location-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_required_skills">Required Skills (separate with commas):</label>
+                    <input type="text" id="edit_required_skills" name="required_skills" required placeholder="e.g. JavaScript, Python, React">
+                    <span class="error-message" id="edit-skills-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_organizer">Organizer:</label>
+                    <input type="text" id="edit_organizer" name="organizer" required minlength="3" maxlength="20">
+                    <span class="error-message" id="edit-organizer-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_prize_pool">Prize Pool ($):</label>
+                    <input type="number" id="edit_prize_pool" name="prize_pool" required min="1">
+                    <span class="error-message" id="edit-prize-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_max_participants">Max Participants:</label>
+                    <input type="number" id="edit_max_participants" name="max_participants" required min="1">
+                    <span class="error-message" id="edit-participants-error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit_image">Image:</label>
+                    <input type="file" id="edit_image" name="image" accept="image/*">
+                    <span class="error-message" id="edit-image-error"></span>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Save Changes</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="modal delete-modal">
+        <div class="modal-content">
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this hackathon? This action cannot be undone.</p>
+            <div class="modal-footer">
+                <button class="cancel-btn">Cancel</button>
+                <button class="confirm-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Style de base pour le modal */
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            align-items: flex-start; /* Changé de center à flex-start pour le scroll */
+            overflow-y: auto; /* Active le scrolling vertical */
+            padding: 20px 0; /* Espace autour du contenu */
+        }
+
+        .modal.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .modal.visible .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Styles pour le formulaire dans le modal */
+        #addHackathonForm,
+        #editHackathonForm {
+            margin-top: 20px;
+        }
+
+        #addHackathonForm .form-group,
+        #editHackathonForm .form-group {
+            margin-bottom: 15px;
+        }
+
+        #addHackathonForm label,
+        #editHackathonForm label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        #addHackathonForm input,
+        #addHackathonForm textarea,
+        #editHackathonForm input,
+        #editHackathonForm textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        #addHackathonForm input:focus,
+        #addHackathonForm textarea:focus,
+        #editHackathonForm input:focus,
+        #editHackathonForm textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        #addHackathonForm .form-actions,
+        #editHackathonForm .form-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        #addHackathonForm .submit-btn,
+        #addHackathonForm .cancel-btn,
+        #editHackathonForm .submit-btn,
+        #editHackathonForm .cancel-btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #addHackathonForm .submit-btn,
+        #editHackathonForm .submit-btn {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        #addHackathonForm .submit-btn:hover,
+        #editHackathonForm .submit-btn:hover {
+            background-color: #4338ca;
+            border-radius: 6px;
+        }
+
+        #addHackathonForm .cancel-btn,
+        #editHackathonForm .cancel-btn {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        #addHackathonForm .cancel-btn:hover,
+        #editHackathonForm .cancel-btn:hover {
+            background-color:#4338ca ;
+            border-radius: 6px;
+        }
+
+        /* Style pour la croix de fermeture */
+        .modal .close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal .close:hover {
+            color: #333;
+        }
+
+        /* Animation pour le modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal.visible .modal-content {
+            animation: modalFadeIn 0.3s ease forwards;
+        }
+
+        /* Styles simplifiés pour le menu d'actions */
+        .actions-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 18px;
+            color: #6B7280;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .action-btn:hover {
+            color: #374151;
+        }
+
+        .dropdown-content {
+            display: block;
+            position: absolute;
+            right: 0;
+            background: white;
+            min-width: 120px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            border-radius: 6px;
+            border: 1px solid #E5E7EB;
+            z-index: 1000;
+            margin-top: 5px;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .dropdown-content.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            font-size: 13px;
+            color: #374151;
+            cursor: pointer;
+            text-align: left;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #F3F4F6;
+        }
+
+        .dropdown-item:first-child {
+            border-radius: 6px 6px 0 0;
+        }
+
+        .dropdown-item:last-child {
+            border-radius: 0 0 6px 6px;
+        }
+
+        .dropdown-item i {
+            width: 16px;
+        }
+
+        .dropdown-item.edit i {
+            color: #4F46E5;
+        }
+
+        .dropdown-item.delete i {
+            color: #374151;
+        }
+
+        /* Edit Modal Styles */
+        .edit-modal .modal-content {
+            max-width: 500px;
+        }
+
+        /* Delete Confirmation Modal Styles */
+        .delete-modal .modal-content {
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .delete-modal .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .delete-modal .cancel-btn {
+            color: #ffffff;
+            background-color: #4f46e5;
+        }
+        .delete-modal .cancel-btn:hover {
+            background-color: #4338ca; /* Une teinte plus foncée pour l'effet hover */
+            cursor: pointer; /* Change le curseur en main pour indiquer que c'est cliquable */
+        }
+
+        .delete-modal .confirm-btn {
+            background-color: #4f46e5;
+            color: #ffffff;
+        }
+        .delete-modal .confirm-btn:hover {
+            background-color: #4338ca; /* Même effet hover que pour cancel-btn pour la cohérence */
+            cursor: pointer;
+        }
+        /* Preview de l'image */
+        .image-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #dc2626;
+        }
+
+        .form-group input.error:focus,
+        .form-group textarea.error:focus {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+    </style>
+
+<script>
+    // Définir openEditModal comme une fonction globale
+    window.openEditModal = function(newsStr) {
+        try {
+            const news = typeof newsStr === 'string' ? JSON.parse(newsStr) : newsStr;
+            
+            // Fermer tous les menus dropdown ouverts
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+
+            document.getElementById('edit_id').value = news.idnews;
+            document.getElementById('edit_title').value = news.title;
+            document.getElementById('edit_author').value = news.Author;
+            document.getElementById('edit_content').value = news.Content;
+            document.getElementById('edit_newscategory').value = news.newsCategory;
+            document.getElementById('edit_status').value = news.status;
+
+            const editModal = document.getElementById('editNewsModal');
+            editModal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        } catch (error) {
+            console.error('Error parsing news data:', error);
+            alert('Une erreur est survenue lors de l\'ouverture du formulaire d\'édition');
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('addNewsModal');
+        const addButton = document.querySelector('.add-button');
+        const closeBtn = document.querySelector('.close');
+        const cancelBtn = document.querySelector('.cancel-btn');
+        const form = document.getElementById('addNewsForm');
+        const editModal = document.getElementById('editNewsModal');
+        const deleteModal = document.getElementById('deleteConfirmModal');
+        const editForm = document.getElementById('editNewsForm');
+        let currentNewsId = null;
+
+        // Définir la fonction confirmDelete globalement
+        window.confirmDelete = function(id) {
+            currentNewsId = id;
+            deleteModal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+            // Fermer le menu dropdown
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        };
+
+        function openModal() {
+            modal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('visible');
+            document.body.style.overflow = '';
+            form.reset();
+        }
+
+        addButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            openModal();
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        cancelBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Prevent clicks inside modal content from closing the modal
+        modal.querySelector('.modal-content').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Form submission
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (validateForm(this)) {
+                const formData = new FormData(form);
+                try {
+                    const response = await fetch('http://localhost/projet_web/back_office/controllers/newsController.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        closeModal();
+                        loadNews();
+                        alert('News added successfully!');
+                    } else {
+                        alert('Error: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error adding news');
+                }
+            }
+        });
+
+        // Load initial data
+        loadNews();
+
+        // Edit and Delete functionality
+        function closeModals() {
+            editModal.classList.remove('visible');
+            deleteModal.classList.remove('visible');
+            document.body.style.overflow = '';
+            editForm.reset();
+            currentNewsId = null;
+        }
+
+        // Event listeners for edit and delete buttons
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+
+            if (target.matches('.action-btn')) {
+                const row = target.closest('tr');
+                const newsId = row.querySelector('td:first-child').textContent;
+                
+                if (target.textContent === 'Edit') {
+                    const news = {
+                        idnews: newsId,
+                        title: row.querySelector('td:nth-child(2)').textContent,
+                        Author: row.querySelector('td:nth-child(3)').textContent,
+                        Content: row.querySelector('td:nth-child(4)').textContent,
+                        newsCategory: row.querySelector('td:nth-child(5)').textContent,
+                        created_at: row.querySelector('td:nth-child(6)').textContent,
+                        status: row.querySelector('td:nth-child(7)').textContent,
+                        image: row.querySelector('td:nth-child(8) img').src.split('/').pop()
+                    };
+                    openEditModal(news);
+                } else if (target.textContent === 'Delete') {
+                    confirmDelete(newsId);
+                }
+            }
+        });
+
+        // Handle edit form submission
+        editForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (validateForm(this, true)) {
+                const formData = new FormData(editForm);
+                const id = formData.get('id');
+                
+                try {
+                    const response = await fetch(`http://localhost/projet_web/back_office/controllers/newsController.php?id=${id}`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        closeModals();
+                        loadNews();
+                        alert('News updated successfully!');
+                    } else {
+                        alert('Error: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error updating news');
+                }
+            }
+        });
+
+        // Handle delete confirmation
+        deleteModal.querySelector('.confirm-btn').addEventListener('click', async function() {
+            if (currentNewsId) {
+                try {
+                    const response = await fetch(`http://localhost/projet_web/back_office/controllers/newsController.php?id=${currentNewsId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        closeModals();
+                        loadNews();
+                        alert('News supprimé avec succès!');
+                    } else {
+                        alert('Erreur: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    alert('Erreur lors de la suppression de la news');
+                }
+            }
+        });
+
+        // Close modals on cancel/close buttons
+        editModal.querySelector('.close').addEventListener('click', closeModals);
+        editModal.querySelector('.cancel-btn').addEventListener('click', closeModals);
+        deleteModal.querySelector('.cancel-btn').addEventListener('click', closeModals);
+
+        // Close modals when clicking outside
+        [editModal, deleteModal].forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModals();
+                }
+            });
+        });
+
+        // Fonctions de validation
+        function validateForm(form, isEdit = false) {
+            const prefix = isEdit ? 'edit_' : '';
+            const errors = {};
+            
+            // Validation du titre (3-100 caractères)
+            const title = form[prefix + 'title'].value;
+            if (title.length < 3 || title.length > 100) {
+                errors.title = 'Le titre doit contenir entre 3 et 100 caractères';
+            }
+
+            // Validation de l'auteur (2-50 caractères)
+            const author = form[prefix + 'author'].value;
+            if (author.length < 2 || author.length > 50) {
+                errors.author = 'L\'auteur doit contenir entre 2 et 50 caractères';
+            }
+
+            // Validation du contenu (50-2000 mots)
+            const content = form[prefix + 'content'].value;
+            const wordCount = content.trim().split(/\s+/).length;
+            if (wordCount < 50 || wordCount > 2000) {
+                errors.content = 'Le contenu doit contenir entre 50 et 2000 mots';
+            }
+
+            // Validation de la catégorie
+            const category = form[prefix + 'newscategory'].value;
+            if (!category) {
+                errors.newscategory = 'La catégorie est requise';
+            }
+
+            // Afficher les erreurs dans les spans correspondants
+            Object.keys(errors).forEach(key => {
+                const errorSpan = document.getElementById((isEdit ? 'edit-' : '') + key.toLowerCase() + '-error');
+                if (errorSpan) {
+                    errorSpan.textContent = errors[key];
+                }
+            });
+
+            return Object.keys(errors).length === 0;
+        }
+
+        // Nettoyer les messages d'erreur lors de la saisie
+        function setupInputValidation(form, isEdit = false) {
+            const inputs = form.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const errorSpan = this.parentElement.querySelector('.error-message');
+                    if (errorSpan) {
+                        errorSpan.textContent = '';
+                    }
+                });
+            });
+        }
+
+        setupInputValidation(form);
+        setupInputValidation(editForm, true);
+    });
+
+    // Load news data
+    function loadNews() {
+        fetch('http://localhost/projet_web/back_office/controllers/newsController.php')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('newsTableBody');
+                tableBody.innerHTML = '';
+                
+                if (Array.isArray(data)) {
+                    data.forEach(news => {
+                        const row = document.createElement('tr');
+                        const encodedNews = encodeURIComponent(JSON.stringify(news));
+                        row.innerHTML = `
+                            <td>${news.idnews}</td>
+                            <td>${news.title || ''}</td>
+                            <td>${news.Author || ''}</td>
+                            <td>${news.Content || ''}</td>
+                            <td>${news.newsCategory || ''}</td>
+                            <td>${news.created_at || ''}</td>
+                            <td>${news.status || ''}</td>
+                            <td><img src="${news.image ? '../uploads/news_images/' + news.image : '../uploads/news_images/default.png'}" 
+                                    alt="News Image" 
+                                    style="width: 50px; height: 50px; object-fit: cover;" 
+                                    onerror="this.src='../uploads/news_images/default.png'"></td>
+                            <td class="relative">
+                                <div class="actions-wrapper">
+                                    <button class="action-btn" onclick="toggleDropdown(${news.idnews})">:</button>
+                                    <div class="dropdown-content" id="dropdown-${news.idnews}">
+                                        <button onclick="openEditModal(decodeURIComponent('${encodedNews}'))" class="dropdown-item">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button onclick="confirmDelete(${news.idnews})" class="dropdown-item delete">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des news:', error);
+                const tableBody = document.getElementById('newsTableBody');
+                tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: red;">Erreur lors du chargement des news</td></tr>';
+            });
+    }
+
+    // Ajouter la prévisualisation de l'image
+    document.getElementById('image').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            const preview = document.createElement('img');
+            preview.className = 'image-preview';
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            
+            const existingPreview = this.parentNode.querySelector('.image-preview');
+            if (existingPreview) {
+                existingPreview.remove();
+            }
+            
+            this.parentNode.appendChild(preview);
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Gérer l'affichage du menu dropdown
+    function toggleDropdown(id) {
+        // Fermer tous les autres dropdowns
+        document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+            if (dropdown.id !== `dropdown-${id}`) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Toggle le dropdown actuel
+        const dropdown = document.getElementById(`dropdown-${id}`);
+        dropdown.classList.toggle('show');
+    }
+
+    // Fermer les dropdowns quand on clique ailleurs
+    document.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('action-btn')) {
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        }
+    });
+
+    // Empêcher la propagation du clic dans le dropdown
+    document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+        dropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    });
+</script>
+   
+</body>
+</html>

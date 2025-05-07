@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traduction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h1>Traduction en ligne</h1>
+
+    <label for="texte">Texte à traduire :</label>
+    <textarea id="texte" rows="4" cols="50"></textarea><br>
+
+    <label for="langue_source">Langue source :</label>
+    <input type="text" id="langue_source" placeholder="par exemple 'fr' pour français"><br>
+
+    <label for="langue_destination">Langue de destination :</label>
+    <input type="text" id="langue_destination" placeholder="par exemple 'en' pour anglais"><br><br>
+
+    <button id="traduire">Traduire</button>
+
+    <h2>Texte traduit :</h2>
+    <div id="resultat"></div>
+
+    <script>
+       // Récupérer les éléments du formulaire
+const form = document.getElementById('form-traduction');
+const texteInput = document.getElementById('texte');
+const langueSourceInput = document.getElementById('langue_source');
+const langueDestinationInput = document.getElementById('langue_destination');
+const resultatDiv = document.getElementById('resultat');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Récupérer les valeurs des champs
+    const texte = texteInput.value;
+    const langueSource = langueSourceInput.value;
+    const langueDestination = langueDestinationInput.value;
+
+    // Envoyer les données via AJAX
+    fetch('traduction.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `texte=${encodeURIComponent(texte)}&langue_source=${encodeURIComponent(langueSource)}&langue_destination=${encodeURIComponent(langueDestination)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.traduction) {
+            resultatDiv.textContent = `Texte traduit : ${data.traduction}`;
+        } else {
+            resultatDiv.textContent = `Erreur : ${data.error}`;
+        }
+    })
+    .catch(error => {
+        resultatDiv.textContent = `Erreur de communication : ${error}`;
+    });
+});
+
+    </script>
+
+</body>
+</html>
