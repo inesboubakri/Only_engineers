@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques pour la table jobs */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .users-table th, .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .users-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .users-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .job-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-size: 1.2em;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .full-time {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .part-time {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .remote {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .internship {
+            background-color: #ede9fe;
+            color: #5b21b6;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <li><div class="nav-icon">👥</div><span>Users</span></li>
+                    <li class="active"><div class="nav-icon">👩🏻‍💻</div><span>Jobs</span></li>
+                    <li><div class="nav-icon">🚀</div><span>Projects</span></li>
+                    <li><div class="nav-icon">📰</div><span>News</span></li>
+                    <li><div class="nav-icon">🏆</div><span>Hackathons</span></li>
+                    <li><div class="nav-icon">📚</div><span>Courses</span></li>
+                    <li><div class="nav-icon">💼</div><span>Opportunities</span></li>
+                    <li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li>
+                    <li><div class="nav-icon">🚪</div><span>Sign out</span></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <!-- Theme toggle in header -->
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jobs Content (using users-view class) -->
+            <div class="users-view">
+                <!-- Top Cards Row (using users-top-cards class) -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>📋</span>
+                        </div>
+                        <div class="service-title">Jobs Report</div>
+                        <div class="service-description">Generate comprehensive reports about jobs</div>
+                        <button class="service-button">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card stats-card">
+                        <div class="service-icon purple">
+                            <span>🔍</span>
+                        </div>
+                        <div class="service-title">Active Listings</div>
+                        <div class="service-amount">48</div>
+                        <div class="service-change positive">+12.5%</div>
+                    </div>
+                    
+                    <div class="service-card salary-card">
+                        <div class="service-icon teal">
+                            <span>💰</span>
+                        </div>
+                        <div class="service-title">Avg. Salary</div>
+                        <div class="service-amount">$85,000</div>
+                        <div class="service-change positive">+5.8%</div>
+                    </div>
+                </div>
+                
+                <!-- Jobs Table Section (using users-table-card class) -->
+                <div class="card users-table-card">
+                    <!-- Table Filter Options -->
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Full-time</button>
+                            <button class="filter-btn">Part-time</button>
+                            <button class="filter-btn">Remote</button>
+                            <button class="filter-btn">Internship</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="add-button">
+                                <span class="add-icon">+</span>
+                                <span>Add Job</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Jobs Table (using users-table class) -->
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Job</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Requirements</th>
+                                    <th>Salary</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>JOB-001</td>
+                                    <td><div class="job-icon">💻</div></td>
+                                    <td>Frontend Developer</td>
+                                    <td>Develop user interfaces using React.js and modern CSS frameworks</td>
+                                    <td>3+ years experience with React, JavaScript, HTML/CSS</td>
+                                    <td>$85,000</td>
+                                    <td><span class="status-badge full-time">Full-time</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>JOB-002</td>
+                                    <td><div class="job-icon">📊</div></td>
+                                    <td>Data Scientist</td>
+                                    <td>Build machine learning models and analyze complex datasets</td>
+                                    <td>PhD or Master's in CS, 2+ years Python/Pandas experience</td>
+                                    <td>$110,000</td>
+                                    <td><span class="status-badge full-time">Full-time</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>JOB-003</td>
+                                    <td><div class="job-icon">🎨</div></td>
+                                    <td>UX Designer</td>
+                                    <td>Create user-centered designs and prototypes</td>
+                                    <td>Portfolio required, 4+ years design experience</td>
+                                    <td>$95,000</td>
+                                    <td><span class="status-badge remote">Remote</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>JOB-004</td>
+                                    <td><div class="job-icon">🛠️</div></td>
+                                    <td>DevOps Engineer</td>
+                                    <td>Implement CI/CD pipelines and cloud infrastructure</td>
+                                    <td>AWS/GCP certified, Kubernetes experience</td>
+                                    <td>$120,000</td>
+                                    <td><span class="status-badge full-time">Full-time</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>JOB-005</td>
+                                    <td><div class="job-icon">📢</div></td>
+                                    <td>Marketing Intern</td>
+                                    <td>Support digital marketing campaigns and analytics</td>
+                                    <td>Currently enrolled in Marketing/Business program</td>
+                                    <td>$25/hr</td>
+                                    <td><span class="status-badge internship">Internship</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic functionality for theme toggle
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+        });
+
+        // Table filtering functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                this.classList.add('active');
+                // Actual filtering logic would go here
+                console.log(`Filtering by: ${this.textContent}`);
+            });
+        });
+
+        // Action button functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Show action menu logic would go here
+                console.log('Action button clicked for job:', 
+                    this.closest('tr').querySelector('td:nth-child(3)').textContent);
+            });
+        });
+    </script>
+</body>
+</html>

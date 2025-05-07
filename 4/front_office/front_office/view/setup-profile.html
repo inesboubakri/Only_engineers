@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyEngineers - Profile Setup</title>
+    <link rel="stylesheet" href="userprofile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Setup Profile Section -->
+        <section class="setup-profile-section">
+            <div class="setup-profile-container">
+                <div class="setup-header">
+                    <h1>Setup Your Engineer Profile</h1>
+                    <p>Complete all sections below to create your professional profile. This will help you connect with opportunities that match your skills and aspirations.</p>
+                </div>
+                
+                <div class="setup-content">
+                    <form id="setup-profile-form">
+                        <div class="setup-tabs">
+                            <button type="button" class="setup-tab active" data-tab="basic">Basic Info</button>
+                            <button type="button" class="setup-tab" data-tab="appearance">Appearance</button>
+                            <button type="button" class="setup-tab" data-tab="about">About</button>
+                            <button type="button" class="setup-tab" data-tab="experience">Experience</button>
+                            <button type="button" class="setup-tab" data-tab="education">Education</button>
+                            <button type="button" class="setup-tab" data-tab="skills">Skills</button>
+                            <button type="button" class="setup-tab" data-tab="languages">Languages</button>
+                            <button type="button" class="setup-tab" data-tab="honors">Honors</button>
+                            <button type="button" class="setup-tab" data-tab="courses">Courses</button>
+                            <button type="button" class="setup-tab" data-tab="portfolio">Portfolio</button>
+                            <button type="button" class="setup-tab" data-tab="seeking">What I'm Seeking</button>
+                            <button type="button" class="setup-tab" data-tab="security">Security</button>
+                        </div>
+                        
+                        <div class="setup-tab-content active" id="basic-tab-content">
+                            <h3>Basic Information</h3>
+                            <div class="form-group">
+                                <label for="setup-name">Full Name</label>
+                                <input type="text" id="setup-name" placeholder="Your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-title">Professional Title</label>
+                                <input type="text" id="setup-title" placeholder="e.g. Senior Software Engineer">
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-location">Location</label>
+                                <input type="text" id="setup-location" placeholder="e.g. San Francisco, CA">
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-website">Website</label>
+                                <input type="url" id="setup-website" placeholder="Your personal website or portfolio">
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-experience">Years of Experience</label>
+                                <input type="number" id="setup-experience" min="0" max="50" placeholder="Years of experience">
+                            </div>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="about-tab-content">
+                            <h3>About Me</h3>
+                            <div class="form-group">
+                                <label for="setup-about">Tell us about yourself (10-255 words)</label>
+                                <textarea id="setup-about" rows="8" placeholder="Describe your professional background, expertise, and what makes you unique..."></textarea>
+                                <div class="word-count-container">
+                                    <span id="setup-about-word-count">0</span> words
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="experience-tab-content">
+                            <h3>Work Experience</h3>
+                            <div id="setup-experience-items">
+                                <div class="setup-experience-item">
+                                    <div class="form-group">
+                                        <label for="setup-exp-title-1">Job Title</label>
+                                        <input type="text" id="setup-exp-title-1" placeholder="e.g. Senior Developer">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-exp-company-1">Company</label>
+                                        <input type="text" id="setup-exp-company-1" placeholder="e.g. Google">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-exp-location-1">Location</label>
+                                        <input type="text" id="setup-exp-location-1" placeholder="e.g. Mountain View, CA">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group half">
+                                            <label for="setup-exp-start-1">Start Date</label>
+                                            <input type="month" id="setup-exp-start-1">
+                                        </div>
+                                        <div class="form-group half">
+                                            <label for="setup-exp-end-1">End Date</label>
+                                            <input type="month" id="setup-exp-end-1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="setup-exp-current-1" class="setup-exp-current">
+                                        <label for="setup-exp-current-1">I currently work here</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-exp-description-1">Description</label>
+                                        <textarea id="setup-exp-description-1" rows="4" placeholder="Describe your role, responsibilities, and achievements..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add-experience-btn" class="secondary-btn">+ Add Another Experience</button>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="education-tab-content">
+                            <h3>Education</h3>
+                            <div id="setup-education-items">
+                                <div class="setup-education-item">
+                                    <div class="form-group">
+                                        <label for="setup-edu-school-1">School</label>
+                                        <input type="text" id="setup-edu-school-1" placeholder="e.g. University of California, Berkeley">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-edu-degree-1">Degree</label>
+                                        <input type="text" id="setup-edu-degree-1" placeholder="e.g. Bachelor of Science in Computer Science">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group half">
+                                            <label for="setup-edu-start-1">Start Date</label>
+                                            <input type="month" id="setup-edu-start-1">
+                                        </div>
+                                        <div class="form-group half">
+                                            <label for="setup-edu-end-1">End Date</label>
+                                            <input type="month" id="setup-edu-end-1">
+                                        </div>
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="setup-edu-current-1" class="setup-edu-current">
+                                        <label for="setup-edu-current-1">I'm currently studying here</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-edu-description-1">Description</label>
+                                        <textarea id="setup-edu-description-1" rows="4" placeholder="Describe your studies, achievements, and relevant coursework..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add-education-btn" class="secondary-btn">+ Add Another Education</button>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="skills-tab-content">
+                            <h3>Skills</h3>
+                            <div id="setup-skills-items">
+                                <div class="setup-skills-item">
+                                    <div class="form-row">
+                                        <div class="form-group two-thirds">
+                                            <label for="setup-skill-name-1">Skill</label>
+                                            <input type="text" id="setup-skill-name-1" placeholder="e.g. JavaScript">
+                                        </div>
+                                        <div class="form-group one-third">
+                                            <label for="setup-skill-level-1">Level</label>
+                                            <select id="setup-skill-level-1">
+                                                <option value="Beginner">Beginner</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Advanced">Advanced</option>
+                                                <option value="Expert">Expert</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setup-skills-item">
+                                    <div class="form-row">
+                                        <div class="form-group two-thirds">
+                                            <label for="setup-skill-name-2">Skill</label>
+                                            <input type="text" id="setup-skill-name-2" placeholder="e.g. Python">
+                                        </div>
+                                        <div class="form-group one-third">
+                                            <label for="setup-skill-level-2">Level</label>
+                                            <select id="setup-skill-level-2">
+                                                <option value="Beginner">Beginner</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Advanced">Advanced</option>
+                                                <option value="Expert">Expert</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setup-skills-item">
+                                    <div class="form-row">
+                                        <div class="form-group two-thirds">
+                                            <label for="setup-skill-name-3">Skill</label>
+                                            <input type="text" id="setup-skill-name-3" placeholder="e.g. React">
+                                        </div>
+                                        <div class="form-group one-third">
+                                            <label for="setup-skill-level-3">Level</label>
+                                            <select id="setup-skill-level-3">
+                                                <option value="Beginner">Beginner</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Advanced">Advanced</option>
+                                                <option value="Expert">Expert</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add-skill-btn" class="secondary-btn">+ Add Another Skill</button>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="appearance-tab-content">
+                            <h3>Profile Appearance</h3>
+                            <div class="form-group">
+                                <label for="profile-upload-setup">Profile Picture</label>
+                                <div class="profile-upload-container">
+                                    <div id="profile-picture-preview" class="profile-picture-preview">
+                                        <img src="assets/default-profile.svg" alt="Profile Picture Preview" id="profile-preview-img">
+                                        <div class="picture-overlay">
+                                            <i class="fas fa-camera"></i>
+                                        </div>
+                                    </div>
+                                    <input type="file" id="profile-upload-setup" accept="image/*" hidden>
+                                    <button type="button" id="upload-profile-btn" class="secondary-btn">Choose Image</button>
+                                </div>
+                                <p class="form-hint">Recommended size: Square image, at least 400x400px</p>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Cover Background</label>
+                                <div class="color-palette">
+                                    <div class="color-option" data-color="#1a73e8" style="background-color: #1a73e8;"></div>
+                                    <div class="color-option" data-color="#34a853" style="background-color: #34a853;"></div>
+                                    <div class="color-option" data-color="#fbbc05" style="background-color: #fbbc05;"></div>
+                                    <div class="color-option" data-color="#ea4335" style="background-color: #ea4335;"></div>
+                                    <div class="color-option" data-color="#8d6e63" style="background-color: #8d6e63;"></div>
+                                    <div class="color-option" data-color="#9c27b0" style="background-color: #9c27b0;"></div>
+                                    <div class="color-option" data-color="#673ab7" style="background-color: #673ab7;"></div>
+                                    <div class="color-option" data-color="#3f51b5" style="background-color: #3f51b5;"></div>
+                                </div>
+                                
+                                <div class="gradient-options">
+                                    <h4>Gradient Backgrounds</h4>
+                                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #3494E6, #EC6EAD)" style="background: linear-gradient(135deg, #3494E6, #EC6EAD);"></div>
+                                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #FF9A9E, #FECFEF)" style="background: linear-gradient(135deg, #FF9A9E, #FECFEF);"></div>
+                                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #A18CD1, #FBC2EB)" style="background: linear-gradient(135deg, #A18CD1, #FBC2EB);"></div>
+                                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #84FAB0, #8FD3F4)" style="background: linear-gradient(135deg, #84FAB0, #8FD3F4);"></div>
+                                </div>
+                                
+                                <div class="custom-color">
+                                    <label for="custom-color-input-setup">Custom Color:</label>
+                                    <input type="color" id="custom-color-input-setup" value="#1a73e8">
+                                </div>
+                                
+                                <div id="cover-preview" class="cover-preview">
+                                    <div class="preview-text">Cover Preview</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setup-tab-content" id="languages-tab-content">
+                            <h3>Languages</h3>
+                            <div id="setup-languages-items">
+                                <div class="setup-languages-item">
+                                    <div class="form-row">
+                                        <div class="form-group two-thirds">
+                                            <label for="setup-language-name-1">Language</label>
+                                            <input type="text" id="setup-language-name-1" placeholder="e.g. English">
+                                        </div>
+                                        <div class="form-group one-third">
+                                            <label for="setup-language-level-1">Proficiency</label>
+                                            <select id="setup-language-level-1">
+                                                <option value="Native">Native</option>
+                                                <option value="Fluent">Fluent</option>
+                                                <option value="Professional">Professional</option>
+                                                <option value="Intermediate">Intermediate</option>
+                                                <option value="Basic">Basic</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add-language-btn" class="secondary-btn">+ Add Another Language</button>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="honors-tab-content">
+                            <h3>Honors & Awards</h3>
+                            <div id="setup-honors-items">
+                                <div class="setup-honors-item">
+                                    <div class="form-group">
+                                        <label for="setup-honor-title-1">Title</label>
+                                        <input type="text" id="setup-honor-title-1" placeholder="e.g. Employee of the Year">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-honor-issuer-1">Issuer</label>
+                                        <input type="text" id="setup-honor-issuer-1" placeholder="e.g. Google Inc.">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-honor-date-1">Date</label>
+                                        <input type="month" id="setup-honor-date-1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-honor-description-1">Description</label>
+                                        <textarea id="setup-honor-description-1" rows="3" placeholder="Describe this honor or award..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add-honor-btn" class="secondary-btn">+ Add Another Honor</button>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="courses-tab-content">
+                            <h3>Courses & Certifications</h3>
+                            <div id="setup-courses-items">
+                                <div class="setup-courses-item">
+                                    <div class="form-group">
+                                        <label for="setup-course-title-1">Course/Certification Title</label>
+                                        <input type="text" id="setup-course-title-1" placeholder="e.g. AWS Certified Developer">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-course-provider-1">Provider</label>
+                                        <input type="text" id="setup-course-provider-1" placeholder="e.g. Amazon Web Services">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-course-date-1">Date Completed</label>
+                                        <input type="month" id="setup-course-date-1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-course-credential-1">Credential ID (optional)</label>
+                                        <input type="text" id="setup-course-credential-1" placeholder="e.g. ABC123XYZ">
+                                    </div>
+                                    <div class="form-group checkbox-group">
+                                        <input type="checkbox" id="setup-course-expires-1">
+                                        <label for="setup-course-expires-1">This credential expires</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-course-expiry-1">Expiration Date</label>
+                                        <input type="month" id="setup-course-expiry-1" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add-course-btn" class="secondary-btn">+ Add Another Course</button>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="portfolio-tab-content">
+                            <h3>Portfolio Projects</h3>
+                            <div id="setup-portfolio-items">
+                                <div class="setup-portfolio-item">
+                                    <div class="form-group">
+                                        <label for="setup-portfolio-title-1">Project Title</label>
+                                        <input type="text" id="setup-portfolio-title-1" placeholder="e.g. E-commerce Website">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-portfolio-link-1">Project Link</label>
+                                        <input type="url" id="setup-portfolio-link-1" placeholder="https://example.com/project">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-portfolio-start-1">Start Date</label>
+                                        <input type="month" id="setup-portfolio-start-1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-portfolio-end-1">End Date</label>
+                                        <input type="month" id="setup-portfolio-end-1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="setup-portfolio-description-1">Description</label>
+                                        <textarea id="setup-portfolio-description-1" rows="4" placeholder="Describe the project, technologies used, and your role..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="add-portfolio-btn" class="secondary-btn">+ Add Another Project</button>
+                        </div>
+
+                        <div class="setup-tab-content" id="security-tab-content">
+                            <h3>Security & Password</h3>
+                            <div class="form-group">
+                                <label for="setup-email">Email Address</label>
+                                <input type="email" id="setup-email" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-password">Password</label>
+                                <div class="password-input-group">
+                                    <input type="password" id="setup-password" placeholder="Choose a strong password">
+                                    <button type="button" class="toggle-password" tabindex="-1">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-meter">
+                                        <div class="strength-bar" id="setup-password-strength-meter"></div>
+                                    </div>
+                                    <div id="setup-password-strength-text">Password strength</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-confirm-password">Confirm Password</label>
+                                <div class="password-input-group">
+                                    <input type="password" id="setup-confirm-password" placeholder="Confirm your password">
+                                    <button type="button" class="toggle-password" tabindex="-1">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-birthday">Date of Birth</label>
+                                <input type="date" id="setup-birthday" placeholder="YYYY-MM-DD">
+                            </div>
+                        </div>
+                        
+                        <div class="setup-tab-content" id="seeking-tab-content">
+                            <h3>What I'm Seeking</h3>
+                            <div class="seeking-options">
+                                <h4>Select what you're looking for professionally:</h4>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-leadership" class="seeking-checkbox">
+                                    <label for="setup-seeking-leadership">Leadership Opportunities</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-mentoring" class="seeking-checkbox">
+                                    <label for="setup-seeking-mentoring">Mentoring Opportunities</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-remote" class="seeking-checkbox">
+                                    <label for="setup-seeking-remote">Remote Work</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-freelance" class="seeking-checkbox">
+                                    <label for="setup-seeking-freelance">Freelance Projects</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-fulltime" class="seeking-checkbox">
+                                    <label for="setup-seeking-fulltime">Full-time Positions</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-startup" class="seeking-checkbox">
+                                    <label for="setup-seeking-startup">Startup Opportunities</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-consulting" class="seeking-checkbox">
+                                    <label for="setup-seeking-consulting">Consulting Roles</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="setup-seeking-international" class="seeking-checkbox">
+                                    <label for="setup-seeking-international">International Opportunities</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="setup-seeking-additional">Additional Details</label>
+                                <textarea id="setup-seeking-additional" rows="4" placeholder="Add any additional details about what you're looking for professionally..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="setup-navigation">
+                            <button type="button" id="prev-tab-btn" class="navigation-btn" disabled>Previous</button>
+                            <div class="setup-progress">
+                                <div class="setup-progress-bar"></div>
+                            </div>
+                            <button type="button" id="next-tab-btn" class="navigation-btn">Next</button>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <a href="user.profile.html" class="cancel-btn">Cancel</a>
+                            <button type="submit" class="save-btn" id="save-setup-btn">Complete Setup</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast">
+            <div class="toast-content">
+                <i class="fas fa-check-circle toast-icon success"></i>
+                <i class="fas fa-exclamation-circle toast-icon error"></i>
+                <div class="toast-message">Profile updated successfully!</div>
+            </div>
+            <div class="toast-progress"></div>
+        </div>
+    </div>
+
+    <script src="../controller/userprofilesetup.js"></script>
+</body>
+</html>
