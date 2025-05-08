@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opportunity</title>
+    <link rel="stylesheet" href="../view/job_styles1.css">
+    <script src="../controller/script.js" defer></script>
+</head>
+<body class="job-body">
+    <!-- Add the id="addJobForm" to the form -->
+    <form action="../controller/job_offer.php" method="POST" id="addJobForm">
+        <div class="container">
+            <div class="job-box">
+                <h1>Job Offer</h1>
+                <div class="form-container">
+                    <div class="form-control">
+                        <label for="titre">Job Title</label>
+                        <select name="titre" id="titre" onchange="toggleOtherField()" required>
+                            <option value="" disabled selected>Select a Job Title</option>
+                            <option value="Frontend">Front-End Web Developer</option>
+                            <option value="Backend">Back-End Web Developer</option>
+                            <option value="Full Stack">Full Stack Web Developer</option>
+                            <option value="Data Science">Data Scientist</option>
+                            <option value="IT">IT Support Specialist</option>
+                            <option value="DevOps">DevOps Engineer</option>
+                            <option value="UI">UI/UX Designer</option>
+                            <option value="Game">Game Developer</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="text" id="OtherJobTitle" name="OtherJobTitle" placeholder="Enter Job Title" style="display:none;">
+                        <small class="error-message"></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="entreprise">Company Name</label>
+                        <input type="text" id="entreprise" name="entreprise" placeholder="Enter Company Name" required minlength="2">
+                        <small class="error-message"></small>
+                    </div>
+
+                    <div class="textarea-control">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" cols="30" rows="10" placeholder="Enter Job Description" required minlength="10"></textarea>
+                        <small class="error-message"></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="emplacement">Location</label>
+                        <input type="text" id="emplacement" name="emplacement" placeholder="Enter Location" required>
+                        <small class="error-message"></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="type">Type</label>
+                        <select name="type" id="type" required>
+                            <option value="" disabled selected>Select Job Type</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Freelance">Freelance</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                        <small class="error-message"></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" value="<?= date('Y-m-d') ?>" required>
+                        <small class="error-message"></small>
+                    </div>
+
+                    <div class="form-control">
+                        <label for="Email">Email</label>
+                        <input type="email" id="Email" name="Email" placeholder="Enter Email" required>
+                        <small class="error-message"></small>
+                    </div>
+
+                    <div class="button-container">
+                        <button type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        // JavaScript for client-side validation
+        document.getElementById('addJobForm').addEventListener('submit', function (event) {
+            const form = event.target;
+            let isValid = true;
+
+            // Validate Job Title
+            const titre = form.querySelector('#titre');
+            const otherJobTitle = form.querySelector('#OtherJobTitle');
+            if (titre.value === 'Other' && otherJobTitle.value.trim() === '') {
+                isValid = false;
+                otherJobTitle.nextElementSibling.textContent = 'Please enter a job title.';
+            } else {
+                otherJobTitle.nextElementSibling.textContent = '';
+            }
+
+            // Validate Company Name
+            const entreprise = form.querySelector('#entreprise');
+            if (entreprise.value.trim().length < 2) {
+                isValid = false;
+                entreprise.nextElementSibling.textContent = 'Company name must be at least 2 characters.';
+            } else {
+                entreprise.nextElementSibling.textContent = '';
+            }
+
+            // Validate Description
+            const description = form.querySelector('#description');
+            if (description.value.trim().length < 10) {
+                isValid = false;
+                description.nextElementSibling.textContent = 'Description must be at least 10 characters.';
+            } else {
+                description.nextElementSibling.textContent = '';
+            }
+
+            // Validate Location
+            const emplacement = form.querySelector('#emplacement');
+            if (emplacement.value.trim() === '') {
+                isValid = false;
+                emplacement.nextElementSibling.textContent = 'Location is required.';
+            } else {
+                emplacement.nextElementSibling.textContent = '';
+            }
+
+            // Validate Email
+            const email = form.querySelector('#Email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value.trim())) {
+                isValid = false;
+                email.nextElementSibling.textContent = 'Please enter a valid email address.';
+            } else {
+                email.nextElementSibling.textContent = '';
+            }
+
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        // Toggle visibility of "Other Job Title" input
+        function toggleOtherField() {
+            const titre = document.getElementById('titre');
+            const otherJobTitle = document.getElementById('OtherJobTitle');
+            if (titre.value === 'Other') {
+                otherJobTitle.style.display = 'block';
+            } else {
+                otherJobTitle.style.display = 'none';
+                otherJobTitle.value = ''; // Clear the field if hidden
+            }
+        }
+    </script>
+</body>
+</html>
