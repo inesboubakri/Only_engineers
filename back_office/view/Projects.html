@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects Management | Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques pour la table projects */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .users-table th, .users-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .users-table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .users-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .project-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-size: 1.2em;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .active-status {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .inactive-status {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">W</div>
+                <span>Wallet</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><div class="nav-icon">📊</div><span>Dashboard</span></li>
+                    <a href="users.html"><li><div class="nav-icon">👥</div><span>Users</span></li></a>
+                    <a href="jobs.html"><li><div class="nav-icon">👩🏻‍💻</div><span>jobs</span></li></a>
+                    <a href="Projects.html"></a><li><div class="nav-icon">🚀</div><span>Projects</span></li></a>
+                    <a href="news.html"></a><li><div class="nav-icon">📰</div><span>News</span></li></a>
+                    <a href="hackathons.html"></a><li><div class="nav-icon">🏆</div><span>Hackathons</span></li></a>
+                    <a href="courses.html"></a><li><div class="nav-icon">📚</div><span>Courses</span></li></a>
+                    <a href="Opportunities.html"></a><li><div class="nav-icon">💼</div><span>Opportunities</span></li></a>
+                    <a href="Notifications.html"></a><li><div class="nav-icon">🔔</div><span>Notifications</span><div class="notification-badge">1</div></li></a>
+                    <a href="signout.html"></a><li><div class="nav-icon">🚪</div><span>Sign out</span></li></a>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h1>Hello, Ines welcome back <span class="wave-emoji">👋</span></h1>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" placeholder="search">
+                        <div class="search-icon">🔍</div>
+                    </div>
+                    <div class="header-theme-toggle">
+                        <label class="theme-switch">
+                            <input type="checkbox" id="theme-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar">
+                            <img src="https://i.pravatar.cc/100?img=32" alt="Ines Boubakri">
+                        </div>
+                        <span>Ines Boubakri</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Content (using users-view class) -->
+            <div class="users-view">
+                <!-- Top Cards Row (using users-top-cards class) -->
+                <div class="users-top-cards">
+                    <div class="service-card report-card">
+                        <div class="service-icon blue">
+                            <span>📋</span>
+                        </div>
+                        <div class="service-title">Projects Report</div>
+                        <div class="service-description">Generate comprehensive reports about projects</div>
+                        <button class="service-button">Generate Report</button>
+                    </div>
+                    
+                    <div class="service-card stats-card">
+                        <div class="service-icon purple">
+                            <span>🚀</span>
+                        </div>
+                        <div class="service-title">Active Projects</div>
+                        <div class="service-amount">24</div>
+                        <div class="service-change positive">+8.3%</div>
+                    </div>
+                    
+                    <div class="service-card contributors-card">
+                        <div class="service-icon teal">
+                            <span>👥</span>
+                        </div>
+                        <div class="service-title">Total Contributors</div>
+                        <div class="service-amount">187</div>
+                        <div class="service-change positive">+15.2%</div>
+                    </div>
+                </div>
+                
+                <!-- Projects Table Section (using users-table-card class) -->
+                <div class="card users-table-card">
+                    <!-- Table Filter Options -->
+                    <div class="table-filters">
+                        <div class="filter-options">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Web</button>
+                            <button class="filter-btn">Mobile</button>
+                            <button class="filter-btn">AI</button>
+                            <button class="filter-btn">Data</button>
+                        </div>
+                        <div class="table-actions">
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="table">
+                                    <span class="view-icon">≡</span>
+                                </button>
+                                <button class="view-btn" data-view="grid">
+                                    <span class="view-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="3" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="3" width="7" height="7" rx="1" fill="currentColor"/>
+                                            <rect x="14" y="14" width="7" height="7" rx="1" fill="currentColor"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <button class="add-button">
+                                <span class="add-icon">+</span>
+                                <span>Add Project</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Projects Table (using users-table class) -->
+                    <div class="table-container">
+                        <table class="users-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Project</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Skills Required</th>
+                                    <th>Git Link</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PRJ-001</td>
+                                    <td><div class="project-icon">🛒</div></td>
+                                    <td>E-commerce platform with React and Node.js</td>
+                                    <td>Web Development</td>
+                                    <td>React, Node.js, MongoDB</td>
+                                    <td><a href="https://github.com/example/ecommerce" target="_blank">View on GitHub</a></td>
+                                    <td><span class="status-badge active-status">Active</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>PRJ-002</td>
+                                    <td><div class="project-icon">🏥</div></td>
+                                    <td>Mobile app for health tracking</td>
+                                    <td>Mobile Development</td>
+                                    <td>Flutter, Dart, Firebase</td>
+                                    <td><a href="https://github.com/example/health-app" target="_blank">View on GitHub</a></td>
+                                    <td><span class="status-badge active-status">Active</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>PRJ-003</td>
+                                    <td><div class="project-icon">👁️</div></td>
+                                    <td>Image recognition using TensorFlow</td>
+                                    <td>AI/ML</td>
+                                    <td>Python, TensorFlow, OpenCV</td>
+                                    <td><a href="https://github.com/example/image-recognition" target="_blank">View on GitHub</a></td>
+                                    <td><span class="status-badge inactive-status">Inactive</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>PRJ-004</td>
+                                    <td><div class="project-icon">📊</div></td>
+                                    <td>Data visualization dashboard</td>
+                                    <td>Data Science</td>
+                                    <td>Python, Pandas, Matplotlib</td>
+                                    <td><a href="https://github.com/example/data-viz" target="_blank">View on GitHub</a></td>
+                                    <td><span class="status-badge active-status">Active</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                                <tr>
+                                    <td>PRJ-005</td>
+                                    <td><div class="project-icon">⛓️</div></td>
+                                    <td>Blockchain-based voting system</td>
+                                    <td>Blockchain</td>
+                                    <td>Solidity, Web3.js, Ethereum</td>
+                                    <td><a href="https://github.com/example/blockchain-voting" target="_blank">View on GitHub</a></td>
+                                    <td><span class="status-badge inactive-status">Inactive</span></td>
+                                    <td><button class="action-btn">•••</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic functionality for theme toggle
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            document.body.classList.toggle('dark-theme');
+            document.body.classList.toggle('light-theme');
+        });
+
+        // Table filtering functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                this.classList.add('active');
+                // Actual filtering logic would go here
+                console.log(`Filtering by: ${this.textContent}`);
+            });
+        });
+
+        // Action button functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Show action menu logic would go here
+                console.log('Action button clicked for project:', 
+                    this.closest('tr').querySelector('td:nth-child(1)').textContent);
+            });
+        });
+    </script>
+</body>
+</html>

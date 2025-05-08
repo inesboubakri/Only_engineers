@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyEngineers - Professional Profile</title>
+    <link rel="stylesheet" href="userprofile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hidden navigation for functionality preservation -->
+        <div style="display: none;">
+            <nav class="main-nav">
+                <div class="nav-links">
+                    <a href="#" id="nav-settings-btn"><i class="fas fa-cog"></i> Settings</a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Profile Header Section -->
+        <section class="profile-header">
+            <div class="cover-photo" id="cover-photo">
+                <div class="cover-overlay"></div>
+                <button class="edit-cover-btn" id="edit-cover-btn">
+                    <i class="fas fa-edit"></i> Edit Cover
+                </button>
+            </div>
+            <div class="profile-info">
+                <div class="profile-picture-container">
+                    <div class="profile-picture" id="profile-picture">
+                        <img src="assets/default-profile.svg" alt="Profile Picture" id="profile-img">
+                        <div class="picture-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <input type="file" id="profile-upload" accept="image/*" hidden>
+                </div>
+                <div class="profile-details">
+                    <div class="profile-name-container">
+                        <h1 id="profile-name">Your Name</h1>
+                        <div class="profile-actions">
+                            <button class="settings-btn" id="settings-btn">
+                                <i class="fas fa-cog"></i> Settings
+                            </button>
+                            <button class="edit-profile-btn" id="edit-profile-btn">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </button>
+                            <a href="setup.profile.html" class="setup-profile-btn">
+                                <i class="fas fa-user-cog"></i> Setup Profile
+                            </a>
+                        </div>
+                    </div>
+                    <p id="profile-title">Software Engineer</p>
+                    <p class="profile-location" id="profile-location">San Francisco, CA</p>
+                    <p class="website"><a href="#" id="website-link" target="_blank">www.yourwebsite.com</a></p>
+                    <div class="experience-badge">
+                        <i class="fas fa-briefcase"></i>
+                        <span id="years-experience">5</span> years of experience
+                    </div>
+                    <div class="profile-highlights">
+                        <div class="highlight-item">
+                            <h3>Top Skills</h3>
+                            <ul id="top-skills-list">
+                                <li>JavaScript</li>
+                                <li>React</li>
+                                <li>Node.js</li>
+                            </ul>
+                        </div>
+                        <div class="highlight-item">
+                            <h3>Languages</h3>
+                            <ul id="languages-list">
+                                <li>English (Native)</li>
+                                <li>Spanish (Professional)</li>
+                                <li>French (Basic)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-layout">
+                <div class="main-column">
+                    <section class="profile-section" id="about-section">
+                        <div class="section-header">
+                            <h2>About</h2>
+                            <button class="edit-btn" data-section="about"><i class="fas fa-edit"></i></button>
+                        </div>
+                        <div class="section-content" id="about-content">
+                            <p>A passionate software engineer with expertise in full-stack development, focused on creating elegant solutions to complex problems. Experienced in building scalable web applications and optimizing performance.</p>
+                        </div>
+                        <div class="section-edit hidden" id="about-edit">
+                            <textarea id="about-textarea" placeholder="Tell us about yourself (10-255 words)" minlength="10" maxlength="1000"></textarea>
+                            <div class="word-count"><span id="about-word-count">0</span>/255 words</div>
+                            <div class="edit-actions">
+                                <button class="cancel-btn" data-section="about">Cancel</button>
+                                <button class="save-btn" data-section="about">Save</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="profile-section" id="seeking-section">
+                        <div class="section-header">
+                            <h2>What I'm Seeking</h2>
+                            <button class="edit-btn" data-section="seeking"><i class="fas fa-edit"></i></button>
+                        </div>
+                        <div class="section-content" id="seeking-content">
+                            <p>Looking for challenging opportunities in software architecture and team leadership. Interested in roles that involve mentoring junior developers and working on innovative products with a global impact.</p>
+                        </div>
+                        <div class="section-edit hidden" id="seeking-edit">
+                            <div class="seeking-options">
+                                <h4>Select what you're looking for:</h4>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-leadership" class="seeking-checkbox">
+                                    <label for="seeking-leadership">Leadership opportunities</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-mentoring" class="seeking-checkbox">
+                                    <label for="seeking-mentoring">Mentoring junior developers</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-remote" class="seeking-checkbox">
+                                    <label for="seeking-remote">Remote work opportunities</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-freelance" class="seeking-checkbox">
+                                    <label for="seeking-freelance">Freelance projects</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-startup" class="seeking-checkbox">
+                                    <label for="seeking-startup">Startup opportunities</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-enterprise" class="seeking-checkbox">
+                                    <label for="seeking-enterprise">Enterprise roles</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-collab" class="seeking-checkbox">
+                                    <label for="seeking-collab">Collaboration on open source</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-innovative" class="seeking-checkbox">
+                                    <label for="seeking-innovative">Innovative products</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-global" class="seeking-checkbox">
+                                    <label for="seeking-global">Global impact projects</label>
+                                </div>
+                                <div class="seeking-option">
+                                    <input type="checkbox" id="seeking-ai" class="seeking-checkbox">
+                                    <label for="seeking-ai">AI & Machine Learning</label>
+                                </div>
+                            </div>
+                            <textarea id="seeking-textarea" placeholder="Add any additional details about what you're looking for professionally..." maxlength="500"></textarea>
+                            <div class="edit-actions">
+                                <button class="cancel-btn" data-section="seeking">Cancel</button>
+                                <button class="save-btn" data-section="seeking">Save</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="profile-section" id="experience-section">
+                        <div class="section-header">
+                            <h2>Experience</h2>
+                            <button class="add-btn" data-section="experience"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-content" id="experience-content">
+                            <div class="experience-items" id="experience-items">
+                                <!-- Experience items will be added here dynamically -->
+                            </div>
+                        </div>
+                        <div class="section-edit hidden" id="experience-edit">
+                            <form id="experience-form">
+                                <div class="form-group">
+                                    <label for="exp-title">Title</label>
+                                    <input type="text" id="exp-title" placeholder="e.g. Senior Software Engineer" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exp-company">Company</label>
+                                    <input type="text" id="exp-company" placeholder="e.g. Google" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="exp-start-date">Start Date</label>
+                                        <input type="month" id="exp-start-date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exp-end-date">End Date</label>
+                                        <input type="month" id="exp-end-date">
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="exp-current">
+                                            <label for="exp-current">I currently work here</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exp-location">Location</label>
+                                    <input type="text" id="exp-location" placeholder="e.g. San Francisco, CA">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exp-description">Description</label>
+                                    <textarea id="exp-description" placeholder="Describe your responsibilities and achievements"></textarea>
+                                </div>
+                                <input type="hidden" id="exp-id" value="">
+                                <div class="edit-actions">
+                                    <button type="button" class="cancel-btn" data-section="experience">Cancel</button>
+                                    <button type="submit" class="save-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <section class="profile-section" id="education-section">
+                        <div class="section-header">
+                            <h2>Education</h2>
+                            <button class="add-btn" data-section="education"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-content" id="education-content">
+                            <div class="education-items" id="education-items">
+                                <!-- Education items will be added here dynamically -->
+                            </div>
+                        </div>
+                        <div class="section-edit hidden" id="education-edit">
+                            <form id="education-form">
+                                <div class="form-group">
+                                    <label for="edu-school">School/University</label>
+                                    <input type="text" id="edu-school" placeholder="e.g. Stanford University" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edu-degree">Degree</label>
+                                    <input type="text" id="edu-degree" placeholder="e.g. Bachelor of Science in Computer Science" required>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="edu-start-date">Start Date</label>
+                                        <input type="month" id="edu-start-date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edu-end-date">End Date</label>
+                                        <input type="month" id="edu-end-date">
+                                        <div class="checkbox-group">
+                                            <input type="checkbox" id="edu-current">
+                                            <label for="edu-current">I'm currently studying here</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edu-description">Description</label>
+                                    <textarea id="edu-description" placeholder="Add activities, achievements, etc."></textarea>
+                                </div>
+                                <input type="hidden" id="edu-id" value="">
+                                <div class="edit-actions">
+                                    <button type="button" class="cancel-btn" data-section="education">Cancel</button>
+                                    <button type="submit" class="save-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                    
+                    <section class="profile-section" id="courses-section">
+                        <div class="section-header">
+                            <h2>Courses & Certifications</h2>
+                            <button class="add-btn" data-section="courses"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-content" id="courses-content">
+                            <div class="courses-items" id="courses-items">
+                                <!-- Courses items will be added here dynamically -->
+                            </div>
+                        </div>
+                        <div class="section-edit hidden" id="courses-edit">
+                            <form id="courses-form">
+                                <div class="form-group">
+                                    <label for="course-title">Course/Certification Title</label>
+                                    <input type="text" id="course-title" placeholder="e.g. AWS Certified Developer" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="course-provider">Provider</label>
+                                    <input type="text" id="course-provider" placeholder="e.g. Amazon Web Services" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="course-date">Date Completed</label>
+                                    <input type="month" id="course-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="course-credential">Credential ID</label>
+                                    <input type="text" id="course-credential" placeholder="e.g. ABC123XYZ">
+                                </div>
+                                <div class="form-group">
+                                    <label for="course-url">URL</label>
+                                    <input type="url" id="course-url" placeholder="e.g. https://www.credential.net/12345">
+                                </div>
+                                <input type="hidden" id="course-id" value="">
+                                <div class="edit-actions">
+                                    <button type="button" class="cancel-btn" data-section="courses">Cancel</button>
+                                    <button type="submit" class="save-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <section class="profile-section" id="portfolio-section">
+                        <div class="section-header">
+                            <h2>Portfolio</h2>
+                            <button class="add-btn" data-section="portfolio"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-content" id="portfolio-content">
+                            <div class="portfolio-items" id="portfolio-items">
+                                <!-- Portfolio items will be added here dynamically -->
+                            </div>
+                        </div>
+                        <div class="section-edit hidden" id="portfolio-edit">
+                            <form id="portfolio-form">
+                                <div class="form-group">
+                                    <label for="portfolio-title">Project Title</label>
+                                    <input type="text" id="portfolio-title" placeholder="e.g. E-commerce Website" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="portfolio-description">Description</label>
+                                    <textarea id="portfolio-description" placeholder="Describe your project" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="portfolio-url">URL</label>
+                                    <input type="url" id="portfolio-url" placeholder="e.g. https://github.com/yourusername/project">
+                                </div>
+                                <div class="form-group">
+                                    <label for="portfolio-technologies">Technologies Used</label>
+                                    <input type="text" id="portfolio-technologies" placeholder="e.g. React, Node.js, MongoDB">
+                                </div>
+                                <div class="form-group">
+                                    <label for="portfolio-date">Completion Date</label>
+                                    <input type="month" id="portfolio-date">
+                                </div>
+                                <input type="hidden" id="portfolio-id" value="">
+                                <div class="edit-actions">
+                                    <button type="button" class="cancel-btn" data-section="portfolio">Cancel</button>
+                                    <button type="submit" class="save-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+                
+                <div class="side-column">
+                    <section class="profile-section" id="skills-section">
+                        <div class="section-header">
+                            <h2>Skills</h2>
+                            <button class="add-btn" data-section="skills"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-content" id="skills-content">
+                            <div class="skills-container" id="skills-container">
+                                <!-- Skills will be added here dynamically -->
+                            </div>
+                        </div>
+                        <div class="section-edit hidden" id="skills-edit">
+                            <form id="skills-form">
+                                <div class="form-group">
+                                    <label for="skill-name">Skill</label>
+                                    <input type="text" id="skill-name" placeholder="e.g. JavaScript" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="skill-level">Proficiency Level</label>
+                                    <select id="skill-level" required>
+                                        <option value="Beginner">Beginner</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Advanced">Advanced</option>
+                                        <option value="Expert">Expert</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" id="skill-id" value="">
+                                <div class="edit-actions">
+                                    <button type="button" class="cancel-btn" data-section="skills">Cancel</button>
+                                    <button type="submit" class="save-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <section class="profile-section" id="languages-section">
+                        <div class="section-header">
+                            <h2>Languages</h2>
+                            <button class="add-btn" data-section="languages"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-content" id="languages-content">
+                            <div class="languages-container" id="languages-container">
+                                <!-- Languages will be added here dynamically -->
+                            </div>
+                        </div>
+                        <div class="section-edit hidden" id="languages-edit">
+                            <form id="languages-form">
+                                <div class="form-group">
+                                    <label for="language-name">Language</label>
+                                    <input type="text" id="language-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="language-proficiency">Proficiency</label>
+                                    <select id="language-proficiency" required>
+                                        <option value="Native">Native</option>
+                                        <option value="Fluent">Fluent</option>
+                                        <option value="Professional">Professional</option>
+                                        <option value="Intermediate">Intermediate</option>
+                                        <option value="Basic">Basic</option>
+                                    </select>
+                                </div>
+                                <input type="hidden" id="language-id" value="">
+                                <div class="edit-actions">
+                                    <button type="button" class="cancel-btn" data-section="languages">Cancel</button>
+                                    <button type="button" class="save-btn" id="language-save-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+
+                    <section class="profile-section" id="honors-section">
+                        <div class="section-header">
+                            <h2>Honors & Awards</h2>
+                            <button class="add-btn" data-section="honors"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <div class="section-content" id="honors-content">
+                            <div class="honors-items" id="honors-items">
+                                <!-- Honors items will be added here dynamically -->
+                            </div>
+                        </div>
+                        <div class="section-edit hidden" id="honors-edit">
+                            <form id="honors-form">
+                                <div class="form-group">
+                                    <label for="honor-title">Title</label>
+                                    <input type="text" id="honor-title" placeholder="e.g. Employee of the Year" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="honor-issuer">Issuer</label>
+                                    <input type="text" id="honor-issuer" placeholder="e.g. Google Inc." required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="honor-date">Date</label>
+                                    <input type="month" id="honor-date" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="honor-description">Description</label>
+                                    <textarea id="honor-description" placeholder="Describe this honor or award"></textarea>
+                                </div>
+                                <input type="hidden" id="honor-id" value="">
+                                <div class="edit-actions">
+                                    <button type="button" class="cancel-btn" data-section="honors">Cancel</button>
+                                    <button type="submit" class="save-btn">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="settings-email">Email</label>
+                        <input type="email" id="settings-email" value="user@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-password">Current Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="settings-password" placeholder="Enter your current password">
+                            <button type="button" class="toggle-password" data-target="settings-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-new-password">New Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="settings-new-password" placeholder="Enter new password">
+                            <button type="button" class="toggle-password" data-target="settings-new-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-meter">
+                                <div class="strength-bar"></div>
+                            </div>
+                            <div class="strength-text">Enter a password</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-confirm-password">Confirm New Password</label>
+                        <div class="password-input-container">
+                            <input type="password" id="settings-confirm-password" placeholder="Confirm new password">
+                            <button type="button" class="toggle-password" data-target="settings-confirm-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-birthday">Birthday</label>
+                        <input type="date" id="settings-birthday" value="1990-01-01">
+                    </div>
+                    <div class="form-group">
+                        <label for="settings-phone">Phone Number</label>
+                        <input type="tel" id="settings-phone" placeholder="e.g. +1 555-123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Notifications</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notify-messages" checked>
+                            <label for="notify-messages">Messages</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notify-network" checked>
+                            <label for="notify-network">Network updates</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="notify-jobs">
+                            <label for="notify-jobs">Job recommendations</label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="settings-cancel" class="cancel-btn">Cancel</button>
+                        <button type="button" id="settings-save" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="edit-profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="edit-profile-form">
+                    <div class="form-group">
+                        <label for="profile-edit-name">Full Name</label>
+                        <input type="text" id="profile-edit-name" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-edit-title">Position</label>
+                        <input type="text" id="profile-edit-title" placeholder="e.g. Software Engineer" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-edit-location">Location</label>
+                        <input type="text" id="profile-edit-location" placeholder="e.g. San Francisco, CA">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-edit-website">Website</label>
+                        <input type="url" id="profile-edit-website" placeholder="e.g. https://yourwebsite.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-edit-experience">Years of Experience</label>
+                        <input type="number" id="profile-edit-experience" min="0" max="50" placeholder="e.g. 5">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" id="profile-edit-cancel" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Palette Modal -->
+    <div class="modal" id="color-palette-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Choose Cover Color</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="color-palette">
+                    <div class="color-option" data-color="#4285F4" style="background-color: #4285F4;"></div>
+                    <div class="color-option" data-color="#EA4335" style="background-color: #EA4335;"></div>
+                    <div class="color-option" data-color="#FBBC05" style="background-color: #FBBC05;"></div>
+                    <div class="color-option" data-color="#34A853" style="background-color: #34A853;"></div>
+                    <div class="color-option" data-color="#673AB7" style="background-color: #673AB7;"></div>
+                    <div class="color-option" data-color="#FF5722" style="background-color: #FF5722;"></div>
+                    <div class="color-option" data-color="#795548" style="background-color: #795548;"></div>
+                    <div class="color-option" data-color="#607D8B" style="background-color: #607D8B;"></div>
+                    <div class="color-option" data-color="#E91E63" style="background-color: #E91E63;"></div>
+                    <div class="color-option" data-color="#9C27B0" style="background-color: #9C27B0;"></div>
+                    <div class="color-option" data-color="#00BCD4" style="background-color: #00BCD4;"></div>
+                    <div class="color-option" data-color="#009688" style="background-color: #009688;"></div>
+                </div>
+                <div class="custom-color">
+                    <label for="custom-color-input">Custom Color:</label>
+                    <input type="color" id="custom-color-input" value="#4285F4">
+                </div>
+                <div class="gradient-options">
+                    <h3>Gradient Options</h3>
+                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #4285F4, #34A853)" style="background: linear-gradient(135deg, #4285F4, #34A853);"></div>
+                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #EA4335, #FBBC05)" style="background: linear-gradient(135deg, #EA4335, #FBBC05);"></div>
+                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #673AB7, #E91E63)" style="background: linear-gradient(135deg, #673AB7, #E91E63);"></div>
+                    <div class="gradient-option" data-gradient="linear-gradient(135deg, #009688, #00BCD4)" style="background: linear-gradient(135deg, #009688, #00BCD4);"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="color-palette-cancel" class="cancel-btn">Cancel</button>
+                    <button type="button" id="color-palette-save" class="save-btn">Apply</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this item?</p>
+                <p>This action cannot be undone.</p>
+                <div class="form-actions">
+                    <button type="button" id="delete-cancel" class="cancel-btn">Cancel</button>
+                    <button type="button" id="delete-confirm" class="delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast success" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check"></i>
+            <div class="toast-message">Changes saved successfully!</div>
+        </div>
+        <div class="toast-progress"></div>
+    </div>
+    
+    <!-- Setup Profile Modal -->
+    <div class="modal" id="setup-profile-modal">
+        <div class="modal-content setup-profile-content">
+            <div class="modal-header">
+                <h2>Setup Your Profile</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="setup-profile-form">
+                    <div class="setup-tabs">
+                        <button type="button" class="setup-tab active" data-tab="basic">Basic Info</button>
+                        <button type="button" class="setup-tab" data-tab="about">About</button>
+                        <button type="button" class="setup-tab" data-tab="experience">Experience</button>
+                        <button type="button" class="setup-tab" data-tab="education">Education</button>
+                        <button type="button" class="setup-tab" data-tab="skills">Skills</button>
+                        <button type="button" class="setup-tab" data-tab="seeking">What I'm Seeking</button>
+                    </div>
+                    
+                    <div class="setup-tab-content active" id="basic-tab-content">
+                        <h3>Basic Information</h3>
+                        <div class="form-group">
+                            <label for="setup-name">Full Name</label>
+                            <input type="text" id="setup-name" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="setup-title">Professional Title</label>
+                            <input type="text" id="setup-title" placeholder="e.g. Senior Software Engineer" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="setup-location">Location</label>
+                            <input type="text" id="setup-location" placeholder="e.g. San Francisco, CA" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="setup-website">Website</label>
+                            <input type="url" id="setup-website" placeholder="Your personal website or portfolio">
+                        </div>
+                        <div class="form-group">
+                            <label for="setup-experience">Years of Experience</label>
+                            <input type="number" id="setup-experience" min="0" max="50" placeholder="Years of experience" required>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-tab-content" id="about-tab-content">
+                        <h3>About Me</h3>
+                        <div class="form-group">
+                            <label for="setup-about">Tell us about yourself (10-255 words)</label>
+                            <textarea id="setup-about" rows="8" placeholder="Describe your professional background, expertise, and what makes you unique..."></textarea>
+                            <div class="word-count-container">
+                                <span id="setup-about-word-count">0</span> words
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-tab-content" id="experience-tab-content">
+                        <h3>Work Experience</h3>
+                        <div id="setup-experience-items">
+                            <div class="setup-experience-item">
+                                <div class="form-group">
+                                    <label for="setup-exp-title-1">Job Title</label>
+                                    <input type="text" id="setup-exp-title-1" placeholder="e.g. Senior Developer">
+                                </div>
+                                <div class="form-group">
+                                    <label for="setup-exp-company-1">Company</label>
+                                    <input type="text" id="setup-exp-company-1" placeholder="e.g. Google">
+                                </div>
+                                <div class="form-group">
+                                    <label for="setup-exp-location-1">Location</label>
+                                    <input type="text" id="setup-exp-location-1" placeholder="e.g. Mountain View, CA">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group half">
+                                        <label for="setup-exp-start-1">Start Date</label>
+                                        <input type="month" id="setup-exp-start-1">
+                                    </div>
+                                    <div class="form-group half">
+                                        <label for="setup-exp-end-1">End Date</label>
+                                        <input type="month" id="setup-exp-end-1">
+                                    </div>
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <input type="checkbox" id="setup-exp-current-1" class="setup-exp-current">
+                                    <label for="setup-exp-current-1">I currently work here</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="setup-exp-description-1">Description</label>
+                                    <textarea id="setup-exp-description-1" rows="4" placeholder="Describe your role, responsibilities, and achievements..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-experience-btn" class="secondary-btn">+ Add Another Experience</button>
+                    </div>
+                    
+                    <div class="setup-tab-content" id="education-tab-content">
+                        <h3>Education</h3>
+                        <div id="setup-education-items">
+                            <div class="setup-education-item">
+                                <div class="form-group">
+                                    <label for="setup-edu-school-1">School</label>
+                                    <input type="text" id="setup-edu-school-1" placeholder="e.g. University of California, Berkeley">
+                                </div>
+                                <div class="form-group">
+                                    <label for="setup-edu-degree-1">Degree</label>
+                                    <input type="text" id="setup-edu-degree-1" placeholder="e.g. Bachelor of Science in Computer Science">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group half">
+                                        <label for="setup-edu-start-1">Start Date</label>
+                                        <input type="month" id="setup-edu-start-1">
+                                    </div>
+                                    <div class="form-group half">
+                                        <label for="setup-edu-end-1">End Date</label>
+                                        <input type="month" id="setup-edu-end-1">
+                                    </div>
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <input type="checkbox" id="setup-edu-current-1" class="setup-edu-current">
+                                    <label for="setup-edu-current-1">I'm currently studying here</label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="setup-edu-description-1">Description</label>
+                                    <textarea id="setup-edu-description-1" rows="4" placeholder="Describe your studies, achievements, and relevant coursework..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-education-btn" class="secondary-btn">+ Add Another Education</button>
+                    </div>
+                    
+                    <div class="setup-tab-content" id="skills-tab-content">
+                        <h3>Skills</h3>
+                        <div id="setup-skills-items">
+                            <div class="setup-skills-item">
+                                <div class="form-row">
+                                    <div class="form-group two-thirds">
+                                        <label for="setup-skill-name-1">Skill</label>
+                                        <input type="text" id="setup-skill-name-1" placeholder="e.g. JavaScript">
+                                    </div>
+                                    <div class="form-group one-third">
+                                        <label for="setup-skill-level-1">Level</label>
+                                        <select id="setup-skill-level-1">
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setup-skills-item">
+                                <div class="form-row">
+                                    <div class="form-group two-thirds">
+                                        <label for="setup-skill-name-2">Skill</label>
+                                        <input type="text" id="setup-skill-name-2" placeholder="e.g. Python">
+                                    </div>
+                                    <div class="form-group one-third">
+                                        <label for="setup-skill-level-2">Level</label>
+                                        <select id="setup-skill-level-2">
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setup-skills-item">
+                                <div class="form-row">
+                                    <div class="form-group two-thirds">
+                                        <label for="setup-skill-name-3">Skill</label>
+                                        <input type="text" id="setup-skill-name-3" placeholder="e.g. React">
+                                    </div>
+                                    <div class="form-group one-third">
+                                        <label for="setup-skill-level-3">Level</label>
+                                        <select id="setup-skill-level-3">
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="add-skill-btn" class="secondary-btn">+ Add Another Skill</button>
+                    </div>
+                    
+                    <div class="setup-tab-content" id="seeking-tab-content">
+                        <h3>What I'm Seeking</h3>
+                        <div class="seeking-options">
+                            <h4>Select what you're looking for professionally:</h4>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-leadership" class="seeking-checkbox">
+                                <label for="setup-seeking-leadership">Leadership Opportunities</label>
+                            </div>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-mentoring" class="seeking-checkbox">
+                                <label for="setup-seeking-mentoring">Mentoring Opportunities</label>
+                            </div>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-remote" class="seeking-checkbox">
+                                <label for="setup-seeking-remote">Remote Work</label>
+                            </div>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-freelance" class="seeking-checkbox">
+                                <label for="setup-seeking-freelance">Freelance Projects</label>
+                            </div>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-fulltime" class="seeking-checkbox">
+                                <label for="setup-seeking-fulltime">Full-time Positions</label>
+                            </div>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-startup" class="seeking-checkbox">
+                                <label for="setup-seeking-startup">Startup Opportunities</label>
+                            </div>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-consulting" class="seeking-checkbox">
+                                <label for="setup-seeking-consulting">Consulting Roles</label>
+                            </div>
+                            <div class="seeking-option">
+                                <input type="checkbox" id="setup-seeking-international" class="seeking-checkbox">
+                                <label for="setup-seeking-international">International Opportunities</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="setup-seeking-additional">Additional Details</label>
+                            <textarea id="setup-seeking-additional" rows="4" placeholder="Add any additional details about what you're looking for professionally..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="setup-navigation">
+                        <button type="button" id="prev-tab-btn" class="navigation-btn" disabled>Previous</button>
+                        <div class="setup-progress">
+                            <div class="setup-progress-bar"></div>
+                        </div>
+                        <button type="button" id="next-tab-btn" class="navigation-btn">Next</button>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" onclick="closeAllModals()">Cancel</button>
+                        <button type="button" id="save-setup-btn" class="save-btn">Complete Setup</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../controller/userprofile.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Course - Only Engineers</title>
+    <link rel="stylesheet" href="../view/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #4A6CF7;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: #4A6CF7;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.2);
+        }
+        
+        .form-hint {
+            display: block;
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-back {
+            background-color: #f1f5f9;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-back:hover {
+            background-color: #e2e8f0;
+        }
+        
+        .btn-submit {
+            background-color: #4A6CF7;
+            color: white;
+            border: none;
+        }
+        
+        .btn-submit:hover {
+            background-color: #3b5be8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 108, 247, 0.25);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4A6CF7 0%, #2D3FDE 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+            margin: -30px -30px 30px -30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Add New Course</h1>
+        </header>
+        
+        <form id="addCourseForm">
+            <div class="form-group">
+                <label for="courseId">Course ID</label>
+                <input type="text" id="courseId" name="courseId" placeholder="e.g. CRS-006" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="courseIcon">Course Icon (Emoji)</label>
+                <input type="text" id="courseIcon" name="courseIcon" placeholder="e.g. 💻" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="courseTitle">Course Title</label>
+                <input type="text" id="courseTitle" name="courseTitle" placeholder="e.g. React Development Bootcamp" 
+                       pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required>
+                <small class="form-hint">Only letters and spaces are allowed</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="courseFees">Course Fees</label>
+                <input type="text" id="courseFees" name="courseFees" placeholder="e.g. $199.99 or Free">
+                <small class="form-hint">For paid courses, value must be greater than 0</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="courseLink">Course Link</label>
+                <input type="url" id="courseLink" name="courseLink" placeholder="https://example.com/course">
+            </div>
+            
+            <div class="form-group">
+                <label for="courseCertification">Certification Link</label>
+                <input type="url" id="courseCertification" name="courseCertification" placeholder="https://example.com/cert/course">
+            </div>
+            
+            <div class="form-group">
+                <label for="courseStatus">Status</label>
+                <select id="courseStatus" name="courseStatus" required>
+                    <option value="">Select status</option>
+                    <option value="free">Free</option>
+                    <option value="paid">Paid</option>
+                </select>
+            </div>
+            
+            <div class="actions">
+                <a href="courses.html" class="btn btn-back">Back to Courses</a>
+                <button type="submit" class="btn btn-submit">Add Course</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('addCourseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Course added successfully!');
+            // Here you would typically send data to the server
+            // For demonstration, just redirect back to courses page
+            setTimeout(function() {
+                window.location.href = 'courses.html';
+            }, 1000);
+        });
+        
+        // Handle status change
+        document.getElementById('courseStatus').addEventListener('change', function() {
+            var feesInput = document.getElementById('courseFees');
+            if (this.value === 'free') {
+                feesInput.value = 'Free';
+                feesInput.setAttribute('readonly', 'readonly');
+            } else {
+                feesInput.value = '';
+                feesInput.removeAttribute('readonly');
+                feesInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>

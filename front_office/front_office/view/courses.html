@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only Engineers - Courses</title>
+    <link rel="stylesheet" href="../view/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                    <img src="../assets/logo.png" alt="Only Engineers">
+                </a>
+            </div>
+            <div class="nav-center">
+                <nav class="nav-links">
+                    <a href="../view/home.html">Home</a>
+                    <a href="#">Dashboard</a>
+                    <a href="../view/index.html">Jobs</a>
+                    <a href="../view/projects.html">Projects</a>
+                    <a href="../view/courses.html" class="active">Courses</a>
+                    <a href="../view/hackathon.html">Hackathons</a>
+                    <a href="../view/articles.html">Articles</a>
+                    <a href="../view/networking.html">networking</a>
+                </nav>
+            </div>
+            <div class="nav-right">
+                <div class="notification-wrapper">
+                    <button class="icon-button notification">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </button>
+                    <div class="notification-dot"></div>
+                </div>
+                <button class="icon-button theme-toggle" id="themeToggle">
+                    <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <div class="user-profile">
+                    <a href="../view/user-profile.html">
+                        <img src="../assets/profil.jpg" alt="User profile" class="avatar">
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                
+
+                <div class="filters">
+                    <div class="filters-header">
+                        <h3>Filters</h3>
+                        <button class="clear-all">Clear All</button>
+                    </div>
+                    <div class="search-container">
+                        <div class="search-bar">
+                            <input type="text" value="...">
+                        </div>
+                        
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Course Level</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="courseLevel">
+                                <span class="label-text">All</span>
+                                <span class="count">(245)</span>
+                            </label>
+                            <label class="radio-option selected">
+                                <input type="radio" name="courseLevel" checked>
+                                <span class="label-text">Beginner</span>
+                                <span class="count">(120)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="courseLevel">
+                                <span class="label-text">Intermediate</span>
+                                <span class="count">(85)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="courseLevel">
+                                <span class="label-text">Advanced</span>
+                                <span class="count">(40)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Duration</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="duration">
+                                <span class="label-text">0-2 Hours</span>
+                                <span class="count">(45)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="duration">
+                                <span class="label-text">2-5 Hours</span>
+                                <span class="count">(78)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="duration">
+                                <span class="label-text">5+ Hours</span>
+                                <span class="count">(122)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-header">
+                            <h4>Topics</h4>
+                            <button class="expand-btn">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 10L8 6l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="filter-options">
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">Web Development</span>
+                                <span class="count">(85)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">Mobile Development</span>
+                                <span class="count">(65)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">AI/ML</span>
+                                <span class="count">(45)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="topic">
+                                <span class="label-text">Cloud Computing</span>
+                                <span class="count">(50)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Courses Section -->
+            <section class="jobs">
+                <div class="jobs-header">
+                    <h2>Featured Courses <span class="count">245</span></h2>
+                    <div class="sort">
+                        <span>Sort by:</span>
+                        <select>
+                            <option>Last updated</option>
+                        </select>
+                        <button class="view-toggle">
+                            <svg class="grid-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 4h4v4H4zM12 4h4v4h-4zM4 12h4v4H4zM12 12h4v4h-4z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <svg class="list-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" style="display: none;">
+                                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="job-cards">
+                    <!-- Promo Card - Keep this one static -->
+                    <div class="promo-card">
+                        <div class="promo-content">
+                        <h2>Reach thousands of free courses</h2>
+                        <button class="learn-more" style="display: inline-block; text-decoration: none; color: white; background-color: #4A6CF7; padding: 10px 20px; border-radius: 8px; font-weight: 500; border: none; cursor: pointer;">Add a new course</button>
+                    </div>
+                    </div>
+                    <!-- Database courses will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Course Details Modal -->
+    <div class="job-details-modal" id="courseDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="header-left">
+                    <button class="close-modal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="header-right">
+                    <button class="bookmark-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1-2-2h10a2 2 0 0 1-2 2z"/>
+                        </svg>
+                    </button>
+                    <button class="share-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                            <polyline points="16 6 12 2 8 6"/>
+                            <line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="job-header">
+                    <h1 class="job-title"></h1>
+                    <div class="company-info">
+                        <img class="company-logo" src="" alt="Company logo">
+                        <div class="company-details">
+                            <h2 class="company-name"></h2>
+                            <p class="company-location"></p>
+                        </div>
+                    </div>
+                    <div class="job-meta"></div>
+                </div>
+
+                <div class="job-content">
+                    <div class="section">
+                        <h3>About this course</h3>
+                        <p class="job-description"></p>
+                    </div>
+
+                    <div class="section">
+                        <h3>What you'll learn</h3>
+                        <ul class="qualifications-list"></ul>
+                    </div>
+
+                    <div class="section">
+                        <h3>Requirements</h3>
+                        <ul class="responsibilities-list"></ul>
+                    </div>
+
+                    <div class="section">
+                        <h3>Similar Courses</h3>
+                        <div class="similar-jobs"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="read-article-btn">Read Article</button>
+                <button class="apply-now-btn">Enroll Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article Reading Modal -->
+    <div class="article-reading-modal" id="articleReadingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="header-left">
+                    <button class="close-modal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="header-right">
+                    <button class="bookmark-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1-2-2h10a2 2 0 0 1-2 2z"/>
+                        </svg>
+                    </button>
+                    <button class="share-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                            <polyline points="16 6 12 2 8 6"/>
+                            <line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="article-header">
+                    <h1 class="article-title"></h1>
+                    <div class="article-meta">
+                        <div class="author-info">
+                            <img class="author-avatar" src="" alt="Author avatar">
+                            <div class="author-details">
+                                <h3 class="author-name"></h3>
+                                <p class="publish-date"></p>
+                            </div>
+                        </div>
+                        <div class="article-tags"></div>
+                    </div>
+
+                <div class="article-content">
+                    <!-- Article content will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div class="modal" id="addCourseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Course</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addCourseForm">
+                    <div class="form-group">
+                        <label for="courseId">Course ID</label>
+                        <input type="text" id="courseId" name="courseId" placeholder="e.g. CRS-006" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseIcon">Course Icon (Emoji)</label>
+                        <input type="text" id="courseIcon" name="courseIcon" placeholder="e.g. 💻" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseTitle">Course Title</label>
+                        <input type="text" id="courseTitle" name="courseTitle" placeholder="e.g. React Development Bootcamp" 
+                               pattern="[A-Za-z\s]+" title="Only letters and spaces are allowed" required>
+                        <small class="form-hint">Only letters and spaces are allowed</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseFees">Course Fees</label>
+                        <input type="text" id="courseFees" name="courseFees" placeholder="e.g. $199.99 or Free">
+                        <small class="form-hint fee-hint">For paid courses, value must be greater than 0</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseLink">Course Link</label>
+                        <input type="url" id="courseLink" name="courseLink" placeholder="https://example.com/course">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseCertification">Certification Link</label>
+                        <input type="url" id="courseCertification" name="courseCertification" placeholder="https://example.com/cert/course">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseStatus">Status</label>
+                        <select id="courseStatus" name="courseStatus" required>
+                            <option value="">Select status</option>
+                            <option value="free">Free</option>
+                            <option value="paid">Paid</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="cancel-btn" id="cancelAddCourse">Cancel</button>
+                        <button type="submit" class="submit-btn" id="addCourseSubmitBtn">
+                            Add Course
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global function populateEditForm - moved outside to be accessible from editCourse
+        function populateEditForm(course) {
+            console.log('Populating edit form with course data:', course);
+            
+            var form = document.getElementById('addCourseForm');
+            if (!form) {
+                console.error('Form element not found!');
+                return;
+            }
+            
+            // Find and update form title
+            var modalTitle = document.querySelector('#addCourseModal .modal-header h2');
+            if (modalTitle) {
+                modalTitle.textContent = 'Edit Course';
+            }
+            
+            // Set form values
+            document.getElementById('courseId').value = course.course_id;
+            document.getElementById('courseId').readOnly = true; // Can't change the ID
+            document.getElementById('courseIcon').value = course.icon || '📚';
+            document.getElementById('courseTitle').value = course.title;
+            document.getElementById('courseFees').value = course.fees > 0 ? course.fees : 'Free';
+            document.getElementById('courseLink').value = course.course_link;
+            document.getElementById('courseCertification').value = course.certification_link;
+            document.getElementById('courseStatus').value = course.status;
+            
+            // Update button text
+            var submitBtn = document.getElementById('addCourseSubmitBtn');
+            if (submitBtn) {
+                submitBtn.textContent = 'Update Course';
+            }
+            
+            // Add hidden field for operation type
+            var opField = document.createElement('input');
+            opField.type = 'hidden';
+            opField.name = 'operation';
+            opField.value = 'update';
+            opField.id = 'operationField';
+            
+            // Remove existing operation field if any
+            var existingOp = document.getElementById('operationField');
+            if (existingOp) {
+                existingOp.parentNode.removeChild(existingOp);
+            }
+            
+            form.appendChild(opField);
+        }
+
+        // Global function to load courses - needed for reloading after updates
+        function loadCourses() {
+            console.log('Loading courses globally');
+            
+            // Show a loading indicator if needed
+            var courseContainer = document.querySelector('.job-cards');
+            if (courseContainer) {
+                var loadingDiv = document.createElement('div');
+                loadingDiv.className = 'loading-indicator';
+                loadingDiv.textContent = 'Loading courses...';
+                
+                // Save the promo card
+                var promoCard = document.querySelector('.promo-card');
+                
+                // Clear container
+                courseContainer.innerHTML = '';
+                
+                // Add promo card back
+                if (promoCard) {
+                    courseContainer.appendChild(promoCard);
+                }
+                
+                courseContainer.appendChild(loadingDiv);
+            }
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../model/course_crud.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            xhr.onload = function() {
+                try {
+                    console.log('Response received:', xhr.responseText);
+                    
+                    // Check if response is HTML instead of JSON (error)
+                    if (xhr.responseText.trim().startsWith('<')) {
+                        console.error('Server returned HTML instead of JSON:', xhr.responseText);
+                        alert('The server returned an invalid response. Please check the server logs.');
+                        return;
+                    }
+                    
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        displayCourses(response.courses);
+                    } else {
+                        console.error('Error loading courses:', response.message);
+                        alert('Error loading courses: ' + response.message);
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e, 'Raw response:', xhr.responseText);
+                    alert('Error processing the server response. Please check the browser console for details.');
+                }
+            };
+            
+            xhr.onerror = function() {
+                console.error('Network error while loading courses');
+                alert('Network error occurred. Please check your connection.');
+            };
+            
+            xhr.send('operation=read');
+        }
+
+        // Global function to display courses
+        function displayCourses(courses) {
+            var courseContainer = document.querySelector('.job-cards');
+            
+            // Save the promo card
+            var promoCard = document.querySelector('.promo-card');
+            
+            // Clear container
+            courseContainer.innerHTML = '';
+            
+            // Add promo card back
+            if (promoCard) {
+                courseContainer.appendChild(promoCard);
+            }
+            
+            // Add courses from database
+            courses.forEach(function(course) {
+                var courseCard = createCourseCard(course);
+                courseContainer.appendChild(courseCard);
+            });
+        }
+
+        // Global function to create course card
+        function createCourseCard(course) {
+            var card = document.createElement('div');
+            card.className = 'job-card';
+            card.setAttribute('data-id', course.course_id);
+            
+            var statusClass = course.status.toLowerCase();
+            
+            card.innerHTML = `
+                <div class="job-content ${statusClass}">
+                    <div class="card-header">
+                        <span class="date">Course ID: ${course.course_id}</span>
+                        <div class="card-actions">
+                            <button class="edit-course" onclick="editCourse('${course.course_id}')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path>
+                                    <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                                </svg>
+                            </button>
+                            <button class="delete-course" onclick="deleteCourse('${course.course_id}')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <h3>${course.title}</h3>
+                    <div class="tags">
+                        <span>${course.status}</span>
+                        <span>${course.fees > 0 ? '$' + course.fees : 'Free'}</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="job-details">
+                        <div class="salary">${course.fees > 0 ? '$' + course.fees : 'Free'}</div>
+                        <div class="location">${course.status}</div>
+                    </div>
+                    <a href="${course.course_link}" target="_blank" class="details">View Course</a>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Global functions for edit/delete to be accessible from inline onclick handlers
+        function editCourse(courseId) {
+            console.log('Edit course called for ID:', courseId);
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../model/course_crud.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            xhr.onload = function() {
+                try {
+                    console.log('Edit course response:', xhr.responseText);
+                    
+                    // Check if response is HTML instead of JSON (error)
+                    if (xhr.responseText.trim().startsWith('<')) {
+                        console.error('Server returned HTML instead of JSON:', xhr.responseText);
+                        alert('The server returned an invalid response. Please check the server logs.');
+                        return;
+                    }
+                    
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        // Populate form with course data
+                        populateEditForm(response.course);
+                        
+                        // Show modal
+                        var modal = document.getElementById('addCourseModal');
+                        if (modal) {
+                            modal.style.display = 'block';
+                        }
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e, 'Raw response:', xhr.responseText);
+                    alert('Error processing the server response. Please check the browser console for details.');
+                }
+            };
+            
+            xhr.onerror = function() {
+                console.error('Network error while editing course');
+                alert('Network error occurred. Please check your connection.');
+            };
+            
+            xhr.send('operation=readOne&courseId=' + encodeURIComponent(courseId));
+        }
+        
+        function deleteCourse(courseId) {
+            console.log('Delete course called for ID:', courseId);
+            
+            if (!confirm('Are you sure you want to delete this course?')) {
+                return;
+            }
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../model/course_crud.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            
+            xhr.onload = function() {
+                console.log('Delete course response:', xhr.responseText);
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        alert(response.message);
+                        // Reload courses after deletion
+                        loadCourses();
+                    } else {
+                        alert('Error: ' + response.message);
+                    }
+                } catch (e) {
+                    console.error('Error parsing response:', e);
+                    alert('Error processing the response: ' + e.message);
+                }
+            };
+            
+            xhr.onerror = function() {
+                alert('Network error occurred');
+            };
+            
+            xhr.send('operation=delete&courseId=' + encodeURIComponent(courseId));
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show/hide modal functionality
+            var addCourseModal = document.getElementById('addCourseModal');
+            var learnMoreBtn = document.querySelector('.learn-more');
+            var closeModalBtns = document.querySelectorAll('.close-modal, #cancelAddCourse');
+            
+            // Open modal when "Add a new course" button is clicked
+            if (learnMoreBtn) {
+                learnMoreBtn.addEventListener('click', function() {
+                    console.log('Add a new course button clicked');
+                    
+                    // Reset form
+                    var form = document.getElementById('addCourseForm');
+                    if (form) {
+                        form.reset();
+                        
+                        // Reset to Add mode
+                        var modalTitle = document.querySelector('#addCourseModal .modal-header h2');
+                        if (modalTitle) {
+                            modalTitle.textContent = 'Add New Course';
+                        }
+                        
+                        // Enable courseId field
+                        var courseIdField = document.getElementById('courseId');
+                        if (courseIdField) {
+                            courseIdField.readOnly = false;
+                        }
+                        
+                        // Update button text
+                        var submitBtn = document.getElementById('addCourseSubmitBtn');
+                        if (submitBtn) {
+                            submitBtn.textContent = 'Add Course';
+                        }
+                        
+                        // Add hidden field for operation type
+                        var opField = document.createElement('input');
+                        opField.type = 'hidden';
+                        opField.name = 'operation';
+                        opField.value = 'create';
+                        opField.id = 'operationField';
+                        
+                        // Remove existing operation field if any
+                        var existingOp = document.getElementById('operationField');
+                        if (existingOp) {
+                            existingOp.parentNode.removeChild(existingOp);
+                        }
+                        
+                        form.appendChild(opField);
+                    }
+                    
+                    // Display modal
+                    addCourseModal.style.display = 'block';
+                });
+            }
+            
+            // Close modal when close buttons are clicked
+            closeModalBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    addCourseModal.style.display = 'none';
+                });
+            });
+            
+            // Close modal when clicking outside the modal
+            window.addEventListener('click', function(event) {
+                if (event.target === addCourseModal) {
+                    addCourseModal.style.display = 'none';
+                }
+            });
+            
+            // Form submission handler
+            var form = document.getElementById('addCourseForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Form submitted');
+                    
+                    // Build FormData from form
+                    var formData = new FormData(form);
+                    
+                    // Show loading state
+                    var submitBtn = document.getElementById('addCourseSubmitBtn');
+                    var originalText = submitBtn.textContent;
+                    submitBtn.textContent = 'Processing...';
+                    submitBtn.disabled = true;
+                    
+                    // Create an array to hold URL-encoded key/value pairs
+                    var encodedData = [];
+                    formData.forEach(function(value, key) {
+                        encodedData.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+                    });
+                    
+                    // Join all key/value pairs with '&'
+                    var formBody = encodedData.join("&");
+                    
+                    // Send data using XHR
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '../model/course_crud.php', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    
+                    xhr.onload = function() {
+                        try {
+                            console.log('Form submission response:', xhr.responseText);
+                            
+                            // Check if response is HTML instead of JSON (error)
+                            if (xhr.responseText.trim().startsWith('<')) {
+                                console.error('Server returned HTML instead of JSON:', xhr.responseText);
+                                alert('The server returned an invalid response. Please check the server logs.');
+                                submitBtn.textContent = originalText;
+                                submitBtn.disabled = false;
+                                return;
+                            }
+                            
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                alert(response.message);
+                                
+                                // Close modal
+                                var modal = document.getElementById('addCourseModal');
+                                if (modal) {
+                                    modal.style.display = 'none';
+                                }
+                                
+                                // Reset form
+                                form.reset();
+                                
+                                // Reload courses
+                                loadCourses();
+                            } else {
+                                alert('Error: ' + response.message);
+                            }
+                            
+                            // Reset button state
+                            submitBtn.textContent = originalText;
+                            submitBtn.disabled = false;
+                        } catch (e) {
+                            console.error('Error parsing response:', e, 'Raw response:', xhr.responseText);
+                            alert('Error processing the server response. Please check the browser console for details.');
+                            submitBtn.textContent = originalText;
+                            submitBtn.disabled = false;
+                        }
+                    };
+                    
+                    xhr.onerror = function() {
+                        console.error('Network error while submitting form');
+                        alert('Network error occurred. Please check your connection.');
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    };
+                    
+                    xhr.send(formBody);
+                });
+            }
+            
+            // Handle status change to update fees input
+            var statusSelect = document.getElementById('courseStatus');
+            var feesInput = document.getElementById('courseFees');
+            
+            if (statusSelect && feesInput) {
+                statusSelect.addEventListener('change', function() {
+                    if (this.value === 'free') {
+                        feesInput.value = 'Free';
+                    } else if (this.value === 'paid' && feesInput.value === 'Free') {
+                        feesInput.value = '';
+                        feesInput.focus();
+                    }
+                });
+            }
+            
+            // Load courses when page loads
+            loadCourses();
+        });
+    </script>
+    
+    <!-- Add extra CSS to ensure buttons in course cards are clickable -->
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+        
+        .form-hint {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .cancel-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            padding: 10px 15px;
+            border: none;
+            background: #4A6CF7;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .card-actions button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .card-actions button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .edit-course {
+            color: #4A6CF7;
+        }
+        
+        .delete-course {
+            color: #ef4444;
+        }
+
+        .loading-indicator {
+            padding: 20px;
+            text-align: center;
+            color: #777;
+            font-style: italic;
+        }
+        
+        /* Ensure modals appear on top */
+        .modal {
+            z-index: 9999;
+        }
+    </style>
+</body>
+</html>
